@@ -1,0 +1,27 @@
+.active1{
+    background-color: #008CDB;   
+    color: #fff !important;
+}
+
+
+.mrl187 {
+     margin-left: 30px; 
+}
+.admineye6 {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: 32px;
+    right: 20px;
+    cursor: pointer;
+}
+
+
+.admineye {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: 42px;
+    right: 24px;
+    cursor: pointer;
+}

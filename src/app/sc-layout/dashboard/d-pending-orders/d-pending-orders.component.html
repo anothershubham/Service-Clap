@@ -1,0 +1,300 @@
+
+<div class="d-panel card minheight1" style="cursor:default !important" *ngIf="dataLoaded == 1">
+  <p class="f16 c32 bold">Pending Orders</p>
+  <hr>
+  <a class="btn btnFilter f12 b008" style="display:none;" id="openCityModal" (click)="call()" data-toggle="modal" data-target="#myCityModal" ><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+  <a class="btn btnFilter f12 b008" style="display:none;" id="openServiceModal" (click)="call1()" data-toggle="modal" data-target="#myServiceModal" ><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+  <a class="btn btnFilter f12 b008" style="display:none;" id="openoneServiceModal" (click)="call2()" data-toggle="modal" data-target="#oneServiceModal" ><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+  <!-- <div class="noData d-image text-center pdtb">
+    <img src="../../../../assets/icons/empty-folder.svg" alt="empty">
+    <p class="cac f22">No Data</p>
+  </div> -->
+  <div class="card-body pd-0">
+    <div class="row" >
+      <div class="col-lg-6 col-md-6 mb18">
+        <a class="btn btnFilter f14 b008 bold" href="#myModal" (click)="openFilterModal()" data-toggle="modal">Filter</a>
+        <span class="f14 c75" *ngIf="filterType == 1">Result of Today</span>
+        <span class="f14 c75" *ngIf="filterType == 2">Result of Last 30 Days</span>
+        <span class="f14 c75" *ngIf="filterType == 3">Result of Last 7 Days</span>
+        <span class="f14 c75" *ngIf="filterType == 4">Result of Yesterday</span>
+        <span class="f14 c75" *ngIf="filterType == 5">Result from {{this.fdate | date:'dd MMM yyyy'}} to {{this.tdate | date:'dd MMM yyyy'}}</span>
+        <span class="f14 c75" *ngIf="p_order.length >10">{{ ((currentPage-1) * itemsPerPage)+1 }} - {{ totalLength }} of {{p_order.length}}</span>
+        <a class="btn btnFilter mrl18 f14 b008 bold" *ngIf="filterType != 0" (click)="clearFilterModal()" >Clear Filter</a>
+      </div>
+      <div class="col-lg-6 col-md-6 mb18" *ngIf="p_order.length !=0">
+        <form class="form-inline float-right">
+          <input class="form-control mr-sm-2 f14 cac" type="search" [(ngModel)]="filterText" id="search" [ngModelOptions]="{standalone: true}"  [value]="filterText" placeholder="Search" aria-label="Search">
+          <img src="../../../../assets/icons/magnify - Copy.svg" alt="Search" style="cursor:pointer">
+        </form>
+      </div>
+    </div>
+    <div id="table">
+      <table class="table text-center table-md">
+        <thead>
+          <tr class="bold c32">
+            <th scope="col">Order ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Service</th>
+            <th scope="col">City</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data1 of p_order | category: {code: filterText,created_at: filterText,customer_name:filterText,mobile: filterText,service_name: filterText,city_label: filterText} | paginate: { itemsPerPage: 10, currentPage: p };let i =index" routerLink="/order/orderDetail/{{data1.code}}"  class="f14 c32">
+            <td scope="row" class="bold">#{{data1.code}}</td>
+            <td>{{data1.created_at | date: 'd MMM y h:mm a'}}</td>
+            <td>{{data1.customer_name | titlecase}}</td>
+            <td>{{data1.mobile}}</td>
+            <td>{{data1.service_name | titlecase}}</td>
+            <td>{{data1.city_label | titlecase}}</td>
+            <td *ngIf="data1.status ==0"><button class="btn btnFilter1 btransparent w-60 borderE02 f12">Requested</button></td>
+            <td *ngIf="data1.status ==1"><button class="btn btnFilter1 w-60 bE02 f12">Assigned</button></td>
+            <td *ngIf="data1.status ==2"><button class="btn btnFilter1 w-60 bE07 f12">Going On</button></td>
+            <td *ngIf="data1.status ==3"><button class="btn btnFilter1 w-60 b14 f12">Completed</button></td>
+            <td *ngIf="data1.status ==4"><button class="btn btnFilter1 w-60 b98 f12">Cancelled</button></td>
+            <td *ngIf="data1.status ==5"><button class="btn btnFilter1 w-60 bff f12">Declined</button></td>
+          </tr>   
+          <tr class="r" *ngIf="p_order.length ==0 || (p_order | category: {code: filterText,created_at: filterText,customer_name:filterText,mobile: filterText,service_name: filterText,city_label: filterText}).length == 0" >
+            <td colspan="7" class="text-center c75">
+            <img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty">
+              No Data</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="float-right f14 cac pagination" *ngIf="p_order.length >10">
+        <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+      <!-- <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link cac" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link cac" href="#">1</a></li>
+          <li class="page-item active">
+            <a class="page-link cac" href="#">2</a>
+          </li>
+          <li class="page-item"><a class="page-link cac" href="#">3</a></li>
+          <li class="page-item"><a class="page-link cac" href="#">4</a></li>
+          <li class="page-item"><a class="page-link cac" href="#">5</a></li>
+          <li class="page-item">
+            <a class="page-link cac" href="#">Next</a>
+          </li>
+        </ul>
+      </nav> -->
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 c32 bold">Filter</p>
+          <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl30"></div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1" class="f14 c32">Date Type</label>
+              <select class="form-control f12 c32" id="exampleFormControlSelect1" (change)="ChooseDate($event.target)">
+                <option *ngFor="let date of dates" class="f12 c32" value="{{date.code}}">{{date.type}}</option>
+              </select>
+            </div>
+            <div *ngIf="showCustom == 1">
+              <div class="form-group relative">
+                <label class="f14 c32">From Date</label>
+                <input type="text" placeholder="DD-MMM-YYYY" (click)="fs()" id="fromDate" (focus)="CheckInput('fromDate')" class="form-control f12 c32" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="left">
+                <img (click)="openpicker()" src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="calendar2" >
+                <div *ngIf="f_date ==1">
+                  <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="c-warningimg">
+                  <div class="text-center f12 cred">From date is required</div>
+                </div>
+              </div>              
+              <div class="form-group relative">
+                <label for="toDate" class="f14 c32">To Date</label>
+                <input type="text" placeholder="DD-MMM-YYYY" id="toDate" (focus)="CheckInput('toDate')" class="form-control f12 c32" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="left">
+                <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" id="toDate"  class="calendar2" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="right">
+                <div *ngIf="t_date ==1">
+                  <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="c-warningimg">
+                  <div class="text-center f12 cred">{{errorMessage}}</div>
+                </div>
+              </div>
+            </div> 
+          </form>            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 btnCancel bold text-right" (click)="clearForm()" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn f12 b008 btnOk bold text-right" (click)="FilterData()" [attr.data-dismiss]="filtercloseModal" >Ok</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade cityModal" id="myCityModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title f14 c32 bold">Add City</p>
+            <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+          </div>
+          <div class="vl31"></div>
+          <div class="modal-body">              
+            <form>             
+              <div class="form-group">
+                <label for="title" class="f14 c32">Find City</label>
+                <input placeholder="Search" autocorrect="off" autocapitalize="off" aria-label="Search" spellcheck="off"  type="text" class="form-control mr-sm-2 f12 c32" #search [formControl]="searchControl" >
+                <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" >
+                  <agm-marker [latitude]="latitude" [longitude]="longitude" ></agm-marker>
+                </agm-map>
+                <img src="../../../../assets/icons/magnify - Copy.svg" alt="Search">
+              </div> 
+            </form> 
+            <div class="row">
+              <div *ngFor="let addcity of addCity">
+                <button type="button" class="btn citybtn f14 cblue">{{addcity.label}}<span aria-hidden="true" class="span f14 cblue"><a (click)="remove(i)">X</a></span></button>
+              </div>
+            </div>   
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn f12 b008 bold btnOk text-right" [attr.data-dismiss]="city" (click)="saveModal()">Add</button>
+          </div>
+      </div>
+  </div>
+</div> -->
+ <!-- <div class="modal fade cityModal addservice2" id="oneServiceModal" data-backdrop="static"      data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add Service</p>
+          <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="servicename1" class="f14 c32">Service Name</label>
+            <input type="text" class="form-control f12 c75" #service_name id="servicename1" placeholder="Service Name">
+            <div *ngIf="serviceName == 1">
+                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+                <div><p class="f12 cred text-center">Field is compulsory.</p></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="f14 c32">Profile Image</label>
+            <div class="row">
+              <div class="col-lg-5 text-center">
+                <div class="icon d-imageEdit5">
+                  <img src="{{croppedImage}}" id="pic" alt="picture">
+                </div>
+              </div>
+              <div class="col-lg-7 pd-0">
+                <label class="btn btn-default f12 c75 be5 ml10">Choose Icon<input type="file" (change)="fileChangeEvent($event)" accept="image/*" hidden></label>
+                <button type="button" class="btn btn-primary" *ngIf="crop == 1" (click)="cropImage()">Crop</button>
+                <button type="button" class="btn btn-primary" *ngIf="cropimage == 0" (click)="RecropImage()">ReCrop</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12" *ngIf="cropimage == 1">
+              <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 3"
+              [resizeToWidth]="128"
+              [roundCropper]="false"
+              format="png"
+              (imageCroppedBase64)="imageCroppedBase64($event)"
+              (imageLoaded)="imageLoaded()"
+              (loadImageFailed)="loadImageFailed()"
+              [style.display]="cropperReady ? null : 'none'"
+              ></image-cropper>
+          </div>
+          <div class="form-group">
+            <label for="price" class="f14 c32">Price</label>
+            <input type="text" class="form-control f12 c75" id="price" #price placeholder="Enter price">
+            <div *ngIf="priceamount == 1">
+                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+                <div><p class="f12 cred text-center">Field is compulsory.</p></div>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" [attr.data-dismiss]="singleService" (click)="addSingleservice(service_name.value,price.value)">Add</button>
+      </div>
+    </div>
+    </div>
+</div> -->
+<div class="modal fade service" id="myServiceModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header pd816">
+        <p class="modal-title f14 bold c32">Add Service</p>
+        <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">           
+      </div>
+      <div class="vl4"></div>
+      <div class="modal-body pd1516">
+        <div class="row">
+          <div class="col-lg-7 col-md-7 col-sm-7">
+            <form>
+              <div class="form-group">
+                <label for="serviceSelect" class="f14 c32">Parent Service</label>
+                <!-- <select class="form-control f12 c32" id="serviceSelect">
+                  <option *ngFor="let service of Services"  type="text" class="f12 c75">{{service.label}}</option>
+                </select> -->
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-5 addnew text-right mt33">
+            <a class="btn serviceBtnFilter f12 c32 b008 bold" (click)="addMultipleField()" ><img src="../../../../assets/icons/plus.svg" alt="Add New" > Add New</a>
+          </div>
+        </div>
+        <div id="myDiv1">
+          <div class="row" *ngFor="let service1 of Services1;let i=index;">
+            <div class="col-lg-7 col-md-7 col-sm-7 mt10">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                  <form>
+                    <label for="serviceName" class="f14 c32">Service Name</label>
+                    <input class="form-control mr-sm-2 f12 c75" id="serviceName{{i}}" (input)="insertName($event.target.value,'serviceName',i)" type="text" placeholder="Service Name" value={{service1.name}}>
+                  </form>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">                  
+                  <label for="serviceName" class="f14 c32">Service Icon</label>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="icon d-image">
+                        <img src="{{service1.imageUrl}}" alt="picture" id="pic{{i}}">
+                      </div>
+                    </div>
+                    <div class="col-lg-8">
+                      <label class="btn btn-default f12 c32 be5 pd625">Choose Icon<input type="file" (change)='changeIcon($event,i)' hidden></label>
+                    </div>
+                  </div>                 
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 mt10">
+              <form class="price">
+                <label for="price" class="f14 c32">Price</label>
+                <input class="form-control mr-sm-2 f12 c75" id="price{{i}}" type="text" (keypress)="Validatekeypress($event)" (input)="insertName($event.target.value,'price',i)" placeholder="Price" value="{{service1.price}}">
+              </form>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 mt10">
+              <img src="../../../../assets/icons/rubbish-bin - Copy.svg" (click)="popList(i)" alt="delete" class="servicedelete">
+            </div>
+          </div>
+        </div>    
+      </div>
+      <div class="modal-footer pd1016">
+        <div class="float-left pd-0 mr515">
+        <a class="btn cblue f12 bold">Skip <img src="../../../../assets/icons/right-arrow (2) - Copy.svg" alt="skip" class="skipimg"><img src="../../../../assets/icons/right-arrow (2) - Copy.svg" alt="skip" class="skipimg ml-6"></a>          
+        </div>
+        <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk pd723 text-right">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

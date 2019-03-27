@@ -1,0 +1,10 @@
+.active1{
+    background-color: #008CDB !important;   
+    color: #fff !important;
+    border: 1px solid #008CDB !important;
+}
+img.p-userimg{
+    height: 35px !important;
+	width: 35px !important;
+	margin-right: 5px !important;
+}

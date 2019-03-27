@@ -1,0 +1,14 @@
+.blink_me {
+    animation: blinker 1s linear;
+    
+  }
+  
+  @keyframes blinker {  
+    50% { opacity: 0; }
+  }
+  .unblink_me{
+    animation: 0ms;
+  }
+.none{
+  display: none;
+}

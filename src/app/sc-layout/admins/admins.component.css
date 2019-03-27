@@ -1,0 +1,46 @@
+.table-md img{
+    height: 30px;
+}
+.active1{
+    background-color: #008CDB;   
+    color: #fff !important;
+}
+
+.d-imageEdit {
+    border: 1px solid #ccc;
+    width: 82px;
+    padding: 5px 0 8px;
+    height: 102px;
+}
+
+.element.style {
+    position: absolute;
+    top: 0px;
+    right: 200px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    opacity: 0.6;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNv…4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==);
+}
+
+.admineye {
+  
+    height: 15px;
+    width: 15px;
+    top: 73px;
+    right: 27px;
+    cursor: pointer;
+}
+
+.admineye1 {
+   
+    height: 15px;
+    width: 15px;
+    top: 115px !important;
+    right: 27px !important ;
+    cursor: pointer;
+}

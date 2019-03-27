@@ -1,0 +1,259 @@
+<!-- <router-outlet></router-outlet> -->
+
+<div class="header" >
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 pd-0">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-lg-10 pd-0">
+        <header></header>        
+        <div class="sclayout">
+          <div class="message">
+            <div class="success" *ngIf="showAlert == 1">
+              <div class="row">            
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4 pd-0">
+                  <div class="card">
+                    <div class="card-text"> 
+                      <p class="mb-10 bold f14">Success <img (click)="close()" src="assets/icons/checked - Copy.svg" alt="Success"></p>
+                    </div>
+                    <div class="card-text">
+                      <p class="mb-10 f12">{{messageAlert | titlecase}}</p>
+                    </div>
+                  </div>              
+                </div>
+              </div>            
+            </div>
+            <div class="warning" *ngIf="showAlert == 2">
+              <div class="row">            
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4 pd-0">
+                  <div class="card">
+                    <div class="card-text">
+                      <p class="mb-10 bold f14">Warning <img (click)="close()" src="../../assets/icons/help - Copy.svg" alt="Warning"></p>
+                    </div>
+                    <div class="card-text">
+                      <p class="mb-10 f12">{{messageAlert | titlecase}}</p>
+                    </div>
+                  </div>              
+                </div>
+              </div>            
+            </div>
+            <div class="error" *ngIf="showAlert == 3">
+              <div class="row">            
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4 pd-0">
+                  <div class="card">
+                    <div class="card-text">
+                      <p class="mb-10 bold f14">Error <img (click)="close()" src="assets/icons/letter-x - Copy (2).svg" alt="Error"></p>
+                    </div>
+                    <div class="card-text">
+                      <p class="mb-10 f12">{{messageAlert | titlecase}}</p>
+                    </div>
+                  </div>              
+                </div>
+              </div>            
+            </div>
+            <div class="nointernet" *ngIf="showAlert == 4">
+              <div class="row">            
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4 pd-0 text-center">
+                  <div class="card">
+                    <div class="card-text">
+                      <p class="mb-10 bold f14">No Internet Connection</p>
+                    </div>
+                  </div>               
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+              </div>   
+            </div>  
+          </div> 
+          <!-- <button style="display:none;" id="delModal" (click)="deleteModal()" href="#LayoutModal" data-toggle="modal" class="btn button deletebtn bE6"></button> -->
+          <router-outlet>
+            <div class="card text-center" style="height: 533px; width: 100%;" *ngIf="showLoader==1">
+            <img src="assets/loader/scloader_400x400.gif" alt="Loader" 
+            style=" height: 100px !important;
+                    position: absolute !important;
+                    top: 45% !important;
+                    left: 45% !important;">
+            </div>
+        </router-outlet>
+        </div>        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade cityModal" id="LayoutModal" data-backdrop="static" data-keyboard="false" >
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 c32 bold">Confirm</p>
+            <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">{{bodyTitle}}</p>
+          <p class="text-center f12 c75">{{bodyStatement}}</p>   
+        </div>
+        <div class="modal-footer">     
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" id="del" [attr.data-dismiss]="delete_Modal" (click)="blockUser()">Sure,Delete It</button>
+        </div>
+      </div>
+    </div>
+</div>
+<a class="btn btnFilter f12 b008" style="display:none;" id="openCityModal" (click)="call()" data-toggle="modal" data-target="#myCityModal" ><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+<a class="btn btnFilter f12 b008" style="display:none;" id="openoneServiceModal" (click)="call2()" data-toggle="modal" data-target="#oneServiceModal" ><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+<div class="menus">
+<div class="modal fade cityModal" id="myCityModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title f14 c32 bold">Add City</p>
+            <!-- <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter"> -->
+          </div>
+          <div class="vl31"></div>
+          <div class="modal-body">              
+            <form>             
+              <div class="form-group">
+                <label for="title" class="f14 c32">Find City</label>
+                <input ngx-google-places-autocomplete #places="ngx-places" [formControl]="searchControl" class="form-control f12 32" (onAddressChange)="onChange($event)" [options]="{
+                  types: ['(cities)'],
+                  componentRestrictions: { country: 'IN' }
+                  }" />
+                <!-- <input placeholder="Search" autocorrect="off" autocapitalize="off" aria-label="Search" spellcheck="off"  type="text" class="form-control mr-sm-2 f12 c32" #search [formControl]="searchControl" >
+                <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" >
+                  <agm-marker [latitude]="latitude" [longitude]="longitude" ></agm-marker>
+                </agm-map> -->
+                <img src="../../../../assets/icons/magnify - Copy.svg" alt="Search">
+              </div> 
+            </form> 
+            <div class="row">
+              <div *ngFor="let addcity of addCity">
+                <button type="button" class="btn citybtn f14 cblue">{{addcity.city_label}}<span aria-hidden="true" class="span f14 cblue"><a (click)="remove(i)">X</a></span></button>
+              </div>
+            </div>   
+          </div>
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button> -->
+            <button type="button" class="btn f12 b008 bold btnOk text-right" [attr.data-dismiss]="city" (click)="saveModal()">Add</button>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade cityModal addservice20" id="oneServiceModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <p class="modal-title f14 c32 bold">Add Service</p>
+      <!-- <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter"> -->
+        <!-- <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter"> -->
+    </div>
+    <div class="vl7"></div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="servicename1" class="f14 c32">Service Name</label>
+            <input type="text" class="form-control f12 c75" #service_name id="servicename1" placeholder="Service Name">
+            <div *ngIf="serviceName == 1">
+                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="b-warning02">
+                <div><p class="f12 cred text-center">Service name is required</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-">
+          <div class="form-group">
+            <label for="commission" class="f14 c32">SC Commission %</label>
+              <input class="form-control mr-sm-2 f12 c75" #sc_commission type="number" min="0" placeholder="Enter Commission">
+          </div>
+        </div>
+        <div class="form-group col-lg-5">
+          <label for="price" class="f14 c32">Price</label>
+          <input type="number" min="0" class="form-control f12 c75" id="price" #price placeholder="Enter price">
+          <div *ngIf="priceamount == 1">
+              <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+              <div><p class="f12 cred text-center">Price is required</p></div>
+            </div>
+          </div>
+        
+        <div class="col-lg-7">
+          <div class="form-group price">
+            <label for="description" class="f14 c32">Description</label>
+            <div class="row">
+              <div class="col-lg-8" *ngFor="let lis of descriptionArray;let j=index;">
+                <div class="row">
+                  <div class="col-lg-9 pdr-0">
+                      <input class="form-control mr-sm-2 f12 c75 mb10" (input)="insertDescription(j,$event.target.value)" value="{{lis.description}}" type="text" placeholder="Description">
+                  </div>
+                  <div class="col-lg-3">
+                      <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="servicedelete1" *ngIf="descriptionArray.length >1" (click)="removeDiv(lis.i)">
+                  </div>
+                </div>
+                <div id="desc{{lis.i}}" style="display:none;">
+                  <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning2">
+                  <div class="f12 cred mr-17">Description is required</div>
+                </div>
+              </div>
+              <div class="col-lg-4 addnew5 pdl-0">
+                <button type="button" class=" btn descriptionBtnFilter f12 b008 bold" (click)="addRow(descriptionArray)"><img src="assets/icons/plus.svg" alt="Add New" >Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="form-group col-lg-12">
+          <label class="f14 c32">Profile Image</label>
+          <div class="row">
+            <div class="col-lg-3 text-center">
+              <div class="icon">
+                <img src="{{croppedImage}}" id="pic" alt="picture" class="firstserviceimg">
+              </div>
+            </div>
+            <div class="col-lg-9 pd-0">
+              <div class="row">
+                <div class="col-lg-4">
+                  <label class="btn btn-default f12 c32 be5 pd625">Choose Icon<input type="file" (change)="fileChangeEvent($event)" accept="image/*" hidden></label>
+                </div>
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-default f12 c32 be5 pd621" *ngIf="cropimage == 0" (click)="cancelImage()">Remove Image</button>
+                </div>
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-default f12 c32 be5 pd622" *ngIf="cropimage == 0" (click)="RecropImage()">Recrop Image</button>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <button type="button" class="btn f12 bE6 btnCancel mrl35" *ngIf="crop == 1" (click)="cropImage()">Crop</button>
+                </div>
+              </div>                
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12" *ngIf="cropimage == 1">
+            <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 4"
+            [resizeToWidth]="128"
+            [roundCropper]="false"
+            format="png"
+            (imageCroppedBase64)="imageCroppedBase64($event)"
+            (imageLoaded)="imageLoaded()"
+            (loadImageFailed)="loadImageFailed()"
+            [style.display]="cropperReady ? null : 'none'"
+            class="pd-0"></image-cropper>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button> -->
+      <button type="button" class="btn f12 b008 bold btnOk text-right" [attr.data-dismiss]="singleService" (click)="addSingleservice(service_name.value,price.value,sc_commission.value)">Save Service</button>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- Delete Modal End -->

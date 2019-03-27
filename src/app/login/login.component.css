@@ -1,0 +1,12 @@
+.form-control.is-invalid, .was-validated .custom-select:invalid, .was-validated .form-control:invalid {
+    border: 1px solid #ced4da;
+}
+
+.warning1 img
+{
+   right: 34px;
+}
+.success img
+{
+height: 50px;
+}

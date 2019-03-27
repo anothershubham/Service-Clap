@@ -1,0 +1,155 @@
+  <div class="homeslider">
+    <div class="row addnew">
+        <div class="col-lg-6 col-md-6 mb18">
+          <a class="btn btnFilter f12 b008 bold" id="openModal" data-toggle="modal" data-target="#addfooditem" ><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+          <span class="f14 c75">Showing 1 - 10 of 100</span>
+        </div>
+        <div class="col-lg-6 col-md-6 mb18">
+          <form class="form-inline float-right">
+            <input class="form-control mr-sm-2 f14 cac" type="search" placeholder="Search City" aria-label="Search" id="search">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search">
+          </form>
+        </div>
+    </div>
+    <div class="row fooditem">
+      <div class="col-lg-4 col-md-4 col-sm-4 cityhover mb18">
+        <div class="card bfa">
+          <div class="card-body pd-0">
+            <div class="d-flex justify-space-between">
+              <p class="f14 c32 bold mb0">Must Try</p>
+              <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-menu pd-0">
+                <div class="dropdwn3" href="#editfooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Edit <img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="delete" class="editimg ml36"></a>
+                </div>
+                <div class="dropdwn3" href="#deletefooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="deleteimg ml20"></a>
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 cityhover mb18">
+        <div class="card bfa">
+          <div class="card-body pd-0">
+            <div class="d-flex justify-space-between">
+              <p class="f14 c32 bold mb0">Must Try</p>
+              <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-menu pd-0">
+                <div class="dropdwn3" href="#editfooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Edit <img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="delete" class="editimg ml36"></a>
+                </div>
+                <div class="dropdwn3" href="#deletefooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="deleteimg ml20"></a>
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 cityhover mb18">
+        <div class="card bfa">
+          <div class="card-body pd-0">
+            <div class="d-flex justify-space-between">
+              <p class="f14 c32 bold mb0">Must Try</p>
+              <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-menu pd-0">
+                <div class="dropdwn3" href="#editfooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Edit <img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="delete" class="editimg ml36"></a>
+                </div>
+                <div class="dropdwn3" href="#deletefooditem" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75">Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="deleteimg ml20"></a>
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-lg-12 text-center pdt170">
+        <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty">
+        <p class="c75 f18">No data</p>
+      </div> -->
+    </div>
+    <!-- <div class="float-right mt18 pagination f14 cac">
+        <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+    </div> -->
+  </div>
+
+  <!--Add Food Item Modal -->
+<div class="modal fade p-detailModal" id="addfooditem" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 c32 bold">Add Food Item Tag</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl30"></div>
+        <div class="modal-body pd720">
+          <form>
+            <div class="form-group relative">
+              <label for="title" class="f14 c32">Tagline <span class="cred">*</span></label>
+              <input class="form-control mr-sm-2 f12 c32" placeholder="Tagline" formControlName = "title" id="title" type="text">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="f-warning">
+              <div class="text-center f12 cred">Tagline is required</div>
+            </div>
+            <div class="modal-footer pd158">
+              <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" data-dismiss="modal" (click)="submit(newBroadcast.value)" [disabled]="allowed===true">Send</button>
+            </div>           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add Food Item Modal End -->
+
+   <!--Edit Food Item Modal -->
+<div class="modal fade p-detailModal" id="editfooditem" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Edit Food Item Tag</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl30"></div>
+      <div class="modal-body pd720">
+        <form>
+          <div class="form-group relative">
+            <label for="title" class="f14 c32">Tagline <span class="cred">*</span></label>
+            <input class="form-control mr-sm-2 f12 c32" placeholder="Must Try" formControlName = "title" id="title" type="text">
+            <img src="assets/icons/warning (1).svg" alt="warning" class="f-warning">
+            <div class="text-center f12 cred">Tagline is required</div>
+          </div>
+          <div class="modal-footer pd158">
+            <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" data-dismiss="modal" (click)="submit(newBroadcast.value)" [disabled]="allowed===true">Send</button>
+          </div>           
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Food Item Modal End -->
+
+<!-- Modal Delete -->
+<div class="modal fade cityModal" id="deletefooditem" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure Want To Delete This Tag?</p>
+          <p class="text-center f12 c75">If you delete this tag, it will permanently removed from your database and cannot be recovered.</p>   
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="terminate(croppedImage)">Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteAdmin()">Sure, Delete It</button>
+        </div>
+      </div>
+    </div>
+  </div>   
+  <!-- Delete Modal End -->

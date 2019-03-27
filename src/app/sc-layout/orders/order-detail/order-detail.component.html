@@ -1,0 +1,351 @@
+<div class="orderdetail" *ngIf="loaded && loaded1 && loaded2 && loaded3">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="card">
+        <div class="card-body pd-0">
+          <p class="f14 c32 bold">Order Details: #{{order.code}}</p>
+          <hr>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 text-center mrt-5 mb0">
+              <!-- <img src="{{order.service_icon}}" alt="user" class="serviceImage" onerror="this.onerror=null;this.src='assets/images/no_image.png';" /> -->
+              <img [src]="order.service_icon" class="serviceImage" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onerror="this.onerror=null;this.src='assets/images/no_image.png';">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-left pd-0 mb0">
+              <p class="bold f14 c32 mb0">{{order.service_label | titlecase}}</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center navigation pd-0 mb0">
+              <a href="https://maps.google.com/?q={{order.latitude}},{{order.longitude}}" target="_blank">
+              <button type="button" class="btn cblue bold f12"><img src="assets/icons/navigation.svg" alt="Navigation"> Navigate</button></a>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-left pin">              
+              <p class="c75 f12"><img src="assets/icons/pin.svg" alt="pin"> {{order.order_address | titlecase }}, {{order.mobile}}</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center place pd-0">
+              <p class="c75 f12 ml80"><img src="assets/icons/placeholder (1).svg" alt="Placeholder"> {{order.city_label | titlecase}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-left pin">              
+              <p class="c75 f12"><img src="assets/icons/clock (1).svg" alt="time" class="clock1">{{order.visit_date_time | date: 'd MMM yyyy h:mm a'}}</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center rupee pd-0">
+              <p class="c75 f12 ml100">Rs {{order.service_price}}/-</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-6 col-md-6 col-sm-6 text-left pd-0">
+              <p class="c75 f12">{{order.description | titlecase}}</p> 
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="orderHistory mt18" *ngIf="loaded">
+        <mat-accordion>
+          <mat-expansion-panel  [expanded]="step === 1" class="bwhite process">
+            <mat-expansion-panel-header [expandedHeight]="'50px'">
+              <p class="mb0 f14 bold mrt7 c32">Order History</p>
+              <button type="button" class="btn borderE02 bold f12 ml18 bwhite w-20" *ngIf="order.order_current_status == 0">Requested</button>
+              <button type="button" class="btn bE02 bold f12 ml18 cwhite w-20" *ngIf="order.order_current_status == 1">Assigned</button>
+              <button type="button" class="btn bE07 bold f12 ml18 cwhite w-20" *ngIf="order.order_current_status == 2">Going On</button>
+              <button type="button" class="btn b14 bold f12 ml18 cwhite w-20" *ngIf="order.order_current_status == 3">Completed</button>
+              <button type="button" class="btn b98 bold f12 ml18 cwhite" *ngIf="order.order_current_status == 4">Cancelled <span *ngIf="order.cancelled_by == 0"> by Customer</span>
+              <span *ngIf="order.cancelled_by == 1"> by Partner</span>
+              <span *ngIf="order.cancelled_by == 2"> by Admin</span>
+              </button>
+            </mat-expansion-panel-header>
+            <hr class="hr-1">
+            <div class="requested" *ngIf="order.order_current_status == 0">
+              <p class="f12 cblue mb0"><img src="assets/icons/dot-inside-a-circle.svg" alt="Requested">Requested<span *ngIf="order.order_request_date_time != '0000-00-00 00:00:00'"> - {{order.order_request_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Assigned">Not Assigned Yet</p>         
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Started Working">Not Started Working</p>         
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Completed">Not Completed</p>
+            </div>
+            <div class="assigned" *ngIf="order.order_current_status == 1">
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Requested">Requested<span *ngIf="order.order_request_date_time != '0000-00-00 00:00:00'"> - {{order.order_request_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl1"></div>         
+              <p class="f12 cblue mb0"><img src="assets/icons/dot-inside-a-circle.svg" alt="Assigned">Assigned<span *ngIf="order.order_assign_date_time != '0000-00-00 00:00:00'"> - {{order.order_assign_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Started Working">Not Started Working</p>         
+                      
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Completed">Not Completed</p>
+
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Cancelled">Not Cancelled</p>
+            </div>
+            <div class="startedWorking" *ngIf="order.order_current_status == 2">
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Requested">Requested<span *ngIf="order.order_request_date_time != '0000-00-00 00:00:00'"> - {{order.order_request_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl1"></div>         
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Assigned">Assigned<span *ngIf="order.order_assign_date_time != '0000-00-00 00:00:00'"> - {{order.order_assign_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+              <div class="pl1"></div>         
+              <p class="f12 cblue mb0"><img src="assets/icons/dot-inside-a-circle.svg" alt=" Started Working">Started Working<span *ngIf="order.work_started_date_time != '0000-00-00 00:00:00'"> - {{order.work_started_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+                      
+              <div class="pl"></div>         
+              <p class="f12 cac mb0"><img src="assets/icons/filled-circle.svg" alt="Not Completed">Not Completed</p>
+            </div>
+            <div class="completed" *ngIf="order.order_current_status == 3">
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Requested">Requested<span *ngIf="order.order_request_date_time != '0000-00-00 00:00:00'"> - {{order.order_request_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl1"></div>         
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Assigned">Assigned<span *ngIf="order.order_assign_date_time != '0000-00-00 00:00:00'"> - {{order.order_assign_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+              <div class="pl1"></div>         
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt=" Started Working">Started Working<span *ngIf="order.work_started_date_time != '0000-00-00 00:00:00'"> - {{order.work_started_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+              <div class="pl1"></div>         
+              <p class="f12 cblue mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Completed">Stopped Working<span *ngIf="order.work_finished_date_time != '0000-00-00 00:00:00'"> - {{order.work_finished_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl1"></div>         
+              <p class="f12 cblue mb0"><img src="assets/icons/tick.svg" alt="Completed">Completed</p>
+            </div> 
+            <div class="stoppedWorking" *ngIf="order.order_current_status == 4">
+              <p class="f12 c75 mb0"><img src="assets/icons/filled-circle - Copy.svg" alt="Requested">Requested<span *ngIf="order.order_request_date_time != '0000-00-00 00:00:00'"> - {{order.order_request_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>
+              <div class="pl1" *ngIf="partners_history.length!=0"></div>         
+              <p class="f12 c75 mb0" *ngIf="partners_history.length!=0"><img src="assets/icons/filled-circle - Copy.svg" alt="Assigned" >Assigned<span *ngIf="order.order_assign_date_time != '0000-00-00 00:00:00'"> - {{order.order_assign_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p>         
+              <div class="pl1"></div>        
+              <p class="f12 cblue mb0"><img src="assets/icons/dot-inside-a-circle.svg" alt="Cancelled">Cancelled<span *ngIf="order.work_cancelled_date_time != '0000-00-00 00:00:00'"> - {{order.order_current_status_date_time | date: 'd MMM yyyy hh:mm a' }}</span></p> 
+            </div>
+                     
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>      
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="loaded">
+      <div class="card">
+        <div class="card-body pd-0">
+          <p class="f14 c32 bold">Customer Details</p>
+          <hr>
+          <div class="row mb0">
+            <div class="col-lg-4 col-md-4 col-sm-4 c-image">
+                <img [src]="customerData.profile_image_url" class="backgoundWhite" (load)="dosomething1()" [ngClass]="{'smallLoader': loading1==='0'}" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 c-address pd-0">
+              <p class="f14 c32 bold ml-25" *ngIf="order.name != ''">{{customerData.name | titlecase}}</p>
+              <p class="f12 c75 mb10"><img src="assets/icons/cell-phone.svg" alt="phone" class="ml-30" *ngIf="order.mobile != ''"> {{customerData.mobile}}</p>
+              <p class="f12 c75 mb10"><img src="assets/icons/three-buildings.svg" alt="building" class="ml-30" *ngIf="order.address != ''"> {{customerData.address | titlecase}}</p>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 viewprofile mb18">
+              <button type="button" class="btn cblue bold f12" routerLink="/customer/cDetails/{{order.customer_code}}">View Profile</button>
+            </div>
+          </div>          
+        </div>
+      </div>
+      
+      <div class="assigningHistory mt18">
+        <mat-accordion>
+          <mat-expansion-panel  [expanded]="step === 0" class="bwhite history1">
+            <mat-expansion-panel-header [expandedHeight]="'50px'"><p class="mb0 f14 bold c32">Assigning History</p></mat-expansion-panel-header>
+            <hr>
+            <div class="noData text-center pdtb95" *ngIf="partners_history.length == 0">
+              <p class="c75 f12">No History Available</p>              
+            </div>
+            <div id="table" *ngIf="partners_history.length > 0">
+              <table class="table text-left mt18 table-md">
+                <thead>
+                  <tr class="bold c32 f14">
+                    <th></th>
+                    <th scope="col">Partner</th>
+                    <th scope="col">Date & Time</th>
+                    <th scope="col">Action</th>
+                </thead>
+                <tbody>
+                  <tr class="f14 c32 cur" *ngFor="let partner1 of partners_history" routerLink="/partner/pDetails/{{partner1.code}}">
+                    <td class="text-right">
+                        <img [src]="partner1.profile_image_url" (load)="dosomething1()" class="p-userimg bd-r backgroundWhite" [ngClass]="{'smallLoader': loading1 === 0}" alt="user" onError="this.src='assets/icons/user (1).svg';">
+                    </td>                        
+                    <td scope="row" class="f14 c32">{{partner1.name | titlecase}}</td>
+                    <td class="f14 c32">{{partner1.status_time | date: 'd MMM yyyy hh:mm a'}}</td>
+                    <button class="btn bE02 bold f12 cwhite w-90" *ngIf="partner1.status == 1">Accepted</button>
+                    <button class="btn b98 bold f12 cwhite w-90" *ngIf="partner1.status == 5">Declined
+                    </button>
+                  </tr>
+                </tbody>
+              </table>
+            </div>          
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+  <div class="row mb15">
+    <div class="col-lg-6 col-md-6 col-sm-6 mt18">
+      <button type="button" class="btn bold f12 b008 cwhite w-27" href="#assign" data-toggle="modal" *ngIf="order.order_current_status==0 && loaded" >Assign Partner</button>
+      <button type="button" class="btn bold f12 b008 cwhite w-27" href="#switch" data-toggle="modal" *ngIf="order.order_current_status==1 && loaded" (click)="showPartner()">Switch Partner</button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 mt18 text-right">
+      <button type="button" class="btn bold f12 b98 cwhite w-27" href="#cancel" data-toggle="modal" *ngIf="order.order_current_status<2">Cancel Order</button>
+      <button type="button" class="btn bE02 bold f12 ml18 cwhite w-27" href="#delete" data-toggle="modal" 
+      >Delete Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- Assign Modal -->
+<div class="modal fade assign" id="assign" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Assign Partner</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="searchPartner" class="f14 c32">Search Partner</label>
+            <input type="search" class="form-control c32 f12 f14 c32" id="searchPartner" placeholder="Partner Name" aria-label="Search" data-toggle="dropdown" id="menu1" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}">
+            <ul class="dropdown-menu min-w270 pd-0" role="menu" aria-labelledby="menu1">
+              <li role="presentation" *ngFor="let all_partners of  all_partners | category: {name: searchText, mobile: searchText}">
+                <a role="menuitem" tabindex="-1" (click)="savePartnerDet(all_partners)">
+                <div class="row pd1012">
+                  <div class="col-lg-3 col-md-3 text-center">
+                    <img src="{{all_partners.profile_image_url}}" class="p-userimg" alt="user" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" />
+                  </div>
+                  <div class="col-lg-9 col-md-9 pd-0">
+                    <p class="f14 c32 mb0">{{all_partners.name | titlecase}}</p>
+                    <p class="f12 c75 mb0">{{all_partners.mobile}}</p>
+                  </div>
+                </div>
+                </a>
+              <div class="dropdown-divider mb0 mt0"></div>
+              </li>  
+            </ul>
+            <div class="row pd1012" *ngIf="selectedPartner">
+              <div class="col-lg-3 col-md-3 text-center" *ngIf="selectedPartner">
+                <img src="{{selectedPartner.profile_image_url}}" class="p-userimg" alt="user" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" />  
+              </div>
+              <div class="col-lg-6 col-md-6 pd-0" *ngIf="selectedPartner">
+                <p class="f14 c32 mb0">{{selectedPartner.name | titlecase}}</p>
+                <p class="f12 c75 mb0">{{selectedPartner.mobile}}</p>
+              </div>
+              <!-- <div class="col-lg-3 col-md-3 pd-0 text-right">
+                <a href="#" class="f10 cblue">CHANGE</a>
+              </div> -->
+            </div>
+          </div>
+        </form>
+      <div class="modal-footer pdr0">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="emptySelectedPartner()">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="assignPartner()">Assign</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Assign Modal End -->
+
+<!-- Switch Modal -->
+<div class="modal fade assign" id="switch" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Switch Partner</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="searchPartner" class="f14 c32">Search Partner</label>
+            <input type="search" class="form-control c32 f12" name="searchPartner" id="searchPartner" [(ngModel)]="searchText1" placeholder="Partner Name" aria-label="Search" data-toggle="dropdown" id="menu1">
+            <ul class="dropdown-menu min-w270 pd-0" role="menu" aria-labelledby="menu1">
+              <li role="presentation" *ngFor="let all_partners of  all_partners | category: {name: searchText1,mobile: searchText1}">
+                <a role="menuitem" tabindex="-1" (click)="savePartnerDet(all_partners)">
+                <div class="row pd1012">
+                  <div class="col-lg-3 col-md-3 text-center">
+                    <img src="{{all_partners.profile_image_url}}" class="p-userimg" alt="user" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" />
+                  </div>
+                  <div class="col-lg-9 col-md-9 pd-0">
+                    <p class="f14 c32 mb0">{{all_partners.name | titlecase}}</p>
+                    <p class="f12 c75 mb0">{{all_partners.mobile}}</p>
+                  </div>
+                </div>
+                </a>
+              <div class="dropdown-divider mb0 mt0"></div>
+              </li>         
+            </ul>
+            <!-- <div class="row pd1012" *ngFor="let all_partners of all_partners">
+              <div class="col-lg-3 col-md-3 text-center" *ngIf="all_partners.code == order.partner_code && selectedPartnertrue == false">
+                <img src="{{all_partners.profile_image_url}}" class="p-userimg" alt="user" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" />
+              </div>
+              <div class="col-lg-6 col-md-6 pd-0" *ngIf="all_partners.code == order.partner_code && selectedPartnertrue == false">
+                <p class="f14 c32 mb0">{{all_partners.name | titlecase}}</p>
+                <p class="f12 c75 mb0">{{all_partners.mobile}}</p>
+              </div>
+              
+            </div> -->
+            <div class="row pd1012" *ngIf="selectedPartnertrue == true">
+              <div class="col-lg-3 col-md-3 text-center">
+                <img src="{{selectedPartner.profile_image_url}}" class="p-userimg" alt="user" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" />
+              </div>
+              <div class="col-lg-6 col-md-6 pd-0">
+                <p class="f14 c32 mb0">{{selectedPartner.name | titlecase}}</p>
+                <p class="f12 c75 mb0">{{selectedPartner.mobile}}</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      <div class="modal-footer pdr0">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="emptySelectedPartner()">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="switchPartner()">Switch</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Switch Modal End -->
+
+<!-- Delete Modal -->
+<div class="modal fade cityModal" id="delete" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are you sure you want to delete this order?</p>
+        <!-- <p class="text-center f12 c75">If you delete any service, then it will also delete existing user data, existing customers, orders, partners, etc. corresponding to that city.</p>    -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteOrder()">Sure, Delete Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal End -->
+
+<!-- Cancel Modal -->
+<div class="modal fade cityModal" id="cancel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are you sure you want to cancel this order?</p>
+        <!-- <p class="text-center f12 c75">If you cancel any service, then it will also cancel existing user data, existing customers, orders, partners, etc. corresponding to that city.</p>    -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Close</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="cancelOrder()">Sure, Cancel Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cancel Modal End -->

@@ -1,0 +1,107 @@
+<nav class="navbar navbar-expand-lg navbar-light header1 relative"  *ngIf="showId">
+  <a class="navbar-brand f18" href="#">{{title | titlecase}}</a>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item magnify" (click)="toggleId()">
+      <img src="assets/icons/magnify.svg" alt="Magnify">
+    </li>
+    <div class="">
+    <li class="nav-item notification" routerLinkActive="active current" >
+      <a class="imagemenu relative" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false"><img src="assets/icons/notification (1).svg" alt="Notification"><span class="badge badge-light absolute" *ngIf="unseen != 0">{{unseen}}</span></a>
+      <div class="dropdown-menu absolute" aria-labelledby="dropdownMenuButton">
+        <div class="nodata note" *ngIf="Notifications1.length == 0 && loaded">
+          <div class="row">
+            <div class="col-lg-11 col-md-11 col-sm-11">
+              <p class="f14 bold">Notifications</p>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1">
+              <img src="../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter3">
+            </div>
+          </div>
+          <div class="vl2"></div>
+          <div class="d-image text-center pdtb100">
+            <img src="assets/icons/disable-alarm.svg" alt="empty">
+            <p class="c75 f22">No Notifications</p>
+          </div>
+        </div> 
+        <div class="note" *ngIf="Notifications1.length != 0 && loaded">
+          <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-7"  (click)="$event.stopPropagation()">
+              <p class="f14 bold">Notifications</p>
+              
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 text-right">
+              <a class="f12 c008 tick mr30" *ngIf="unseen != 0" (click)="readAllNotification(); $event.stopPropagation()"><img src="assets/icons/tick - Copy.svg" alt="tick" class="tickimage" (click)="readAllNotification(); $event.stopPropagation()"> Read All</a>
+              <img src="assets/icons/letter-x.svg" alt="close" class="letter3">            
+            </div>
+          </div>
+          <div class="vl2"  (click)="$event.stopPropagation()"></div>
+          <div  id="myDiv">
+            <div *ngFor="let notification1 of Notifications1">
+            <div class="col-lg-12 col-md-12  mt2" [ngClass]="{'be2' : !notification1.seen}" (click)="setRouter(notification1.code_to_open, notification1.code)">
+              <div class="row pd103 notificationhover">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                  <img src="{{notification1.icon_url}}" alt="shopping" class="shoppingimage" onerror="this.onerror=null;this.src='assets/images/no_image.png';">
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                  <div class="row mb2">
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                      <p class="mb0 f12 c32 bold">{{notification1.title | titlecase}}</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 text-right lh8">
+                      <span class=" cac f10">{{notification1.created | date: 'd MMM yy hh:mm a'}}</span>
+                    </div>
+                  </div>                             
+                  <p class="f10 c75">{{notification1.message | titlecase}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="vl3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </div>
+  </ul>
+</nav>
+
+<!-- Search Suggestion -->
+<nav class="navbar navbar-light headersearch"  *ngIf="showId1">
+  <div class="col-lg-12 col-md-12 col-sm-12 pd-0" >
+    <form class="form-inline" >
+      <input class="form-control w-100 f14 absolute" autofocus (input)="GlobalSearch($event.target.value)" type="text" placeholder="Search for Partners, Orders, Customers, Admins and Restaurants" aria-label="Search" autocomplete="off" name="s" ng-model="$ctrl.pesquisa" ng-disabled="'@ViewBag.EditaConteudo'">
+      <!-- <div *ngIf="showdropdown == 2">Enter minimum 3 letters</div> -->
+      <div class="col-lg-12" role="menu" aria-labelledby="menu1" *ngIf="showdropdown == 1" style="cursor:pointer;">
+      <div class="dropdown-divider1">      
+
+        <div role="presentation" *ngFor="let suggestion of newarray; let i=index;" class="headerhover pd030" >
+
+          <a role="menuitem" tabindex="-1" (click)="routerlink(suggestion.router_link,suggestion.code)">
+
+          <div class="row pd210">
+            <div class="col-lg-1 col-md-1 text-center">
+              <img src="{{suggestion.profile_image_url}}" onError="this.src='assets/icons/user (1).svg';" alt="user" style="height: 48px;width: 50px; border-radius:50%;">
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <span class="f14 bold c75">{{suggestion.name}}</span><br>
+              <span class="f12 c75">{{suggestion.mobile}}</span>
+            </div>
+            <div class="col-lg-7 col-md-7 text-right">
+              <p class="f12 bold c75 mt18">{{suggestion.label}}</p>
+            </div>
+          </div>
+          </a>
+        <div class="dropdown-divider2" id="{{i}}" [style.display]="i == newarray[0].length -1 ? 'none' : block"></div>
+        </div>
+      </div>
+        <div class="text-center f14 c75 pd210" *ngIf="this.newarray.length == 0"><img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty">No data</div>  
+          <!-- <p class="f12 bold c75 text-center">Enter minimum 3 letters</p> -->
+          <!-- <p class="f12 bold c75">No Data Found</p>       -->
+      </div>
+      
+    </form>
+    <!-- <div class="modal-backdrop"></div> -->
+    <img src="assets/icons/letter-x.svg" id="clk" alt="cancel" data-dismiss="modal" class="letter1" (click)="toggleId1()"> 
+  </div>
+</nav>
+<!-- Search Suggestion End -->

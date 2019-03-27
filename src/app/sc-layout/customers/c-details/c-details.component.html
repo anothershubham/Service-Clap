@@ -1,0 +1,476 @@
+<div class="p-detail c-detail card" *ngIf="loaded && loaded1">
+  <div class="card-body pd-0 pd1520">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 text-center pdl30">
+        <img [src]="customerData.profile_image_url" (load)="dosomething()" class="p-detailimg" [ngClass]="{'smallLoader': loading==='0'}" alt="user" onError="this.src='assets/icons/user (1).svg';">
+        <div class="row">
+          <div class="col-lg-12">
+            <p class="f28 c32 bold mt15">{{customerData.name | titlecase}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1"><div class="vl20"></div></div>
+      <div class="col-lg-4 col-md-4 col-sm-4 c-img pdl-60">
+        <div class="row mb8" *ngIf="customerData.mobile">
+          <div class="col-lg-2 col-md-2">
+            <img src="assets/icons/cell-phone.svg" alt="phone">
+          </div>
+          <div class="col-lg-9 col-md-9 pd-0">
+            <p class="f12 c32" style="margin-top:6px;">{{customerData.mobile}}</p>
+          </div>
+        </div>
+        <div class="row mb8" *ngIf="customerData.email">
+          <div class="col-lg-2 col-md-2">
+            <img src="assets/icons/close-envelope.svg" alt="envelope" >
+          </div>
+          <div class="col-lg-9 col-md-9 pd-0">
+            <p class="f12 c32" style="margin-top:6px;">{{customerData.email}}</p>
+          </div>
+        </div>
+        <div class="row mb8" *ngIf="customerData.address">
+          <div class="col-lg-2 col-md-2">
+            <img src="assets/icons/three-buildings.svg" alt="building" >
+          </div>
+          <div class="col-lg-9 col-md-9 pd-0">
+            <p class="f12 c32" style="margin-top:6px;">{{customerData.address | titlecase}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1"><div class="vl14"></div></div>
+      <div class="col-lg-3 col-md-3 col-sm-3 pdl45">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <p class="f14 c75 mb5">Joined On</p>
+            <p class="f14 c32 bold">{{customerData.created | date: 'd MMM y'}}</p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+            <a class="f12 c75 edit ml85"><img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="switch" class="editimg2" href="#exampleModal2" data-toggle="modal" (click)="this.profileForm.reset();openEditModal();"></a>
+          </div>
+        </div>
+      </div>         
+    </div>    
+  </div>
+</div>
+  
+<div class="card mt18 minheight" *ngIf="loaded && loaded1">
+  <div class="card-body pd-0">
+    <p class="f14 c32 bold mb8">Total Orders</p>
+    <div class="vl"></div>
+    <!-- <div class="pd-0 mt18 btnmenu">
+        <button type="button" class="btn bwhite bold f12 cblue bdblue" (click)="display_total()" [ngClass]="{'active1' : totalStatus}">Total: {{total}}</button>
+        <button type="button" class="btn bwhite bold f12 c14 bd14" (click)="display_completed()" [ngClass]="{'active1' : completedStatus}">Completed: {{completed}}</button>
+        <button type="button" class="btn bwhite bold f12 cE6 bdE6" (click)="display_cancelled()" [ngClass]="{'active1' : cancelledStatus}">Cancelled: {{cancelled}}</button>
+        <button type="button" class="btn bwhite bold f12 corange bdff" (click)="display_going_on()" [ngClass]="{'active1' : goingOnStatus}">Going On: {{going_on}}</button>
+        <button type="button" class="btn bwhite bold f12 corange bdff" (click)="display_assigned()" [ngClass]="{'active1' : assignedStatus}">Assigned: {{assigned}}</button>
+      <button type="button" class="btn bwhite bold f12 corange bdff" (click)="display_requested()" [ngClass]="{'active1' : requestedStatus}">Requested: {{requested}}</button>
+    </div>
+    <div class="mt18">
+        <button class="btn excelBtnFilter f12 b008 bold mr18" href="#myModal" data-toggle="modal" (click)= "exportToXLSX()">Export to Excel</button>
+        <span class="f14 c75" *ngIf="(filteredOrders | category: {order_id: searchText,order_date: searchText,partner: searchText,mobile: searchText,service: searchText, city:searchText}).length != 0">
+            Showing {{ initial }} - {{ max }} of {{ filteredOrders.length }}
+        </span>
+        <form class="form-inline float-right">
+          <input class="form-control mr-sm-2 f14 cac" type="search" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search">
+          <img src="assets/icons/magnify - Copy.svg" alt="Search" class="totalsearch">
+        </form>
+      </div>
+      <div id="table">
+        <table class="table text-center table-md mt18">
+            <thead>
+              <tr class="bold c32">
+                <th scope="col">Order ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Partner</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Service</th>
+                <th scope="col">City</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="td f14 c32" *ngFor="let orders of (filteredOrders | category: {order_id: searchText,order_date: searchText,partner: searchText,mobile: searchText,service: searchText, city:searchText}) | paginate: { itemsPerPage: 10, currentPage: p }" routerLink="/order/orderDetail/{{orders.code}}">
+                <td scope="row" class="bold">#{{orders.order_id}}</td>
+                <td>{{orders.created | date: 'd MMM yyyy hh:mm a'}}</td>
+                <td>{{orders.partner_name | titlecase}}</td>
+                <td>{{orders.mobile}}</td>
+                <td>{{orders.service_name | titlecase}}</td>
+                <td>{{orders.city_label | titlecase}}</td>
+                <td>
+                  <button class="btn btnFilter bwhite pd7 borderE02 f12" *ngIf="orders.status == 0">Requested</button>
+                  <button class="btn btnFilter pd7 bE02 f12" *ngIf="orders.status == 1">Assigned</button>
+                  <button class="btn btnFilter pd7 b14 f12" *ngIf="orders.status == 3">Completed</button>
+                  <button class="btn btnFilter pd7 b98 f12" *ngIf="orders.status == 4">Cancelled
+                      <span *ngIf="orders.cancelled_by == 0"> by Customer</span>
+                      <span *ngIf="orders.cancelled_by == 1"> by Partner</span>
+                      <span *ngIf="orders.cancelled_by == 2"> by Admin</span>
+                  </button>
+                  <button class="btn btnFilter pd7 bE07 f12" *ngIf="orders.status == 2">Going On</button>
+                </td>
+              </tr>
+              <tr class="r" *ngIf="filteredOrders.length ==0 || (filteredOrders | category: {order_id: searchText,order_date: searchText,partner: searchText,mobile: searchText,service: searchText, city:searchText}).length == 0" >
+                <td colspan="7" class="text-center">
+                <img src="assets/icons/empty-folder.svg" alt="empty" class="p-userimg">
+                  No Data</td>
+              </tr>
+            </tbody>
+        </table>
+      </div> -->
+
+      <!-- Total Order -->
+      <ul class="nav nav-pills f16 bold vl mb18" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active c75" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Service Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link c75" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Food Order</a>
+        </li>
+      </ul>
+      <div class="row">
+          <div class="col-lg-6 col-md-6">
+              <button class="btn s-partnerbtnFilter f12 b008 bold" data-toggle="collapse" data-target="#demo">Filter</button>
+            <span class="f14 c75" *ngIf="listView && filteredCustomerData.length != 0">
+              Showing {{ ((currentPage-1) * itemsPerPage)+1 }} - {{ max }} of {{ filteredCustomerData.length }}
+          </span>
+          <span class="f14 c75" *ngIf="gridView && filteredCustomerData.length != 0">
+              Showing {{ ((currentPage1-1) * itemsPerPage1)+1 }} - {{ max1 }} of {{ filteredCustomerData.length }}
+          </span>
+          </div>
+          <div class="col-lg-6 col-md-6 text-right">
+              <button class="btn excelBtnFilter f12 b008 bold" href="#myModal" data-toggle="modal" (click)="exportAsXLSX(searchText)" *ngIf="customerData.length != 0">Export to Excel</button>   
+            <form class="form-inline float-right" *ngIf="customerData.length != 0">
+              <input class="form-control f14 cac mr-sm-2 pd1916" type="search" placeholder="Search" aria-label="Search" [(ngModel)]= "searchText" [ngModelOptions]="{standalone: true}">
+              <img src="assets/icons/magnify - Copy.svg" alt="Search" class="searchimg">
+            </form>
+          </div>
+      </div>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <div id="table">
+            <table class="table text-center table-md mt18">
+              <thead>
+                <tr class="bold c32">
+                  <th scope="col">Order ID</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Partner</th>
+                  <th scope="col">Mobile</th>
+                  <th scope="col">Service</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="td f14 c32">
+                  <td scope="row" class="cblue bold">#212</td>
+                  <td>23rd Aug 2018 2:00 PM</td>
+                  <td>Adam Gill</td>
+                  <td>1234567899</td>
+                  <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                  <td>Bangalore</td>
+                  <td>
+                    <button class="btn btnFilter pd7 w-67 b98 f12">Cancelled
+                      <!-- <span *ngIf="data.cancelled_by == 0"> by Customer</span> -->
+                      <!-- <span *ngIf="data.cancelled_by == 1"> by Partner</span> -->
+                      <!-- <span *ngIf="data.cancelled_by == 2"> by Admin</span> -->
+                    </button>
+                  </td>
+                </tr>
+                <tr class="td f14 c32">
+                  <td scope="row" class="bold">#212</td>
+                  <td>23rd Aug 2018 2:00 PM</td>
+                  <td>Adam Gill</td>
+                  <td>1234567899</td>
+                  <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                  <td>Bangalore</td>
+                  <td>
+                    <button class="btn btnFilter bwhite w-67 pd7 borderE02 f12">Requested</button>
+                  </td>
+                </tr>
+                <tr class="td f14 c32">
+                  <td scope="row" class="bold">#212</td>
+                  <td>23rd Aug 2018 2:00 PM</td>
+                  <td>Adam Gill</td>
+                  <td>1234567899</td>
+                  <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                  <td>Bangalore</td>
+                  <td>
+                    <button class="btn btnFilter pd7 w-67 bE02 f12">Assigned</button>
+                  </td>
+                </tr>
+                <tr class="td f14 c32">
+                  <td scope="row" class="bold">#212</td>
+                  <td>23rd Aug 2018 2:00 PM</td>
+                  <td>Adam Gill</td>
+                  <td>1234567899</td>
+                  <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                  <td>Bangalore</td>
+                  <td>
+                    <button class="btn btnFilter pd7 w-67 b14 f12">Completed</button>
+                  </td>
+                </tr>
+                <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 bE07 f12">Stopped Working</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                      <td scope="row" class="bold">#212</td>
+                      <td>23rd Aug 2018 2:00 PM</td>
+                      <td>Adam Gill</td>
+                      <td>1234567899</td>
+                      <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                      <td>Bangalore</td>
+                      <td>
+                        <button class="btn btnFilter pd7 w-67 b008 f12">Started Working</button>
+                      </td>
+                    </tr>
+                <!-- <tr class="r">
+                  <td colspan="7" class="text-center">
+                  <img src="assets/icons/empty-folder.svg" alt="empty" class="p-userimg">
+                    No Data</td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div id="table">
+              <table class="table text-center table-md mt18">
+                <thead>
+                  <tr class="bold c32">
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Partner</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Restaurant</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 b98 f12">Cancelled
+                        <!-- <span *ngIf="data.cancelled_by == 0"> by Customer</span> -->
+                        <!-- <span *ngIf="data.cancelled_by == 1"> by Partner</span> -->
+                        <!-- <span *ngIf="data.cancelled_by == 2"> by Admin</span> -->
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter bwhite w-67 pd7 borderE02 f12">Requested</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 bE02 f12">Pending</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 b14 f12">Picked Up</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 bE07 f12">In The Kitchen</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 bEOA f12">Accepted</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 b985 f12">Out For Delivery</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 b2EA f12">Delivered</button>
+                    </td>
+                  </tr>
+                  <tr class="td f14 c32">
+                    <td scope="row" class="bold">#212</td>
+                    <td>23rd Aug 2018 2:00 PM</td>
+                    <td>Adam Gill</td>
+                    <td>1234567899</td>
+                    <td>1947</td>
+                    <td>Bangalore</td>
+                    <td>
+                      <button class="btn btnFilter pd7 w-67 b008 f12">Ready To Be Delivered</button>
+                    </td>
+                  </tr>
+                  <!-- <tr class="r">
+                    <td colspan="7" class="text-center">
+                    <img src="assets/icons/empty-folder.svg" alt="empty" class="p-userimg">
+                      No Data</td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+      <pagination-controls #page class="float-right mt18 f14 cac pagination" (pageChange)="p = $event;changed($event)" responsive="true" screenReaderPaginationLabel="Pagination" autoHide="true" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page" *ngIf="(filteredOrders | category: {order_id: searchText,order_date: searchText,partner: searchText,mobile: searchText,service: searchText, city:searchText}).length > 10"></pagination-controls>
+      <!-- Total Order End -->
+  </div>
+</div>
+
+
+<!-- Modal Edit -->
+
+<div class="modal fade p-detailModal" id="exampleModal2" data-backdrop="static" data-keyboard="false" *ngIf="showEditModal == true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Edit Customer</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)="cancelCropper()">
+      </div>
+      <div class="vl15"></div>
+      <div class="modal-body pd1022">
+        <form ngNativeValidate [formGroup]="profileForm" >
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="row mb12">
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                  <label for="name" class="f14 c32">Name <span class="cred">*</span></label>
+                  <input class="form-control mr-sm-2 f12 c32" id="name" formControlName="name" type="text" placeholder="Enter Name" value="{{customerData.name}}" >
+                  <img src="assets/icons/warning (1).svg" alt="warning" class="c-warningimg" *ngIf="profileForm.get('name').invalid && profileForm.get('name').dirty">
+                  <div class="text-center f12 cred" *ngIf="profileForm.get('name').invalid && profileForm.get('name').dirty && profileForm.get('name').value.length < 1">Name should not be blank</div>
+                  <div class="text-center f12 cred" *ngIf="profileForm.get('name').invalid && profileForm.get('name').dirty && profileForm.get('name').value.length < 2">Not a valid name</div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                  <label for="number" class="f14 c32">Mobile <span class="cred">*</span></label>
+                  <input class="form-control mr-sm-2 f12 c32" id="number" (keypress)="validatemobile($event)" minlength="10" maxlength="10" autocomplete="off" formControlName="mobile" #mobile type="text" placeholder="Enter mobile number" value="{{customerData.mobile}}" required>
+                  <img src="assets/icons/warning (1).svg" alt="warning" class="c-warningimg" *ngIf="profileForm.get('mobile').invalid && profileForm.get('mobile').dirty">
+                  <div class="text-center f12 cred" *ngIf="profileForm.get('mobile').invalid && profileForm.get('mobile').dirty">Invalid mobile number</div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                  <label for="email" class="f14 c32">Email</label>
+                  <input class="form-control mr-sm-2 f12 c32" id="email" formControlName="email" type="text" placeholder="Enter Email" value="{{customerData.email | lowercase}}">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                  <label for="address" class="f14 c32">Address</label>
+                  <input class="form-control mr-sm-2 f12 c32" id="address" type="text" formControlName="address" placeholder="Enter your address" value="{{customerData.address}}">
+                </div>               
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 form-group">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb12">
+                      <label for="serviceName" class="f14 c32">Profile Image</label>
+                      <div class="row">
+                        <div class="col-lg-3 text-center">
+                          <div class="icon d-imageEdit ">
+                            <!-- <img src="{{finalCroppedImage}}" alt="picture" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';"> -->
+                            <img src="{{customerData.profile_image_url}}" (load)="dosomething1()" [ngClass]="{'smallLoader': loading1==='0'}" alt="picture" onError="this.onerror=null;this.src='assets/icons/user (1).svg';" *ngIf="finalCroppedImage === '' && removeImageConfirm == false">
+                          <img [src]="finalCroppedImage" (load)="dosomething2()" class="p-detailimg circleimage" [ngClass]="{'smallLoader': loading2==='0'}" alt="user" onError="this.onerror=null;this.src='assets/icons/user (1).svg';" *ngIf="finalCroppedImage !== '' && removeImageConfirm == false">
+                          <img src="assets/icons/user (1).svg" *ngIf="removeImageConfirm == true">
+                            <!-- <p class="f14 c75 mb0">Drag Here</p> -->
+                          </div>
+                        </div>
+                        <div class="col-lg-9">
+                          <div class="row">
+                            <div class="col-lg-6">
+                                <label class="btn btn-default f12 c75 be5 ml15">Choose Image
+                                    <input type="file" (input)="fileChangeEvent($event)" accept="image/*" hidden (click)="cancelCropper()">
+                                  </label>
+                            </div>
+                            <div class="col-lg-6 pdl-0">
+                                <button type="button" class="btn btn-default f12 c75 be5" (click)="removeImage()" *ngIf="customerData.profile_image_url!='' || finalCroppedImage !== ''">Remove Image</button>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="btn btn-default f12 c75 be5 ml15 pd613"(click)="showCropView()" *ngIf="finalCroppedImage !== ''"> 
+                                    Recrop Image
+                                  </label>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <label *ngIf="cropView === true" class="mrb-5">
+                                    <button type="button" class="btn f12 bE6 btnCancel text-right" (click)="cancelCropView()">Crop</button>
+                                  </label>
+                            </div>
+                          </div>               
+                        </div>
+                        <div class="modal-body" *ngIf="cropView === true">
+                          <image-cropper
+                          [imageChangedEvent]="imageChangedEvent"
+                          [maintainAspectRatio]="true"
+                          [aspectRatio]="8 / 8"
+                          format="jpeg"
+                          (imageCroppedBase64)="imageCropped($event)"
+                          (imageLoaded)="imageLoaded()"
+                          (loadImageFailed)="loadImageFailed()"
+                        ></image-cropper>                  
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+          <div class="modal-footer pd022">
+            <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal" (click)="cancelCropper()">Cancel</button>
+            <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" [disabled]="!profileForm.valid" (click)="updateCustomer(profileForm)">Save</button>
+          </div> 
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal End -->
+  
+  

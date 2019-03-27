@@ -1,0 +1,428 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="s-partner card minheight" *ngIf="dataLoaded == 1">
+  <p class="f14 c32 bold">Offers</p>
+  <hr>
+  <div class="card-body pd-0">
+    <!-- <div class="row">
+      <div class="col-lg-6 col-md-6 mb18">
+        <a class="btn btnFilter f14 b008 bold" href="#exampleModal1" data-toggle="modal">Filter</a>
+        <span *ngIf="oncefiltered == 1">
+          <label class="f14 c75">Filtered Result is:</label>&nbsp;<a class="btn btnFilter f14 b008 bold ml12" (click)="unfilter()">ClearFilter</a>
+        </span>
+             
+        <span class="f14 c75" *ngIf="offers.length > 10">Showing {{ ((currentPage-1) * itemsPerPage)+1 }} - {{ totalLength }} of {{offers.length}}</span>
+      </div>
+      <div class="col-lg-6 col-md-6 mb18">
+        <form class="form-inline float-right" *ngIf="offers.length !=0">
+          <input class="form-control mr-sm-2 f14 cac"  type="search" [(ngModel)]="filterText" id="search" [ngModelOptions]="{standalone: true}"  [value]="filterText" placeholder="Search" aria-label="Search">
+          <img src="assets/icons/magnify - Copy.svg" alt="Search">
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-2 mb18 addnew">
+        <a class="btn btnFilter f12 b008 bold pd1033" id="openModal" routerLink="aOffer"><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-10 mb18 addnew" *ngIf="offers.length !=0">
+        <button class="btn excelBtnFilter f12 b008 bold float-right" (click)="tableToExcel('table', 'name', 'offers.xls')">Export to Excel</button>        
+      </div>
+    </div>
+    <div id="table">
+      <table class="table text-center table-md">
+        <thead>
+          <tr class="bold c32 f14">
+            <th scope="col">Title</th>
+            <th scope="col">Starting Date - Expiring Date</th>
+            <th scope="col">Discount Value</th>
+            <th scope="col">Promocode</th>
+          </tr> 
+        </thead>
+        <tbody class="td">
+          <tr class="f14 c32" routerLink="oDetails/{{list.code}}" *ngFor="let list of offers | category: {title: filterText,starting_date: filterText,expiring_date: filterText,discount_value: filterText,promocode: filterText} | paginate: { itemsPerPage: 10, currentPage: p };let i=index;">
+            <td>{{list.title | titlecase}}</td>
+            <td>{{list.starting_date | date:'dd MMM yyyy'}} - {{list.expiring_date | date:'dd MMM yyyy'}}</td>
+            <td *ngIf="list.offer_type == 0">{{list.discount_value}}&nbsp;%</td>
+            <td *ngIf="list.offer_type == 1">Rs&nbsp;{{list.discount_value}}</td>
+            <td class="uppercase">{{list.promocode}}</td>
+          </tr>
+          <tr class="r" *ngIf="offers.length ==0 || (offers | category: {title: filterText,starting_date: filterText,expiring_date: filterText,discount_value: filterText,promocode: filterText}).length == 0" >
+            <td colspan="7" class="text-center">
+            <img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty">
+              No Data</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+    <div class="row">
+        <div class="col-lg-6 col-md-6 mb18">
+          <a class="btn btnFilter f14 b008 bold"  data-toggle="modal" data-target="#offerfiltermodal">Filter</a>
+          <span class="f14 c75">Showing 1 - 10 of 100</span>
+        </div>
+        <div class="col-lg-6 col-md-6 mb18">
+          <form class="form-inline float-right">
+            <input class="form-control mr-sm-2 f14 cac" type="search" id="search"placeholder="Search" aria-label="Search">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search">
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 mb18 addnew">
+          <a class="btn btnFilter f12 b008 bold pd1033" id="openModal" routerLink="aOffer"><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 mb18 addnew">
+          <button class="btn excelBtnFilter f12 b008 bold float-right">Export to Excel</button>        
+        </div>
+      </div>
+      <div id="table">
+        <table class="table text-center table-md">
+          <thead>
+            <tr class="bold c32 f14">
+              <th scope="col">Title</th>
+              <th scope="col">Starting Date - Expiring Date</th>
+              <th scope="col">Promocode</th>
+              <th scope="col">Offer For</th>
+            </tr> 
+          </thead>
+          <tbody class="td">
+            <tr class="f14 c32" routerLink="oDetails">
+              <td>Diwali Sale</td>
+              <td>23rd Aug 2018 - 30 Aug 2018</td>
+              <td class="uppercase">ASDF8585</td>
+              <td>Food</td>
+            </tr>
+            <tr class="f14 c32" routerLink="oDetails">
+              <td>Diwali Sale</td>
+              <td>23rd Aug 2018 - 30 Aug 2018</td>
+              <td class="uppercase">ASDF8585</td>
+              <td>Service</td>
+            </tr>
+            <!-- <tr class="r" *ngIf="offers.length ==0 || (offers | category: {title: filterText,starting_date: filterText,expiring_date: filterText,discount_value: filterText,promocode: filterText}).length == 0" >
+              <td colspan="7" class="text-center">
+              <img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty">
+                No Data</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    <!-- <div class="pagination float-right mt0" *ngIf="offers.length > 10">
+        <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+      
+    </div> -->
+  </div>
+</div>
+
+<!-- Filter Modal -->
+<!-- <div class="modal fade p-detailModal o-modal" id="exampleModal1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Filter Offers</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl15"></div>
+      <div class="modal-body pd102512">
+        <form [formGroup]="filterForm" (ngSubmit)="onSubmit(filterForm.value)">
+          <div class="row mb12">
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+              <label for="startingOn" class="f14 c32">Starting On</label>
+              <input class="form-control mr-sm-2 f12 c32" formControlName="start_date" id="startingOn" type="text" placeholder="DD-MM-YYYY" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+              <img src="assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar2" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" >
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+              <label for="expiringOn" class="f14 c32">Expiring On</label>
+              <input class="form-control mr-sm-2 f12 c32" formControlName="expiry_date" id="expiringOn" type="text" placeholder="DD-MM-YYYY" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+              <img src="assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar2" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+              <div class="text-center f12 cred" *ngIf="wrong_date ==1">From date cannot be greater than to date</div>
+              
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                <label for="userType" class="f14 c32">User Type</label>
+                <select class="form-control f12 c32" id="userType" formControlName="user_type">
+                  <option class="f12 c32" selected="true" value="-1" disabled>--Select--</option>
+                  <option type="text" class="f12 c75 bold" value="0">New Users</option>
+                  <option type="text" class="f12 c75 bold" value="1">All Users</option>
+                </select>
+            </div>
+            </div>
+            <div class="row mb18">
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group" >
+              <label for="city" class="f14 c32">Cities</label><br>
+              <div class="col-lg-12 btn-group pd-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <input type="text" class="form-control f12 c32" id="search" #search placeholder="Select Multiple Cities" [(ngModel)]= "searchText" autocomplete="off" [ngModelOptions]="{standalone: true}">
+                  <div class="dropdown-menu servicesmenu" style="width:100%!important;" (click)="$event.stopPropagation();close()">
+                      <label class="dropdown-item custom-control custom-checkbox f12 c75" for ="selectAllCities" (click)="selectAllCities()">
+                          <input type="checkbox" class="custom-control-input f12 c75" tabindex="0" [(ngModel)]="allSelected" id="selectAllCities" (click)="selectAllCities()" [ngModelOptions]="{standalone: true}">
+                          <label class="custom-control-label f12 c75" for="selectAllCities">Select All</label>
+                      </label>
+                      <div id="myDiv21">
+                      <li *ngFor="let item of allCities | searchFilter : searchText">
+                          <label class="dropdown-item custom-control custom-checkbox" (onmouseup)="Cityselec(item)">
+                              <input type="checkbox" class="custom-control-input z f12 c75" [(ngModel)]="item.selected" id="{{item.code}}" (click)="Cityselec(item)" [ngModelOptions]="{standalone: true}">
+                              <label class="custom-control-label f12 c75" for="{{item.code}}" >{{item.city_label}}</label>
+                          </label>
+                      </li>
+                      </div>
+                  </div>
+              </div>
+              <div class="row add-offer" *ngIf="selectedAllCityOptions == false" >
+                  <span class="ng-value" *ngFor="let item1 of selected_cities">
+                      <div class="card bdblue1 mrl15">
+                          <p class="f14 cblue mb0">{{item1.city_label}}<a (click)="City_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                        </div>
+                  </span>
+              </div>
+              <div class="row add-offer" *ngIf="selectedAllCityOptions == true" >
+                <span class="ng-value">
+                    <div class="card bdblue1 mrl15">
+                        <p class="f14 cblue mb0">All Cities</p>
+                      </div>
+                </span> 
+            </div>
+            </div>
+           
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <label for="services" class="f14 c32">Services</label>
+              <ngx-dropdown-treeview 
+                  [buttonClass]="btn"
+                  [config]="config"
+                  [items]="items"
+                  (selectedChange)="onSelectedChange($event)"
+                  (filterChange)="onFilterChange($event)">
+              </ngx-dropdown-treeview>
+              <div class="row add-offer">
+                  <span class="ng-value" *ngFor="let item1 of selected_services">
+                      <div class="card bdblue1 mrl15">
+                        <p class="f14 cblue mb0">{{item1.value | titlecase}}<a (click)="Service_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                      </div>
+                  </span>
+                </div> 
+            </div>
+          </div>
+           
+        </form>      
+        <div class="modal-footer">
+          <button type="button" class="btn f12 b008 bold btnOk pd723 text-right" (click)="filterModal()">Clear Filters</button>
+          <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right ml20 mb0cancel" data-dismiss="modal" (click)="filterModal()">Cancel</button>
+          <button type="button" class="btn f12 b15 bold btnCancel pd723 text-right ml20" [attr.data-dismiss]="apply" (click)="onSubmit(filterForm.value)">Apply</button>
+        </div>    
+         
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- Filter Modal End -->
+
+<!--Offer Filter Modal -->
+<div class="modal fade p-detailModal filtermodal" id="offerfiltermodal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Filter</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl10"></div>
+      <div class="modal-body pd-0">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 pdl40">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link c75 f14 pdb0 active" id="v-pills-date1-tab" data-toggle="pill" href="#v-pills-date1" role="tab" aria-controls="v-pills-date1" aria-selected="false">Date</a>
+              <a class="nav-link  c75 f14 pdb0" id="v-pills-city1-tab" data-toggle="pill" href="#v-pills-city1" role="tab" aria-controls="v-pills-city1" aria-selected="true">City</a>
+              <a class="nav-link c75 f14 pdb0" id="v-pills-services-tab" data-toggle="pill" href="#v-pills-services" role="tab" aria-controls="v-pills-services" aria-selected="false">Services</a>
+              <a class="nav-link c75 f14 pdb0" id="v-pills-restaurant-tab" data-toggle="pill" href="#v-pills-restaurant" role="tab" aria-controls="v-pills-restaurant" aria-selected="false">Restaurant</a>
+              <a class="nav-link c75 f14 pdb0" id="v-pills-usertype-tab" data-toggle="pill" href="#v-pills-usertype" role="tab" aria-controls="v-pills-usertype" aria-selected="false">User Type</a>
+            </div>
+          </div>
+          <div class="col-lg-1 col-md-1"><div class="filtervl"></div></div>
+          <div class="col-lg-7 col-md-7 pdt12 pdl-0">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-date1" role="tabpanel" aria-labelledby="v-pills-date1-tab">
+                  <div id="myDiv25">
+                    <form>
+                    <div class="form-group relative">
+                      <label for="startingdate" class="f14 c32">Starting Date</label>
+                      <input type="text" class="form-control f12 c32" id="startingdate" placeholder="Starting Date" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="right" #dp="bsDatepicker">
+                      <img src="assets/icons/calendar (1).svg" alt="calendar" id="startingdate" class="calendar2"  (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen">
+                    </div>
+                    <div class="form-group relative">
+                      <label for="endingdate" class="f14 c32">Ending Date</label>
+                      <input type="text" class="form-control f12 c32" id="endingdate" placeholder="Ending Date" bsDatepicker #dpe="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="right">
+                      <img src="assets/icons/calendar (1).svg" alt="calendar" id="endingdate" class="calendar2" (click)="dpe.toggle()" [attr.aria-expanded]="dpe.isOpen">
+                    </div>
+                  </form>
+                </div>                 
+              </div>
+              <div class="tab-pane fade" id="v-pills-city1" role="tabpanel" aria-labelledby="v-pills-city1-tab">
+                <div id="myDiv25">
+                  <form>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Bangalore
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Raigarh
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Jodhpur
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Jaipur
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Bangalore
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Raigarh
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Jodhpur
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Jaipur
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-services" role="tabpanel" aria-labelledby="v-pills-services-tab">
+                <div id="myDiv25">
+                  <form>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">CPU Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">RAM
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">AC Repairing
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-restaurant" role="tabpanel" aria-labelledby="v-pills-restaurant-tab">
+                <div id="myDiv25">
+                  <form>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">1947
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Paakshala
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Roti Ghar
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Paakshala
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">Paakshala
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-usertype" role="tabpanel" aria-labelledby="v-pills-usertype-tab">
+                <div id="myDiv25">
+                  <form>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">All
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="container1 f12 c32">New
+                        <input type="checkbox">
+                        <span class="checkmark1"></span>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>   
+        <hr class="mt0 mb0">         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right">Clear</button>
+        <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right">Apply</button>
+      </div>        
+    </div>
+  </div>
+</div>
+<!--Offer Filter Modal End -->

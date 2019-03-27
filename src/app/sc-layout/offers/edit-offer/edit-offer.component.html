@@ -1,0 +1,475 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<!-- *ngIf="dataLoaded == 1" -->
+<div class="s-partner add-offer card">
+    <p class="f14 c32 bold">Edit Offer</p>
+    <hr>
+    <div class="card-body pd-0">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        <div class="col-lg-8 col-md-8 col-sm-8 mb18">
+        <p class="f14 c32 mb5">Offer For</p>
+        <div class="row">
+            <div class="col-lg-2">
+            <label class="container2 f12 c32">Service
+                <input type="radio" name="radio" id="editoptionsRadios1" checked>
+                <span class="checkmark"></span>
+            </label>
+            </div>
+            <div class="col-lg-3">
+            <label class="container2 f12 c32">Food
+                <input type="radio"name="radio" id="editoptionsRadios2">
+                <span class="checkmark"></span>
+            </label>
+            </div>
+        </div>
+            <!-- <form [formGroup]="editForm">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+                        <input type="text" placeholder="Enter Title" formControlName="title" class="form-control f14 c32" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback text-center">
+                            <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                            <div *ngIf="f.title.errors.required">Title is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="promocode" class="f14 c32">Promocode <span class="cred">*</span></label>
+                        <input type="text" (keypress)="omit_special_char($event)" formControlName="promo_code" class="uppercase form-control f14 c32" (keyup)="changeValue($event.target.value)" placeholder="Enter Promocode" [ngClass]="{ 'is-invalid': submitted && f.promo_code.errors }">
+                        <div *ngIf="submitted && f.promo_code.errors" class="invalid-feedback">
+                        <img src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                        <div *ngIf="f.promo_code.errors.required" class="text-center f12 cred">Promocode is required</div>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="startingOn" class="f14 c32">Starting On <span class="cred">*</span></label>
+                        <input id="startingOn" (focus)="func($event.target.value)" formControlName="start_date" #s_date class="form-control f14 c32"  type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.start_date.errors }" />
+                        <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                        <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback text-center">
+                            <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription1">
+                            <div *ngIf="f.start_date.errors.required">Starting date is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="expiringOn" class="f14 c32">Expiring On <span class="cred">*</span></label>
+                        <input id="expiringOn" (focus)="func($event.target.value)" formControlName="expiry_date" #e_date class="form-control f14 c32" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.expiry_date.errors }" />
+                        <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                        <div *ngIf="submitted && f.expiry_date.errors" class="invalid-feedback text-center">
+                            <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription2 top275">
+                            <div *ngIf="f.expiry_date.errors.required">Expiring date is required</div>
+                        </div>
+                        <div class="text-center f12 cred" *ngIf="wrong_date ==1">From date cannot be greater than to date</div>
+                        <div class="text-center f12 cred" *ngIf="same_date ==1">From date cannot be similar to date</div>
+                    </div>                    
+                    </div>
+                    <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                        <label for="message" class="f14 c32">Description <span class="cred">*</span></label>
+                        <textarea name="message" id="message" class="form-control f12 c32" (keyup)="changeValue($event.target.value)" formControlName="description" rows="6" placeholder="Enter Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback text-center">
+                            <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                            <div *ngIf="f.description.errors.required">Description is required</div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="minBill" class="f14 c32">Min Bill Amt (Rs)</label>
+                        <input type="text" (keypress)="Validatekeypress($event)" (input)="minimumBillAmount($event.target.value)" (keyup)="changeValue($event.target.value)" placeholder="Minimum Bill Amount" formControlName="min_bill_amount" class="form-control f12 c32" />
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="discountValue" class="f14 c32">Discount Value <span class="cred">*</span></label>
+                        <div class="row">
+                          <div class="col-lg-9 col-md-9 col-sm-9 form-group">
+                            <input type="text" class="form-control f12 c32" id="discountValue" (input)="discountValue($event.target.value)" (focusout)="checkamount($event.target.value)" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.discount_value.errors }" formControlName="discount_value" placeholder="Enter Discount value" (keypress)="Validatekeypress($event)">
+                            <div class="text-center f12 cred" *ngIf="wrongerror ==1">Bill Amount cannot be greater than discount value</div>
+                            <div class="text-center f12 cred" *ngIf="wrerror ==1">Enter Sensible data</div>
+                            <div *ngIf="submitted && f.discount_value.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription3">
+                                <div *ngIf="f.discount_value.errors.required">Discount value is required</div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3">
+                            <select class="form-control f12 c32 pdr0" (change)="chooseDiscountType($event.target.value)" id="discountValue" formControlName="discount_type">
+                              <option type="text" class="f12 c75 bold" value="0">%</option>
+                              <option type="text" class="f12 c75 bold" value="1">Rs</option>
+                            </select>
+                          </div>
+                        </div> 
+                    </div>
+                  
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="maxBill" class="f14 c32">Max Discount Amt (Rs)</label>
+                        <input type="text" (keypress)="Validatekeypress($event)" placeholder="Maximum Discount Amount" (keyup)="changeValue($event.target.value)" (focusout)="max_discount($event.target.value)" (keypress)="Validatekeypress($event)" [disabled]="!showName" formControlName="max_discount_amount" class="form-control f14 c32" />
+                        <div class="text-center f12 cred" *ngIf="error ==1">Enter Sensible data</div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="userType" class="f14 c32">User Type</label>
+                        <select class="form-control f12 c32" id="userType" formControlName="user_type" (change)="ChooseUserType($event.target.value)">
+                            <option type="text" class="f12 c75 bold" value="0" >New Users</option>
+                            <option type="text" class="f12 c75 bold" value="1" >All Users</option>
+                          </select>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="services" class="f14 c32">Services <span class="cred">*</span></label>
+                        <ngx-dropdown-treeview 
+                            [buttonClass]=""
+                            [config]="config"
+                            [items]="nodes"
+                            (selectedChange)="onSelectedChange($event)"
+                            (filterChange)="onFilterChange($event)">
+                        </ngx-dropdown-treeview>
+                        <div class="text-center f12 cred" *ngIf="x ==1">Services is required</div>
+                        <img *ngIf="x ==1" src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                        <div class="row">
+                            <span class="ng-value mrl15" *ngFor="let item1 of selected_services">
+                                <div class="card bdblue11">
+                                    <p class="f14 cblue mb0">{{item1.value}}<a (click)="Service_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx"></a></p>
+                                  </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="city" class="f14 c32">City <span class="cred">*</span></label>
+                        <div class="col-lg-12 btn-group pd-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <input type="text" class="form-control f14 c32" id="search" #search placeholder="Select Multiple Cities" [(ngModel)]= "searchText" autocomplete="off" [ngModelOptions]="{standalone: true}">
+                            <div class="dropdown-menu servicesmenu f12 c75" style="width:100%!important;" (click)="$event.stopPropagation();close()">
+                                <label class="dropdown-item custom-control custom-checkbox" for ="selectAllCities" (click)="selectAllCities()">
+                                    <input type="checkbox" class="custom-control-input" tabindex="0" [(ngModel)]="allSelected" id="selectAllCities" (click)="selectAllCities()" [ngModelOptions]="{standalone: true}">
+                                    <label class="custom-control-label" for="selectAllCities">Select All</label>
+                                </label>
+                                <div id="myDiv21">
+
+                                <li *ngFor="let item of allCities | searchFilter : searchText">
+                                    <label class="dropdown-item custom-control custom-checkbox" (onmouseup)="Cityselec(item)">
+                                        <input type="checkbox" class="custom-control-input z f14 c32" [(ngModel)]="item.selected" id="{{item.code}}" (click)="Cityselec(item)" [ngModelOptions]="{standalone: true}">
+                                        <label class="custom-control-label" for="{{item.code}}" >{{item.label}}</label>
+                                    </label>
+                                </li>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center f12 cred" *ngIf="y ==1">Cities is required</div>
+                        <img *ngIf="x ==1" src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                        <div class="row">
+                            <span class="ng-value mrl15" *ngFor="let item1 of selected_cities">
+                                <div class="card bdblue11">
+                                    <p class="f14 cblue mb0">{{item1.label}}<a (click)="City_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                                  </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">            
+                  <button  class="btn f12 b008 bold btnOk pd723 float-right ml20" style="cursor:pointer" (click)="onSubmit(editForm.value,s_date.value,e_date.value)" [disabled]="changes==0 && anotherChange ==0">Update</button>
+                  <button  class="btn f12 bE6 bold btnCancel pd723 float-right" (click)="cancel()" >Cancel</button>
+                  </div>
+                </div>
+            </form>  -->
+        <div class="foodservice">
+            <form [formGroup]="editForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="restaurant" class="f14 c32">Restaurant <span class="cred">*</span></label>
+                            <select class="form-control f12 c32" id="restaurant">
+                              <option type="text" class="f12 c75 bold">1947</option>
+                              <option type="text" class="f12 c75 bold">Restaurant</option>
+                            </select>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningserviceimg">
+                            <div class="text-center f12 cred">Restaurant is required</div>
+                          </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+                            <input type="text" placeholder="Enter Title" formControlName="title" class="form-control f14 c32" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                                <div *ngIf="f.title.errors.required">Title is required</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="startingOn" class="f14 c32">Starting On <span class="cred">*</span></label>
+                            <input id="startingOn" (focus)="func($event.target.value)" formControlName="start_date" #s_date class="form-control f14 c32"  type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.start_date.errors }" />
+                            <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                            <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription1">
+                                <div *ngIf="f.start_date.errors.required">Starting date is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="expiringOn" class="f14 c32">Expiring On <span class="cred">*</span></label>
+                            <input id="expiringOn" (focus)="func($event.target.value)" formControlName="expiry_date" #e_date class="form-control f14 c32" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.expiry_date.errors }" />
+                            <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                            <div *ngIf="submitted && f.expiry_date.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription2 top275">
+                                <div *ngIf="f.expiry_date.errors.required">Expiring date is required</div>
+                            </div>
+                            <div class="text-center f12 cred" *ngIf="wrong_date ==1">From date cannot be greater than to date</div>
+                            <div class="text-center f12 cred" *ngIf="same_date ==1">From date cannot be similar to date</div>
+                        </div>                    
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <label for="message" class="f14 c32">Description <span class="cred">*</span></label>
+                            <textarea name="message" id="message" class="form-control f12 c32" (keyup)="changeValue($event.target.value)" formControlName="description" rows="6" placeholder="Enter Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                            <div *ngIf="submitted && f.description.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                                <div *ngIf="f.description.errors.required">Description is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                                <label for="promocode" class="f14 c32">Promocode <span class="cred">*</span></label>
+                                <input type="text" (keypress)="omit_special_char($event)" formControlName="promo_code" class="uppercase form-control f14 c32" (keyup)="changeValue($event.target.value)" placeholder="Enter Promocode" [ngClass]="{ 'is-invalid': submitted && f.promo_code.errors }">
+                                <div *ngIf="submitted && f.promo_code.errors" class="invalid-feedback">
+                                <img src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                                <div *ngIf="f.promo_code.errors.required" class="text-center f12 cred">Promocode is required</div>
+                            </div>
+                            </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="minBill" class="f14 c32">Min Bill Amt (Rs)</label>
+                            <input type="text" (keypress)="Validatekeypress($event)" (input)="minimumBillAmount($event.target.value)" (keyup)="changeValue($event.target.value)" placeholder="Minimum Bill Amount" formControlName="min_bill_amount" class="form-control f12 c32" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="discountValue" class="f14 c32">Discount Value <span class="cred">*</span></label>
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9 form-group">
+                                <input type="text" class="form-control f12 c32" id="discountValue" (input)="discountValue($event.target.value)" (focusout)="checkamount($event.target.value)" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.discount_value.errors }" formControlName="discount_value" placeholder="Enter Discount value" (keypress)="Validatekeypress($event)">
+                                <div class="text-center f12 cred" *ngIf="wrongerror ==1">Bill Amount cannot be greater than discount value</div>
+                                <div class="text-center f12 cred" *ngIf="wrerror ==1">Enter Sensible data</div>
+                                <div *ngIf="submitted && f.discount_value.errors" class="invalid-feedback text-center">
+                                    <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription3">
+                                    <div *ngIf="f.discount_value.errors.required">Discount value is required</div>
+                                </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                <select class="form-control f12 c32 pdr0" (change)="chooseDiscountType($event.target.value)" id="discountValue" formControlName="discount_type">
+                                    <option type="text" class="f12 c75 bold" value="0">%</option>
+                                    <option type="text" class="f12 c75 bold" value="1">Rs</option>
+                                </select>
+                                </div>
+                            </div> 
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="maxBill" class="f14 c32">Max Discount Amt (Rs)</label>
+                            <input type="text" (keypress)="Validatekeypress($event)" placeholder="Maximum Discount Amount" (keyup)="changeValue($event.target.value)" (focusout)="max_discount($event.target.value)" (keypress)="Validatekeypress($event)" [disabled]="!showName" formControlName="max_discount_amount" class="form-control f14 c32" />
+                            <div class="text-center f12 cred" *ngIf="error ==1">Enter Sensible data</div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="userType" class="f14 c32">User Type <span class="cred">*</span></label>
+                            <select class="form-control f12 c32" id="userType" formControlName="user_type" (change)="ChooseUserType($event.target.value)">
+                                <option type="text" class="f12 c75 bold" value="0" >New Users</option>
+                                <option type="text" class="f12 c75 bold" value="1" >All Users</option>
+                                </select>
+                                <img src="../assets/icons/warning (1).svg" alt="warning" class="warningserviceimg">
+                              <div class="text-center f12 cred">User Type is required</div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <label for="sliderimage" class="f14 c32">Offer Slider Image</label>
+                            <div class="row">
+                              <div class="col-lg-3">
+                                <div class="offerslider">
+                                  <img src="../../../../assets/icons/picture (1).svg">
+                                </div>
+                              </div>
+                              <div class="col-lg-9">
+                                <button class="btn btn-default f12 c32 be5 ml41 pd622">Choose Image</button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">            
+                        <button  class="btn f12 b008 bold btnOk pd723 float-right ml20" style="cursor:pointer" (click)="onSubmit(editForm.value,s_date.value,e_date.value)" [disabled]="changes==0 && anotherChange ==0">Update</button>
+                        <button  class="btn f12 bE6 bold btnCancel pd723 float-right" (click)="cancel()" >Cancel</button>
+                        </div>
+                    </div>
+            </form> 
+        </div>
+        <div class="editservice">
+            <form [formGroup]="editForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="service" class="f14 c32">Service <span class="cred">*</span></label>
+                            <select class="form-control f12 c32" id="service">
+                              <option type="text" class="f12 c75 bold">AC Repairing</option>
+                              <option type="text" class="f12 c75 bold">AC Repairing</option>
+                            </select>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningserviceimg">
+                            <div class="text-center f12 cred">Service is required</div>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="city" class="f14 c32">City <span class="cred">*</span></label>
+                            <select class="form-control f12 c32" id="city">
+                              <option type="text" class="f12 c75 bold">Bangalore</option>
+                              <option type="text" class="f12 c75 bold">Bangalore</option>
+                            </select>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningserviceimg">
+                            <div class="text-center f12 cred">City is required</div>
+                          </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+                            <input type="text" placeholder="Enter Title" formControlName="title" class="form-control f14 c32" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                                <div *ngIf="f.title.errors.required">Title is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="promocode" class="f14 c32">Promocode <span class="cred">*</span></label>
+                            <input type="text" (keypress)="omit_special_char($event)" formControlName="promo_code" class="uppercase form-control f14 c32" (keyup)="changeValue($event.target.value)" placeholder="Enter Promocode" [ngClass]="{ 'is-invalid': submitted && f.promo_code.errors }">
+                            <div *ngIf="submitted && f.promo_code.errors" class="invalid-feedback">
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                            <div *ngIf="f.promo_code.errors.required" class="text-center f12 cred">Promocode is required</div>
+                        </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="startingOn" class="f14 c32">Starting On <span class="cred">*</span></label>
+                            <input id="startingOn" (focus)="func($event.target.value)" formControlName="start_date" #s_date class="form-control f14 c32"  type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.start_date.errors }" />
+                            <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                            <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription1">
+                                <div *ngIf="f.start_date.errors.required">Starting date is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="expiringOn" class="f14 c32">Expiring On <span class="cred">*</span></label>
+                            <input id="expiringOn" (focus)="func($event.target.value)" formControlName="expiry_date" #e_date class="form-control f14 c32" type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placeholder="DD-MM-YYYY" [ngClass]="{ 'is-invalid': submitted && f.expiry_date.errors }" />
+                            <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="offerscalendar1" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }">
+                            <div *ngIf="submitted && f.expiry_date.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription2 top275">
+                                <div *ngIf="f.expiry_date.errors.required">Expiring date is required</div>
+                            </div>
+                            <div class="text-center f12 cred" *ngIf="wrong_date ==1">From date cannot be greater than to date</div>
+                            <div class="text-center f12 cred" *ngIf="same_date ==1">From date cannot be similar to date</div>
+                        </div>                    
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <label for="message" class="f14 c32">Description <span class="cred">*</span></label>
+                            <textarea name="message" id="message" class="form-control f12 c32" (keyup)="changeValue($event.target.value)" formControlName="description" rows="6" placeholder="Enter Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                            <div *ngIf="submitted && f.description.errors" class="invalid-feedback text-center">
+                                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                                <div *ngIf="f.description.errors.required">Description is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="minBill" class="f14 c32">Min Bill Amt (Rs)</label>
+                            <input type="text" (keypress)="Validatekeypress($event)" (input)="minimumBillAmount($event.target.value)" (keyup)="changeValue($event.target.value)" placeholder="Minimum Bill Amount" formControlName="min_bill_amount" class="form-control f12 c32" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="discountValue" class="f14 c32">Discount Value <span class="cred">*</span></label>
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-9 form-group">
+                                <input type="text" class="form-control f12 c32" id="discountValue" (input)="discountValue($event.target.value)" (focusout)="checkamount($event.target.value)" (keyup)="changeValue($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.discount_value.errors }" formControlName="discount_value" placeholder="Enter Discount value" (keypress)="Validatekeypress($event)">
+                                <div class="text-center f12 cred" *ngIf="wrongerror ==1">Bill Amount cannot be greater than discount value</div>
+                                <div class="text-center f12 cred" *ngIf="wrerror ==1">Enter Sensible data</div>
+                                <div *ngIf="submitted && f.discount_value.errors" class="invalid-feedback text-center">
+                                    <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescription3">
+                                    <div *ngIf="f.discount_value.errors.required">Discount value is required</div>
+                                </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                <select class="form-control f12 c32 pdr0" (change)="chooseDiscountType($event.target.value)" id="discountValue" formControlName="discount_type">
+                                    <option type="text" class="f12 c75 bold" value="0">%</option>
+                                    <option type="text" class="f12 c75 bold" value="1">Rs</option>
+                                </select>
+                                </div>
+                            </div> 
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="maxBill" class="f14 c32">Max Discount Amt (Rs)</label>
+                            <input type="text" (keypress)="Validatekeypress($event)" placeholder="Maximum Discount Amount" (keyup)="changeValue($event.target.value)" (focusout)="max_discount($event.target.value)" (keypress)="Validatekeypress($event)" [disabled]="!showName" formControlName="max_discount_amount" class="form-control f14 c32" />
+                            <div class="text-center f12 cred" *ngIf="error ==1">Enter Sensible data</div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="userType" class="f14 c32">User Type <span class="cred">*</span></label>
+                            <select class="form-control f12 c32" id="userType" formControlName="user_type" (change)="ChooseUserType($event.target.value)">
+                                <option type="text" class="f12 c75 bold" value="0" >New Users</option>
+                                <option type="text" class="f12 c75 bold" value="1" >All Users</option>
+                                </select>
+                                <img src="../assets/icons/warning (1).svg" alt="warning" class="warningserviceimg">
+                              <div class="text-center f12 cred">User Type is required</div>
+                        </div>
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="services" class="f14 c32">Services <span class="cred">*</span></label>
+                            <ngx-dropdown-treeview 
+                                [buttonClass]=""
+                                [config]="config"
+                                [items]="nodes"
+                                (selectedChange)="onSelectedChange($event)"
+                                (filterChange)="onFilterChange($event)">
+                            </ngx-dropdown-treeview>
+                            <div class="text-center f12 cred" *ngIf="x ==1">Services is required</div>
+                            <img *ngIf="x ==1" src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                            <div class="row">
+                                <span class="ng-value mrl15" *ngFor="let item1 of selected_services">
+                                    <div class="card bdblue11">
+                                        <p class="f14 cblue mb0">{{item1.value}}<a (click)="Service_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx"></a></p>
+                                        </div>
+                                </span>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                            <label for="city" class="f14 c32">City <span class="cred">*</span></label>
+                            <div class="col-lg-12 btn-group pd-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <input type="text" class="form-control f14 c32" id="search" #search placeholder="Select Multiple Cities" [(ngModel)]= "searchText" autocomplete="off" [ngModelOptions]="{standalone: true}">
+                                <div class="dropdown-menu servicesmenu f12 c75" style="width:100%!important;" (click)="$event.stopPropagation();close()">
+                                    <label class="dropdown-item custom-control custom-checkbox" for ="selectAllCities" (click)="selectAllCities()">
+                                        <input type="checkbox" class="custom-control-input" tabindex="0" [(ngModel)]="allSelected" id="selectAllCities" (click)="selectAllCities()" [ngModelOptions]="{standalone: true}">
+                                        <label class="custom-control-label" for="selectAllCities">Select All</label>
+                                    </label>
+                                    <div id="myDiv21">
+
+                                    <li *ngFor="let item of allCities | searchFilter : searchText">
+                                        <label class="dropdown-item custom-control custom-checkbox" (onmouseup)="Cityselec(item)">
+                                            <input type="checkbox" class="custom-control-input z f14 c32" [(ngModel)]="item.selected" id="{{item.code}}" (click)="Cityselec(item)" [ngModelOptions]="{standalone: true}">
+                                            <label class="custom-control-label" for="{{item.code}}" >{{item.label}}</label>
+                                        </label>
+                                    </li>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center f12 cred" *ngIf="y ==1">Cities is required</div>
+                            <img *ngIf="x ==1" src="../assets/icons/warning (1).svg" alt="warning" class="warningdescription">
+                            <div class="row">
+                                <span class="ng-value mrl15" *ngFor="let item1 of selected_cities">
+                                    <div class="card bdblue11">
+                                        <p class="f14 cblue mb0">{{item1.label}}<a (click)="City_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                                        </div>
+                                </span>
+                            </div>
+                        </div> -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                            <label for="sliderimage" class="f14 c32">Offer Slider Image </label>
+                            <div class="row">
+                              <div class="col-lg-3">
+                                <div class="offerslider">
+                                  <img src="../../../../assets/icons/picture (1).svg">
+                                </div>
+                              </div>
+                              <div class="col-lg-9">
+                                <button class="btn btn-default f12 c32 be5 ml41 pd622">Choose Image</button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">            
+                        <button  class="btn f12 b008 bold btnOk pd723 float-right ml20" style="cursor:pointer" (click)="onSubmit(editForm.value,s_date.value,e_date.value)" [disabled]="changes==0 && anotherChange ==0">Update</button>
+                        <button  class="btn f12 bE6 bold btnCancel pd723 float-right" (click)="cancel()" >Cancel</button>
+                        </div>
+                    </div>
+            </form> 
+        </div>
+      </div>
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+  

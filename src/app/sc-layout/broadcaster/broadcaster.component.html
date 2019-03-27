@@ -1,0 +1,304 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+
+<div class="s-partner Broadcaster card minheight" *ngIf="loaded">
+  <div class="card-body pd-0">
+    <ul class="nav nav-pills f16 bold vl mb18" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active c75" id="pills-broadcaster-tab" data-toggle="pill" href="#pills-broadcaster" role="tab" aria-controls="pills-broadcaster" aria-selected="true">Broadcaster</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link c75" id="pills-sendsms-tab" data-toggle="pill" href="#pills-sendsms" role="tab" aria-controls="pills-sendsms" aria-selected="false">Send SMS</a>
+      </li>
+      <li class="nav-item ml-auto">
+        <p class="f14 c75 mb0 lnh3" role="tab" aria-controls="pills-contact" aria-selected="false">Number of SMS left - <span class="c32 bold">1234</span></p>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-broadcaster" role="tabpanel" aria-labelledby="pills-broadcaster-tab">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb18">
+              <a class="btn btnBroadcaster f12 b008 bold" id="openModal" href="#exampleModal1" data-toggle="modal" (click)="this.newBroadcast.reset();resetValues()" ><img src="../../../assets/icons/right-arrow.svg" alt="Broadcaster" class="broadcasterimg"> New Broadcast</a>
+              <span class="f14 c75" *ngIf="(broadcaster_history).length > 10">
+                  Showing {{ ((currentPage-1) * 10)+1 }} - {{ max }} of {{ broadcaster_history.length }}
+              </span>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 mb18">
+              <form class="form-inline float-right" *ngIf="broadcaster_history.length !=0">
+                <input class="form-control mr-sm-2 broadinput f14 cac" type="search" [(ngModel)]= "searchText" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search">
+                <img src="assets/icons/magnify - Copy.svg" alt="Search">
+              </form>
+            </div> 
+        </div>
+        <div id="table">
+          <table class="table text-center table-md">
+            <thead>
+              <tr class="bold c32 f14">
+                <th scope="col" class="w-10">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Message</th>
+                <th scope="col">Send To</th>
+                <th scope="col">Type</th>
+              </tr>  
+            </thead>
+            <tbody class="td">
+              <tr class="f14 c32" *ngFor ="let data of (broadcaster_history | category: {created: searchText,title: searchText,message: searchText}) | paginate: { itemsPerPage: 10, currentPage: p }" href="#exampleModal2" data-toggle="modal" (click)="currentData(data)">
+                <td scope="row">{{data.created | date: 'd MMM y'}}</td>
+                <td>{{data.title | titlecase}}</td>
+                <td class="textwrap">{{data.message | titlecase | textSlicer:150 }}</td>
+                <td>
+                  <span *ngIf="data.send_to == 0">Customer</span>
+                  <span *ngIf="data.send_to == 1">Partner</span>
+                  <span *ngIf="data.send_to == 2">Customer, Partner</span> </td>
+                <td>
+                  <!-- <span  *ngFor="let type of data.send_message_type"> -->
+                    <span *ngIf="data.send_message_type == 0">SMS </span>
+                    <span *ngIf="data.send_message_type == 1">Email </span>
+                    <span *ngIf="data.send_message_type == 2">Notification </span>
+                    <span *ngIf="data.send_message_type == 3">Email and SMS </span>
+                    <span *ngIf="data.send_message_type == 4">Email and Notification </span>
+                    <span *ngIf="data.send_message_type == 5">SMS and Notification </span>
+                    <span *ngIf="data.send_message_type == 6">Email, SMS and Notification </span>
+                  <!-- </span> -->
+                </td>
+              </tr>
+              <tr class="r" *ngIf="broadcaster_history.length ==0 || (broadcaster_history | category: {created: searchText,title: searchText,message: searchText}).length == 0" >
+                <td colspan="7" class="text-center c75 f14">
+                <img src="assets/icons/empty-folder.svg" alt="empty" class="nodata-img">
+                  No Data</td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls #page class="float-right mt18 f14 cac pagination" (pageChange)="p = $event;changed($event)" responsive="true" screenReaderPaginationLabel="Pagination" autoHide="true" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page" *ngIf="(broadcaster_history | category: {created: searchText,title: searchText,message: searchText}).length > 10"></pagination-controls>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="pills-sendsms" role="tabpanel" aria-labelledby="pills-sendsms-tab">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb18">
+              <a class="btn btnBroadcaster f12 b008 bold" data-toggle="modal" href="#newmsg"><img src="../../../assets/icons/right-arrow.svg" alt="Broadcaster" class="broadcasterimg"> New Message</a>
+              <span class="f14 c75">Showing 1 - 10 of 100</span>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 mb18">
+              <form class="form-inline float-right" *ngIf="broadcaster_history.length !=0">
+                <input class="form-control mr-sm-2 broadinput f14 cac" type="search" [(ngModel)]= "searchText" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search">
+                <img src="assets/icons/magnify - Copy.svg" alt="Search">
+              </form>
+            </div> 
+        </div>
+        <div id="table">
+          <table class="table text-center table-md">
+            <thead>
+              <tr class="bold c32 f14">
+                <th scope="col">Date</th>
+                <th scope="col">Message</th>
+                <th scope="col">Mobile Number</th>
+              </tr>  
+            </thead>
+            <tbody class="td">
+              <tr class="f14 c32" href="#exampleModal2" data-toggle="modal" (click)="currentData(data)">
+                <td>10 Aug 2018 2:00 PM</td>
+                <td>Lorem ccccccccccccccccccd</td>
+                <td>123456987</td>
+              </tr>
+              <tr class="r" *ngIf="broadcaster_history.length ==0 || (broadcaster_history | category: {created: searchText,title: searchText,message: searchText}).length == 0" >
+                <td colspan="7" class="text-center c75 f14">
+                <img src="assets/icons/empty-folder.svg" alt="empty" class="nodata-img">
+                  No Data</td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls #page class="float-right mt18 f14 cac pagination" (pageChange)="p = $event;changed($event)" responsive="true" screenReaderPaginationLabel="Pagination" autoHide="true" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page" *ngIf="(broadcaster_history | category: {created: searchText,title: searchText,message: searchText}).length > 10"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Add Broadcaster Modal -->
+<div class="modal fade p-detailModal" id="exampleModal1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">New Broadcast</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl30"></div>
+      <div class="modal-body pd720">
+        <form [formGroup]="newBroadcast" >
+          <div class="form-group relative">
+            <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+            <input class="form-control mr-sm-2 f12 c32" placeholder="Enter title" formControlName = "title" id="title" type="text" (input)="check()">
+            <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning" *ngIf="newBroadcast.get('title').dirty && newBroadcast.get('title').invalid">
+            <div class="text-center f12 cred" *ngIf="newBroadcast.get('title').dirty && newBroadcast.get('title').invalid">Title is required</div>
+          </div>            
+          <div class="form-group relative">
+            <label for="message" class="f14 c32">Message <span class="cred">*</span></label>
+            <textarea name="message" id="message" class="form-control f12 c32" placeholder="Enter message" formControlName = "message" rows="5" (input)="check()"></textarea>
+            <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning1" *ngIf="newBroadcast.get('message').dirty && newBroadcast.get('message').invalid">
+            <div class="text-center f12 cred" *ngIf="newBroadcast.get('message').dirty && newBroadcast.get('message').invalid">Message is required</div>
+          </div> 
+          <div class="form-group">
+            <label for="sendto" class="f14 c32">Send To <span class="cred">*</span></label>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <label class="container1 f12 c75">All Partners
+                  <input type="checkbox" (click)="partnerChange()" formControlName="all_partners">
+                  <span class="checkmark1"></span>
+                </label>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <label class="container1 f12 c75">All Customers
+                  <input type="checkbox" (click)="customersChange()" formControlName="all_customers">
+                  <span class="checkmark1"></span>
+                </label>
+              </div>
+            </div>
+            <div class="text-center f12 cred" *ngIf="all_partners == false && all_customers == false && dirty_send == true">Send to is required</div>              
+          </div>
+          <div class="form-group">
+            <label for="sendto" class="f14 c32">Type <span class="cred">*</span></label>
+            <div class="row">
+              <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+                <label class="container1 f12 c75">SMS
+                  <input type="checkbox" (click)="smsChange()" formControlName="sms">
+                  <span class="checkmark1"></span>
+                </label>
+              </div> -->
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <label class="container1 f12 c75">Email
+                  <input type="checkbox" (click)="emailChange()" formControlName="email">
+                  <span class="checkmark1"></span>
+                </label>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <label class="container1 f12 c75">Notification
+                  <input type="checkbox" (click)="notificationChange()" formControlName="notification">
+                  <span class="checkmark1"></span>
+                </label>
+              </div>
+            </div>
+            <div class="text-center f12 cred" *ngIf="sms == false && email == false && notification == false && dirty_type == true">Type is required</div>              
+          </div> 
+          <div class="modal-footer pd158">
+            <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" data-dismiss="modal" (click)="submit(newBroadcast.value)" [disabled]="allowed===true">Send</button>
+          </div>           
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Broadcaster Modal End -->
+
+<!-- Message Modal -->
+<div class="modal fade p-detailModal" id="newmsg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 c32 bold">New Message</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl22"></div>
+        <div class="modal-body pd720">
+          <form>           
+            <div class="form-group relative">
+              <label for="message" class="f14 c32">Message <span class="cred">*</span></label>
+              <textarea name="message" id="message" class="form-control f12 c32" placeholder="Enter message" formControlName = "message" rows="5"></textarea>
+              <div class="f12 c32 text-right">2</div>
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning1">
+              <div class="text-center f12 cred">Message is required</div>
+            </div> 
+            <div class="form-group">
+              <label for="sendto" class="f14 c32">Send To <span class="cred">*</span></label>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                  <label class="container1 f12 c75">Partners
+                    <input type="checkbox">
+                    <span class="checkmark1"></span>
+                  </label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 pd-0 ml-8">
+                  <label class="container1 f12 c75">Customers
+                    <input type="checkbox">
+                    <span class="checkmark1"></span>
+                  </label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 pd-0 ml-18">
+                  <label class="container1 f12 c75">Saved Contacts
+                    <input type="checkbox">
+                    <span class="checkmark1"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="text-center f12 cred">Send to is required</div>              
+            </div> 
+            <div class="form-group relative">
+              <label for="mobile" class="f14 c32">Mobile Number <span class="cred">*</span></label>
+              <input class="form-control mr-sm-2 f12 c32" placeholder="9876543210, 1234567899" id="mobile" type="text">
+              <div class="f12 c32 text-right">2</div>
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning">
+              <div class="text-center f12 cred">Mobile Number is required</div>
+            </div> 
+            <p class="f12 c75">Message Count - 2</p>
+            <div class="modal-footer pd158">
+              <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" data-dismiss="modal">Send</button>
+            </div>           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Message Modal End -->
+
+<!-- Broadcaster Detail -->
+<div class="modal fade p-detailModal" id="exampleModal2" data-backdrop="static" data-keyboard="false" *ngIf="clicked">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Broadcast Detail</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)="clearLimit()">
+      </div>
+      <div class="vl22"></div>
+      <div class="modal-body pd10205">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <p class="f14 c75 mb5">Title</p>
+            <p class="f14 c32 bold">{{currentData1.title | titlecase }}</p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <p class="f14 c75 mb5">Date</p>
+            <p class="f14 c32 bold">{{currentData1.created | date: 'd MMM y h:mm a'}}</p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <p class="f14 c75 mb5">Send To</p>
+            <p class="f14 c32 bold" *ngIf="currentData1.send_to == 0">Customer</p>
+            <p class="f14 c32 bold" *ngIf="currentData1.send_to == 1">Partner</p>
+            <p class="f14 c32 bold" *ngIf="currentData1.send_to == 2">Customer, Partner</p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <p class="f14 c75 mb5">Type</p>
+            <p class="f14 c32 bold">
+              <span *ngIf="currentData1.send_message_type == 0">SMS </span>
+              <span *ngIf="currentData1.send_message_type == 1">Email </span>
+              <span *ngIf="currentData1.send_message_type == 2">Notification </span>
+              <span *ngIf="currentData1.send_message_type == 3">Email and SMS </span>
+              <span *ngIf="currentData1.send_message_type == 4">Email and Notification </span>
+              <span *ngIf="currentData1.send_message_type == 5">SMS and Notification </span>
+              <span *ngIf="currentData1.send_message_type == 6">Email, SMS and Notification </span>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <p class="f14 c75 mb5">Message</p>
+            <p class="f14 c32 bold">{{currentData1.message| textSlicer:wordsLimit | titlecase}}<span (click)="extendLimit()" *ngIf="showmore && currentData1.message.length >= wordsLimit" class="f14 c32" style="cursor:pointer">Read More</span></p>
+            <!-- <span (click)="clearLimit()" *ngIf="!showmore" class="f14 c32" style="cursor:pointer"> Read Less</span> -->
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>
+<!-- Broadcaster Detail Modal End -->

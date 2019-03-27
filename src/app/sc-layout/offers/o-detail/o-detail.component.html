@@ -1,0 +1,272 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<!-- <div class="s-partner offerDetail card minheight2" *ngIf="dataLoaded == 1">
+  <p class="f14 c32 bold">Offer Detail</p>
+  <hr>
+  <div class="card-body">
+    <div class="row" *ngIf="show==1">
+      <div class="col-lg-11 col-md-11"></div>
+      <div class="col-lg-1 col-md-1 text-right mb18">
+        <div class="dropdown">
+          <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenuOffer" class="imagemenuOffer" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+          <div class="dropdown-menu offertranform pd-0"> 
+            <div class="dropdwn col-lg-12" (click)="EditOffer()">         
+              <a class="dropdown-item" class="f12 c75 edit"  >Edit<img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="switch" class="detailimg2"></a>
+            </div> 
+            <div class="dropdwn1 col-lg-12">
+              <a class="dropdown-item" class="f12 c75" href="#exampleModal" data-toggle="modal" >Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="detailimg3"></a>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30">
+          <p class="f14 c75 mb5">Title</p>
+          <p class="f14 c32 bold">{{offer.title | titlecase}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30">
+          <p class="f14 c75 mb5">Starting On</p>
+          <p class="f14 c32 bold">{{offer.starting_date | date:'dd MMM yyyy'}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30">
+          <p class="f14 c75 mb5">Expiring On</p>
+          <p class="f14 c32 bold">{{offer.expiry_date | date:'dd MMM yyyy'}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30">
+          <p class="f14 c75 mb5">Cities</p>
+          <p class="f14 c32 bold">{{all_cities | titlecase}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30">
+          <p class="f14 c75 mb5">Services</p>
+          <p class="f14 c32 bold">{{all_services | titlecase}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Promocode</p>
+          <p class="f14 c32 bold uppercase">{{offer.promocode}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Discount Value</p>
+          <p class="f14 c32 bold" *ngIf="offer.offer_type == 0">{{offer.discount_value}}&nbsp;%</p>
+          <p class="f14 c32 bold" *ngIf="offer.offer_type == 1">Rs {{offer.discount_value}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Min Bill Amt</p>
+          <p class="f14 c32 bold">Rs {{offer.min_bill_amount}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Max Discount Amt</p>
+          <p class="f14 c32 bold">{{offer.max_discount_amount}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">User Type</p>
+          <p class="f14 c32 bold" *ngIf="offer.user_type == 0">New Users</p>
+          <p class="f14 c32 bold" *ngIf="offer.user_type == 1">All Users</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Created By</p>
+          <p class="f14 c32 bold">{{offer.admin_name | titlecase}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Created At</p>
+          <p class="f14 c32 bold">{{offer.created | date: 'd MMM y h:mm a'}}</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+          <p class="f14 c75 mb5">Modified At</p>
+          <p class="f14 c32 bold" *ngIf="offer.modified != '0000-00-00 00:00:00'">{{offer.modified | date: 'd MMM y h:mm a'}}</p>
+          <p class="f14 c32 bold" *ngIf="offer.modified == '0000-00-00 00:00:00'">Not Modified</p>
+        </div>
+      </div>
+      <div class="description mt30 ml30">
+        <p class="f14 c75 mb5">Description</p>
+        <p class="f14 c32 bold mb5">{{offer.description | titlecase}}</p>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="s-partner offerDetail card minheight2">
+    <p class="f14 c32 bold">Offer Detail</p>
+    <hr>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-11 col-md-11"></div>
+        <div class="col-lg-1 col-md-1 text-right mb18">
+          <div class="dropdown">
+            <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenuOffer" class="imagemenuOffer" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+            <div class="dropdown-menu offertranform pd-0"> 
+              <div class="dropdwn col-lg-12" routerLink="eOffer" routerLinkActive="active">         
+                <a class="dropdown-item" class="f12 c75 edit"  >Edit<img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="switch" class="detailimg2"></a>
+              </div> 
+              <div class="dropdwn1 col-lg-12"  href="#exampleModal" data-toggle="modal">
+                <a class="dropdown-item" class="f12 c75" >Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="detailimg3"></a>
+              </div>
+            </div>
+            </div>
+        </div>
+      </div>
+      <!-- <div class="restaurantdetail col-lg-12">
+        <div class="row">
+          <div class="col-lg-5 col-md-5">
+            <img src="../../../../assets/icons/624878906-612x612.jpg" alt="Offer" class="offerdimg">
+          </div>
+          <div class="col-lg-7 col-md-7">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Title</p>
+                <p class="f14 c32 bold">Diwali Sale</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Starting On</p>
+                <p class="f14 c32 bold">21 Aug 2018</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Expiring On</p>
+                <p class="f14 c32 bold">21 Aug 2018</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Promocode</p>
+                <p class="f14 c32 bold uppercase">ABCDEF</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Discount Value</p>
+                <p class="f14 c32 bold" >20%</p>
+                <p class="f14 c32 bold" >Rs. 20</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Min Bill Amt</p>
+                <p class="f14 c32 bold">Rs. 30</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Max Discount Amt</p>
+            <p class="f14 c32 bold">Rs. 60</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">User Type</p>
+            <p class="f14 c32 bold">New Users</p>
+            <p class="f14 c32 bold">All Users</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Created By</p>
+            <p class="f14 c32 bold">John Doe</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Created At</p>
+            <p class="f14 c32 bold">23 Aug 2018</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Modified At</p>
+            <p class="f14 c32 bold">23 Aug 2018</p>
+            <p class="f14 c32 bold">Not Modified</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Restaurants</p>
+            <p class="f14 c32 bold">1947, Taj</p>
+          </div>
+        </div>
+        <div class="description mt30 ml30">
+          <p class="f14 c75 mb5">Description</p>
+          <p class="f14 c32 bold mb5">offerdescription titlecase</p>
+        </div>
+      </div> -->
+      <div class="servicedetail col-lg-12">
+        <div class="row">
+          <div class="col-lg-5 col-md-5">
+            <img src="../../../../assets/icons/624878906-612x612.jpg" alt="Offer" class="offerdimg">
+          </div>
+          <div class="col-lg-7 col-md-7">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Title</p>
+                <p class="f14 c32 bold">Diwali Sale</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Starting On</p>
+                <p class="f14 c32 bold">21 Aug 2018</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <p class="f14 c75 mb5">Expiring On</p>
+                <p class="f14 c32 bold">21 Aug 2018</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Promocode</p>
+                <p class="f14 c32 bold uppercase">ABCDEF</p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Discount Value</p>
+                <p class="f14 c32 bold" >20%</p>
+                <!-- <p class="f14 c32 bold" >Rs. 20</p> -->
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 mt30">
+                <p class="f14 c75 mb5">Min Bill Amt</p>
+                <p class="f14 c32 bold">Rs. 30</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Max Discount Amt</p>
+            <p class="f14 c32 bold">Rs. 60</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">User Type</p>
+            <p class="f14 c32 bold">New Users</p>
+            <!-- <p class="f14 c32 bold">All Users</p> -->
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Created By</p>
+            <p class="f14 c32 bold">John Doe</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Created At</p>
+            <p class="f14 c32 bold">23 Aug 2018</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Modified At</p>
+            <p class="f14 c32 bold">23 Aug 2018</p>
+            <!-- <p class="f14 c32 bold">Not Modified</p> -->
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 ml30 mt30">
+            <p class="f14 c75 mb5">Cities</p>
+            <p class="f14 c32 bold">Raipur, Raigarh</p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 ml30 mt30">
+            <p class="f14 c75 mb5">Services</p>
+            <p class="f14 c32 bold">AC Repairing, CPU Repairing</p>
+          </div>
+        </div>
+        <div class="description mt30 ml30">
+          <p class="f14 c75 mb5">Description</p>
+          <p class="f14 c32 bold mb5">offerdescription titlecase</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Modal Delete -->
+<div class="modal fade cityModal" id="exampleModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Delete This Offer?</p>
+        <p class="text-center f12 c75">If you delete any offer, then it will also delete existing user data, existing customers, orders, partners, etc. corresponding to that city.</p>   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser()">Sure, Delete It</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal End -->

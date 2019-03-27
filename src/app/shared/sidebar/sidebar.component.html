@@ -1,0 +1,43 @@
+<div class="sidebar sticky-top sticky-offset pdr0">
+    <a class="bold f22 cblue logoheading" href=""><img src="assets/logo/blue_bg_logo_200x200.png" alt="Logo" class="logo"> Service Clap</a>
+    <div class="row user-panel mrt16">
+        <div class="col-lg-4 col-md-4 superadmin">
+        <img  src="{{profile_image}}"  (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/icons/user (1).svg';" src="" class="rounded-circle" alt="User Image" routerLink="/myAccount">
+        </div> 
+        <div class="col-lg-6 col-md-6">
+            <div class="row"> 
+                <div class="col-lg-12">
+                    <button type="button" class="btn accountbtn pd-0 f14 c32 bold btransparent mb0" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{profileName | titlecase}}
+                        <img src="../../../assets/icons/arrow-down-sign-to-navigate.svg" alt="Arrow" class="arrow1">
+                    </button>
+                        <!-- <a class="dropdown-toggle"><span class="bold">John Doe</span></a> -->
+                        <div>
+                            <span *ngIf="user_type == '0'" class="f14 c32">Superadmin</span>
+                        </div> 
+                        <div>
+                            <span *ngIf="user_type == '1'" class="f14 c32">Admin</span>
+                        </div>
+                        <div class="dropdown-menu pd-0">
+                            <a class="dropdown-item" routerLink="/myAccount"><img src="assets/icons/user (5).svg"> My Account</a>
+                            <a class="dropdown-item" (click)="logout()"> <img src="assets/icons/power.svg" alt="Logout"> Logout</a>
+                        </div> 
+                </div>
+            </div> 
+            <!-- <span *ngIf="user_type == '0'" class="f14 c32">Superadmin</span>
+            <span *ngIf="user_type == '1'" class="f14 c32">Admin</span> -->
+            <!-- <button class="btn pd-0 f14 c32 bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{username}}
+            <img src="../../../assets/icons/arrow-down-sign-to-navigate.svg" alt="Arrow" class="arrow1">
+            </button>
+        <span *ngIf="user_type == '0'" class="f14 c32">Superadmin</span>
+        <span *ngIf="user_type == '1'" class="f14 c32">Admin</span>
+        <div class="dropdown-menu pd-0">
+            <a class="dropdown-item" routerLink="/myAccount"><img src="assets/icons/user (5).svg" alt="My Account"> My Account</a>
+            <a class="dropdown-item" (click)="logout()"> <img src="assets/icons/power.svg" alt="Logout"> Logout</a>
+        </div> -->
+        </div>
+    </div>
+    <ul class="nav navbar-nav sidebar-menu pdr14" *ngFor="let sidemenu of sidemenus">                
+        <li class="nav-item d-flex justify-space-between" (click)="call()" *ngIf="sidemenu.user_type !='1'" routerLinkActive="active current" routerLink="{{sidemenu.path}}" > <a><img src="{{sidemenu.imageUrl}}" alt="{{sidemenu.alt}}"> <span class="nav-label">{{sidemenu.label}}</span></a> <div class="badge1 bEA cwhite f8 text-center {{sidemenu.hidden}}">20</div> </li>
+        <!-- <li class="nav-item" (click)="call()" *ngIf="sidemenu.user_type !='1'" routerLinkActive="active current" routerLink="{{sidemenu.path}}"><a sidemenu.rla="routerLinkActive"><img id="re" [src]="sidemenu.rla.isActive ? 'sidemenu.imageUrl1' : 'sidemenu.imageUrl'" alt="{{sidemenu.alt}}"/><span class="nav-label">{{sidemenu.label}}</span></a></li> -->
+    </ul>
+</div>

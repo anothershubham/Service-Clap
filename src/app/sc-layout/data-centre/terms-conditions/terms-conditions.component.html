@@ -1,0 +1,223 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="datacentre" *ngIf="dataLoaded == 1">
+  <div class="homeslider container-fluid">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 mb18 addnew"> 
+        <a class="btn btnFilter f12 b008 bold pd833" id="openModal" (click)="openModal()"  href="#exampleModal" data-toggle="modal"><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+        <span *ngIf="show==1">
+        <span class="f14 c75" *ngIf="PartnerCondition.length > 10">Showing {{ ((currentPage-1) * itemsPerPage)+1 }} - {{ totalLength }} of {{PartnerCondition.length}}</span>
+        </span>
+        <span *ngIf="show==2">
+        <span class="f14 c75" *ngIf="CustomerCondition.length > 10">Showing {{ ((currentPage1-1) * itemsPerPage1)+1 }} - {{ totalLength1 }} of {{CustomerCondition.length}}</span>
+        </span>
+      </div>
+      <div class="col-lg-6 col-md-6 mb18" *ngIf="data.length >0">
+        <form class="form-inline float-right">
+          <input class="form-control mr-sm-2 f14 cac" type="search" (input)="searchPanel(show,$event.target.value)" placeholder="Search" [(ngModel)]="filterText" id="search" [ngModelOptions]="{standalone: true}"  [value]="filterText" aria-label="Search">
+          <img src="assets/icons/magnify - Copy.svg" alt="Search">
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-2 mb18 addnew" id="partner" (click)="partner_tab()">
+        <a class="btn cblue bwhite f12 bold w-85 pd1033 bdblue" [ngClass]="{'active1': this.show == 1}">Partners</a>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 mb18 pdl0" id="cust"  (click)="customer_tab()">
+        <button type="button" class="btn bwhite bold w-85 f12 cblue bdblue" [ngClass]="{'active1': this.show == 2}">Customers</button>        
+      </div>
+    </div>
+    <div class="tc-panel" *ngIf="show==1">
+      <mat-accordion *ngFor="let list of PartnerCondition | category: {title: filterText,content:filterText} | paginate: { itemsPerPage:10 , currentPage: p };let i=index;" >
+        <mat-expansion-panel [expanded]="step === 0" class="bfa mb18">
+          <mat-expansion-panel-header><p class="mb0 f14 bold c32">{{list.title | titlecase}}</p></mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-9">
+              <p class="f12 c75">{{list.content | titlecase}}</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 tc-panel1 text-right">
+              <button class="btn editBtn" href="#exampleModal1" (click)="EditpopUp(list)" data-toggle="modal"><img src="assets/icons/pencil-edit-button (2).svg" alt="Edit" class="egitimg"></button>
+              <button class="btn deleteBtn" href="#deleteModal" data-toggle="modal" (click)="DeletepopUp(list.code)"><img src="assets/icons/rubbish-bin.svg" alt="Delete" class="deleteimg"></button>
+            </div>
+          </div>          
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="col-lg-12 text-center pdt170" *ngIf="PartnerCondition.length ==0 || (data | category: {title: filterText,content:filterText}).length == 0">
+        <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty">
+        <p class="f18 c75">No data</p>
+        
+      </div>
+      <div class="pagination float-right mt18" *ngIf="PartnerCondition.length >10">
+        <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+    </div>
+     
+    </div>
+    <div class="tc-panel" *ngIf="show==2">
+      <mat-accordion *ngFor="let list of CustomerCondition | category: {title: filterText,content:filterText} | paginate: { itemsPerPage: 10, currentPage: p1 };let i=index;">
+        <mat-expansion-panel  [expanded]="step1 === 0" class="bfa mb18">
+          <mat-expansion-panel-header><p class="mb0 f14 bold c32">{{list.title | titlecase}}</p></mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-9">
+              <p class="f12 c75">{{list.content | titlecase}}</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 tc-panel1 text-right">
+              <button class="btn editBtn" href="#exampleModal1" (click)="EditpopUp(list)" data-toggle="modal"><img src="assets/icons/pencil-edit-button (2).svg" alt="Edit" class="egitimg"></button>
+              <button class="btn deleteBtn" href="#deleteModal" data-toggle="modal" (click)="DeletepopUp(list.code)" ><img src="assets/icons/rubbish-bin.svg" alt="Delete" class="deleteimg"></button>
+            </div>
+          </div>          
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="col-lg-12 text-center pdt170" *ngIf="CustomerCondition.length ==0 || (data | category: {title: filterText,content:filterText}).length == 0">
+        <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty"><p class="f18 c75">No data</p>
+      </div>
+      <div class="pagination float-right mt18" *ngIf="CustomerCondition.length > 10">
+        <pagination-controls (pageChange)="p1 = $event;changed1($event)"></pagination-controls>
+    </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Add T&C Modal -->
+<div class="modal fade tc-modal" id="exampleModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add T&C</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group mb15">
+            <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+            <input type="text" id="title" class="form-control f12 c32" placeholder="Enter Title" #title >
+            <div *ngIf="no_title == 1">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning">
+              <div class="text-center f12 cred">Title is required</div>
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="content" class="f14 c32">Content <span class="cred">*</span></label>
+            <textarea name="content" id="content" placeholder="Enter Content" class="form-control f12 c32" #content rows="5"></textarea>
+            <div *ngIf="no_content == 1">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning4">
+              <div class="text-center f12 cred">Content is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <p class="f14 c32 mb5">Valid For</p>
+            <div class="parent">
+                <span class="">
+                  <label class="container2 f12 c32" routerLinkActive="active current">Partners
+                      <input type="radio" name="radio" id="chk" (click)="validFor(0)">
+                      <span class="checkmark"></span>
+                  </label>
+                </span>
+                <span class="">
+                  <label class="container2 f12 c32">Customers
+                      <input type="radio"name="radio" id="chk1" (click)="validFor(1)">
+                      <span class="checkmark"></span>
+                  </label>
+                </span>
+                <span class="">
+                  <label class="container2 f12 c32">Both
+                    <input type="radio"name="radio" id="chk2" (click)="validFor(2)">
+                    <span class="checkmark"></span>
+                  </label>
+                </span>
+            </div>
+            <div *ngIf="not_valid == 1">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning1">
+              <div class="text-center f12 cred">This is required.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" [attr.data-dismiss]="tandc" (click)="AddTermsandCondition(title.value,content.value)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add T&C Modal End -->
+
+<!-- Edit T&C Modal -->
+<div class="modal fade tc-modal" id="exampleModal1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Edit T&C</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group mb15">
+            <label for="title" class="f14 c32">Title <span class="cred">*</span></label>
+            <input type="text" id="edittitle" class="form-control f12 c32" placeholder="Diwali Sale" #editTitle value="{{editList.title}}" (input)="ChangeInData($event.target.value)" (click)="previousData(editTitle.value)">
+            <div *ngIf="no_title == 1">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning2">
+              <div class="text-center f12 cred">Title is required</div>
+           </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="content" class="f14 c32">Content</label>
+            <textarea name="content" id="editcontent" placeholder="Enter Content" class="form-control f12 c32" rows="5" #editContent value="{{editList.content}}" (input)="ChangeInData($event.target.value)" (click)="previousData(editContent.value)"></textarea>
+            <div *ngIf="no_content == 1">
+              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning3">
+              <div class="text-center f12 cred">Content is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <p class="f14 c32 mb5">Valid For</p>
+            <div class="parent">
+                <span class="">
+                  <label class="container2 f12 c32" routerLinkActive="active current">Partners
+                    <input type="radio" name="radio" id="pat" (click)="EditvalidFor(0)" >
+                    <span class="checkmark"></span>
+                  </label>
+                </span>
+                <span class="">
+                  <label class="container2 f12 c32">Customers
+                    <input type="radio" name="radio" id="cus" (click)="EditvalidFor(1)">
+                    <span class="checkmark"></span>
+                  </label>
+                </span>
+                <span class="">
+                  <label class="container2 f12 c32">both
+                    <input type="radio" name="radio" id="both" (click)="EditvalidFor(2)">
+                    <span class="checkmark"></span>
+                  </label>
+                </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" [disabled]="changes==0 && anotherChange ==0" [attr.data-dismiss]="Edittandc"  (click)="UpdateTermsAndCondition(editTitle.value,editContent.value)">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit T&C Modal End -->
+
+<div class="modal fade cityModal" id="deleteModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Delete The Terms And Conditon?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteIt()">Sure, Delete It</button>
+      </div>
+    </div>
+  </div>
+</div>

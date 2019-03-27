@@ -1,0 +1,117 @@
+<div class="d-panel card minheight1" style="cursor:default !important" *ngIf="dataLoaded==1">
+  <p class="f16 c32 bold">Customers</p>
+  <hr>
+  <!-- <div class="noData d-image text-center pdtb">
+    <img src="../../../../assets/icons/empty-folder.svg" alt="empty">
+    <p class="cac f22">No Data</p>
+  </div> -->
+  <div class="card-body pd-0">
+    <div class="row" >
+      <div class="col-lg-6 col-md-6 mb18">
+        <a class="btn btnFilter f14 b008 bold" href="#myModal" data-toggle="modal" (click)="openFilterModal()">Filter</a>
+        <span class="f14 c75" *ngIf="filterType == 1">Result of Today</span>
+        <span class="f14 c75" *ngIf="filterType == 2">Result of Last 30 Days</span>
+        <span class="f14 c75" *ngIf="filterType == 3">Result of Last 7 Days</span>
+        <span class="f14 c75" *ngIf="filterType == 4">Result of Yesterday</span>
+        <span class="f14 c75" *ngIf="filterType == 5">Result from {{this.fdate | date:'dd MMM yyyy'}} to {{this.tdate | date:'dd MMM yyyy'}}</span>
+        <span class="f14 c75" class="f14 c75" *ngIf="customers.length >12">{{ ((currentPage-1) * itemsPerPage)+1 }} - {{ totalLength }} of {{customers.length}}</span>
+        <a class="btn btnFilter mrl18 f14 b008 bold" *ngIf="filterType != 0" (click)="clearFilterModal()" >Clear Filter</a>
+      </div>
+      <div class="col-lg-6 col-md-6 mb18" *ngIf="customers.length !=0">
+        <form class="form-inline float-right">
+          <input class="form-control mr-sm-2 f14 cac" type="search" placeholder="Search" [(ngModel)]="filterText" id="search" [ngModelOptions]="{standalone: true}" [value]="filterText" (input)="sdf($event.target.value)" aria-label="Search">
+          <img src="../../../../assets/icons/magnify - Copy.svg" alt="Search" style="cursor:pointer">
+        </form>
+      </div>
+    </div>
+    <div class="row d-customers">
+      <div class="col-lg-3 col-md-3 col-sm-6 mb18 outline" *ngFor="let d_customer of 
+      (customers | category: {name: filterText,mobile: filterText,city_label: filterText}) | paginate: { itemsPerPage: 12, currentPage: p };let i =index" routerLink="/customer/cDetails/{{d_customer.code}}">
+        <div class="card bfa">
+          <div class="card-body pd-0">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 pt4 d-image1 text-center">
+                <img src="{{d_customer.profile_image_url}}" alt="user" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='../../../../assets/icons/user (1).svg';" >
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 pad0 pl0">
+                <span class="f14 bold c32 wrap">{{d_customer.name | titlecase}}</span><br>
+                <span class="f14 c75">{{d_customer.mobile}}</span><br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 text-center r" *ngIf="customers.length ==0 || (customers | category: {name: filterText,mobile: filterText,city_label: filterText}).length == 0">
+          <div class="text-center c75 pdt120"><img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty">No Data</div>
+      </div>    
+    </div>
+    <div class="f14 cac pagination float-right" *ngIf="customers.length >12">
+      <!-- <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link cac" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link cac" href="#">1</a></li>
+          <li class="page-item active">
+            <a class="page-link cac" href="#">2</a>
+          </li>
+          <li class="page-item"><a class="page-link cac" href="#">3</a></li>
+          <li class="page-item"><a class="page-link cac" href="#">4</a></li>
+          <li class="page-item"><a class="page-link cac" href="#">5</a></li>
+          <li class="page-item">
+            <a class="page-link cac" href="#">Next</a>
+          </li>
+        </ul>
+      </nav> -->
+      <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title f14 c32 bold">Filter</p>
+            <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+          </div>
+          <div class="vl30"></div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1" class="f14 c32">Date Type</label>
+                <select class="form-control f12 c32" id="exampleFormControlSelect1" (change)="ChooseDate($event.target)">
+                  <option *ngFor="let date of dates" class="f12 c32" value="{{date.code}}">{{date.type}}</option>
+                </select>
+              </div>
+              <div *ngIf="showCustom == 1">
+                <div class="form-group relative">
+                  <label for="fromDate" class="f14 c32">From Date</label>
+                  <input type="text" placeholder="DD-MMM-YYYY" id="fromDate" (focus)="CheckInput('fromDate')" class="form-control f12 c32" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="left">
+                  <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" class="calendar2" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="right">
+                  <div *ngIf="f_date ==1">
+                    <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="c-warningimg">
+                    <div class="text-center f12 cred">From date is required.</div>
+                  </div>
+                </div>              
+                <div class="form-group relative">
+                  <label for="toDate" class="f14 c32">To Date</label>
+                  <input type="text" placeholder="DD-MMM-YYYY" id="toDate" (focus)="CheckInput('toDate')" class="form-control f12 c32" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="left">
+                  <img src="../../../../assets/icons/calendar (1).svg" alt="calendar" id="toDate" class="calendar2" bsDatepicker [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY', containerClass: 'theme-blue' }" placement="right">
+                  <div *ngIf="t_date ==1">
+                    <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="c-warningimg">
+                    <div class="text-center f12 cred">{{errorMessage}}</div>
+                  </div>
+                  <!-- <div class="text-center f12 cred">From date and To date cannot be same.</div>
+                  <div class="text-center f12 cred">From date cannot be greater than To date.</div> -->
+                </div>                
+              </div> 
+            </form>            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn f12 bE6 btnCancel bold text-right" (click)="clearForm()" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn f12 b008 btnOk bold text-right" (click)="FilterData()" [attr.data-dismiss]="filtercloseModal" >Ok</button>
+          </div>
+      </div>
+    </div>
+</div>

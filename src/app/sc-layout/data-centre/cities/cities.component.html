@@ -1,0 +1,134 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="datacentre" *ngIf="dataLoaded == 1">
+  <div class="homeslider">
+    <div class="row addnew">
+        <div class="col-lg-6 col-md-6 mb18">
+          <a class="btn btnFilter f12 b008 bold"  id="openModal" (click)="AddlocationForm()"  data-toggle="modal" data-target="#myModal" ><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+          <span class="f14 c75" *ngIf="CityCard.length >10">{{ ((currentPage-1) * itemsPerPage)+1 }} - {{ totalLength }} of {{CityCard.length}}</span>
+        </div>
+        <div class="col-lg-6 col-md-6 mb18" *ngIf="CityCard.length !=0">
+          <form class="form-inline float-right">
+            <input class="form-control mr-sm-2 f14 cac" type="search" placeholder="Search City" aria-label="Search" [(ngModel)]="filterText" id="search1" [ngModelOptions]="{standalone: true}"  [value]="filterText">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search">
+          </form>
+        </div>
+    </div>
+    <div class="row citycard">
+      <div class="col-lg-6 col-md-6 col-sm-6 cityhover mb18" *ngFor="let Citycard of CityCard | category: {city_label: filterText,created:filterText} | paginate: { itemsPerPage: 10, currentPage: p } ;let i = index;">
+        <div class="card bfa" [ngClass]="{'bcc': Citycard.city_status===0}">
+          <div class="row card-body" >
+            <div class="col-lg-4 col-md-4"><span class="f14 c32 bold">{{Citycard.city_label | titlecase}}</span></div>
+            <div class="col-lg-4 col-md-4 pd-0 text-center"><span class="f12 c6a">{{Citycard.created | date:'dd MMM yyyy'}} {{Citycard.created | date:'shortTime'}}</span></div>
+            <div class="col-lg-4 col-md-4 text-right">
+              <div class="row">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">
+                      <img src="assets/icons/menu (2).svg" alt="menu" *ngIf="CityCard.length>1" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-menu pd-0">
+                          <div class="dropdwn2">
+                            <a class="dropdown-item" (click)="toggle(Citycard.code,Citycard.city_status,i)"  href="#blockUser" data-toggle="modal" class="f12 c75"><span *ngIf="Citycard.city_status == 1">Disable</span><span *ngIf="Citycard.city_status == 0">Enable</span>
+                              <label class="switch1" *ngIf="Citycard.city_status == 0">
+                                <input type="checkbox" id="block{{i}}" [checked]="false"   >
+                                <span class="slider11 round11"></span>
+                              </label>
+                              <label class="switch1" *ngIf="Citycard.city_status == 1">
+                                <input type="checkbox" id="block{{i}}" [checked]="Citycard.city_status == 1" href="#blockUser" (click)="toggle(Citycard.code,Citycard.city_status,i)" data-toggle="modal" >
+                                <span class="slider11 round11"></span>
+                              </label>
+                          </a>
+                          </div>
+                          <div class="dropdwn3" href="#deleteCity" data-toggle="modal" (click)="delete_pop_Up(Citycard.code)">
+                            <a class="dropdown-item"  class="f12 c75">Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete"></a>
+                          </div>              
+                        </div>
+                </div>
+              </div>              
+            </div>  
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 text-center pdt170" *ngIf="CityCard.length ==0 || (CityCard | category: {city_label: filterText,created:filterText}).length == 0">
+          <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty"><p class="c75 f18">No data</p>
+      </div>
+    </div>
+    <div class="pagination float-right" *ngIf="CityCard.length >10">
+        <pagination-controls (pageChange)="p = $event;changed($event)"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade cityModal" id="myModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content min-ht300">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add City</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl7"></div>
+      <div class="modal-body">              
+        <form>             
+          <div class="form-group">
+            <label for="title" class="f14 c32">Find City</label>
+            <input placeholder="Search and Find City" autocorrect="off" autocapitalize="off" aria-label="Search" spellcheck="off"  type="text" class="form-control mr-sm-2 f12 c32" id="search" #search [formControl]="searchControl" (keyup.enter)="doSomething($event)">
+            <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" >
+              <agm-marker [latitude]="latitude" [longitude]="longitude" ></agm-marker>
+            </agm-map> -->
+            <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+            <img src="assets/icons/magnify - Copy.svg" alt="Search">
+          </div> 
+        </form> 
+        <div class="row">
+          <div *ngFor="let addcity of addCity;let i=index;">
+            <button type="button" [ngClass]="{'blink_me': this.blink === 1,'unblink_me': this.blink === 0}" class="btn citybtn f14 cblue"  id="city{{addcity.code}}">{{addcity.city_label}}<span aria-hidden="true" class="span f14 cblue"><a (click)="remove(i)"><img src="assets/icons/letter-x - Copy.svg" alt="letter" class="letterx"></a></span></button>
+          </div>
+        </div>   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 btnOk text-right" [attr.data-dismiss]="city" (click)="addCityLocation()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal End -->
+<div class="modal fade cityModal" id="blockUser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure You Want To {{blockmessage}} This City?</p>
+          <!-- <p class="text-center f12 c75">If you delete any service, then it will also delete existing user data, existing customers, orders, partners, etc. corresponding to  city.</p>    -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser()">Sure,{{blockmessage}} it</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade cityModal" id="deleteCity" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Delete This City?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteIt()">Sure, Delete It</button>
+      </div>
+    </div>
+  </div>
+</div>
+  

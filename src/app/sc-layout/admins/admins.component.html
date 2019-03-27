@@ -1,0 +1,499 @@
+<div id="status" *ngIf="!isConnected">
+    <div _ngcontent-c1="" class="nointernet"><div _ngcontent-c1="" class="row"><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div><div _ngcontent-c1="" class="col-lg-4 col-md-4 pd-0 text-center"><div _ngcontent-c1="" class="card"><div _ngcontent-c1="" class="card-text"><p _ngcontent-c1="" class="mb-10 bold f14">No Internet Connection</p></div></div></div><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div></div></div>
+</div>
+
+<link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet" >
+<div class="s-partner card minheight" *ngIf="dataLoaded == 1" >
+  <p class="f14 c32 bold">Admins</p>
+  <hr>
+   <!-- <div class="noData d-image text-center pd180" *ngIf="Customers.length==0" >
+      <img src="assets/icons/empty-folder.svg" alt="empty">
+      <p class="c75  f22">No Data</p>
+   
+  </div>  -->
+  <!-- (click)="togggleButton1()" (click)="togggleButton()" -->
+  <div class="card-body pd-0">
+    <div class="row"> 
+      <div class="col-lg-6 col-md-6 mb18">
+        <a class="btn btnlist" href="#myModal" data-toggle="modal" (click)="changelistView()" [ngClass]="{'active1' : listView}" (click)="togggleButton1()"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="511.626px" height="511.626px" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"   
+          xml:space="preserve" class="list"> 
+       <g>  
+         <g>
+           <path d="M63.953,164.453H9.135c-2.474,0-4.615,0.9-6.423,2.709C0.903,168.972,0,171.114,0,173.589v54.817
+             c0,2.473,0.903,4.619,2.712,6.424c1.809,1.803,3.949,2.712,6.423,2.712h54.818c2.474,0,4.615-0.905,6.423-2.712
+             c1.809-1.809,2.712-3.951,2.712-6.424v-54.817c0-2.475-0.904-4.617-2.712-6.427C68.568,165.356,66.427,164.453,63.953,164.453z"/>
+           <path d="M63.953,383.722H9.135c-2.474,0-4.615,0.896-6.423,2.707C0.903,388.238,0,390.378,0,392.854v54.82
+             c0,2.471,0.903,4.609,2.712,6.42c1.809,1.813,3.949,2.714,6.423,2.714h54.818c2.474,0,4.615-0.903,6.423-2.714
+             c1.809-1.807,2.712-3.949,2.712-6.42v-54.82c0-2.477-0.904-4.616-2.712-6.426C68.568,384.625,66.427,383.722,63.953,383.722z"/>
+           <path d="M63.953,274.082H9.135c-2.474,0-4.615,0.91-6.423,2.714S0,280.749,0,283.22v54.815c0,2.478,0.903,4.62,2.712,6.427
+             c1.809,1.808,3.949,2.707,6.423,2.707h54.818c2.474,0,4.615-0.896,6.423-2.707c1.809-1.807,2.712-3.949,2.712-6.427V283.22
+             c0-2.471-0.904-4.613-2.712-6.424C68.568,274.989,66.427,274.082,63.953,274.082z"/>
+           <path d="M63.953,54.817H9.135c-2.474,0-4.615,0.903-6.423,2.712S0,61.479,0,63.953v54.817c0,2.475,0.903,4.615,2.712,6.424
+             s3.949,2.712,6.423,2.712h54.818c2.474,0,4.615-0.9,6.423-2.712c1.809-1.809,2.712-3.949,2.712-6.424V63.953
+             c0-2.475-0.904-4.615-2.712-6.424C68.568,55.725,66.427,54.817,63.953,54.817z"/>
+           <path d="M502.49,383.722H118.771c-2.474,0-4.615,0.896-6.423,2.707c-1.809,1.81-2.712,3.949-2.712,6.426v54.82
+             c0,2.471,0.903,4.609,2.712,6.42c1.809,1.813,3.946,2.714,6.423,2.714H502.49c2.478,0,4.616-0.903,6.427-2.714
+             c1.81-1.811,2.71-3.949,2.71-6.42v-54.82c0-2.477-0.903-4.616-2.71-6.426C507.106,384.625,504.967,383.722,502.49,383.722z"/>
+           <path d="M502.49,274.082H118.771c-2.474,0-4.615,0.91-6.423,2.714s-2.712,3.953-2.712,6.424v54.815
+             c0,2.478,0.903,4.62,2.712,6.427c1.809,1.808,3.946,2.707,6.423,2.707H502.49c2.478,0,4.616-0.896,6.427-2.707
+             c1.81-1.807,2.71-3.949,2.71-6.427V283.22c0-2.471-0.903-4.613-2.71-6.424C507.106,274.992,504.967,274.082,502.49,274.082z"/>
+           <path d="M508.917,57.529c-1.811-1.805-3.949-2.712-6.427-2.712H118.771c-2.474,0-4.615,0.903-6.423,2.712
+             s-2.712,3.949-2.712,6.424v54.817c0,2.475,0.903,4.615,2.712,6.424s3.946,2.712,6.423,2.712H502.49c2.478,0,4.616-0.9,6.427-2.712
+             c1.81-1.809,2.71-3.949,2.71-6.424V63.953C511.626,61.479,510.723,59.338,508.917,57.529z"/>
+           <path d="M502.49,164.453H118.771c-2.474,0-4.615,0.9-6.423,2.709c-1.809,1.81-2.712,3.952-2.712,6.427v54.817
+             c0,2.473,0.903,4.615,2.712,6.424c1.809,1.803,3.946,2.712,6.423,2.712H502.49c2.478,0,4.616-0.905,6.427-2.712
+             c1.81-1.809,2.71-3.951,2.71-6.424v-54.817c0-2.475-0.903-4.617-2.71-6.427C507.106,165.356,504.967,164.453,502.49,164.453z"/> 
+         </g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       <g>
+       </g>
+       </svg></a>
+        <a class="btn btngrid" href="#myModal" data-toggle="modal" (click)="changegridView()" [ngClass]="{'active1' : gridView}" (click)="togggleButton()"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" style="enable-background:new 0 0 384 384;" xml:space="preserve" width="512px" height="512px" class="grid" >
+          <g>  
+            <g>
+              <g>
+                <rect x="213.333" y="0" width="170.667" height="128"/>
+                <rect x="0" y="0" width="170.667" height="213.333"/>
+                <rect x="0" y="256" width="170.667" height="128"/>
+                <rect x="213.333" y="170.667" width="170.667" height="213.333"/>
+              </g>
+            </g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g>
+          <g>
+          </g> 
+          <g>
+          </g>  
+        </svg></a>
+        <!-- <span class="f14 c75" *ngIf="Customers.length >= ">
+          
+          Showing {{ initial }} - {{ max }} of {{ Customers.length }}
+      </span>  -->
+      <span class="f14 c75" *ngIf="Customers.length >= 10" >
+         
+       Showing {{ ((currentPage1-1) * itemsPerPage)+1 }} - {{ max1 }} of {{ Customers.length }}
+      </span>
+      </div> 
+      <div class="col-lg-6 col-md-6 mb18">
+        <form class="form-inline float-right" *ngIf="Customers.length >= 1">
+          <input class="form-control mr-sm-2 f14 cac" type="text" type="search" placeholder="Search" name="search"  [(ngModel)]="filter">
+          <img src="assets/icons/magnify - Copy.svg" alt="Search">
+       
+        </form> 
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-2 mb18 addnew"> 
+        <a class="btn btnFilter f12 b008 bold pd833" id="openModal" href="#exampleModal1" data-toggle="modal"><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+      </div>  
+ 
+
+      <!-- <div class="col-lg-2 col-md-2 col-sm-2 mb18 pd-0" >
+        <form class="form-inline">
+          <select class="form-control bd cblue f12 bold pd1020" id="exampleSelect1" #city data-hide-disabled="true" data-show-subtext="true" data-live-search="true"(change)="filterByCity($event.target.value)">
+            <option class="f12 bold c75" value="0" selected>All Cities</option>
+            <option class="f12 bold c75" value="{{cities.code}}"  *ngFor="let cities of allCities"> 
+              {{cities.city_label}}</option>
+          </select>
+        </form>
+      </div> -->
+      <div class="col-lg-10 col-md-10 col-sm-10 mb18 addnew" *ngIf="Customers.length >= 1">
+        <button class="btn excelBtnFilter f12 b008 bold float-right"(click)="exportAsXLSX(searchText)">Export to Excel</button>        
+      </div>
+    </div>
+    <div id="table" *ngIf="show==1">
+      <table class="table text-left table-md">
+        <thead>
+          <tr class="bold c32 f14">
+            <th scope="col"></th>
+            <th scope="col">Customer</th>
+            <th scope="col">User Type</th>
+            <th scope="col">Address</th>
+            <th scope="col">Mobile</th>
+             <!-- <th scope="col">City</th>  -->
+            <th scope="col">Email ID</th>
+          </tr>
+        </thead> 
+             
+        <tbody *ngIf="Customers.length !=0">
+          <tr class="f14 c32" routerLink="aDetails/{{nn.code}}" *ngFor="let nn of Customers | filter:filter | paginate: { itemsPerPage:10, currentPage: p }">
+           <td class="text-right"><img src="{{nn.profile_image_url}}"  (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/icons/user (1).svg';"alt="user" class="adminUserImg"></td>
+           <td>{{nn.name | titlecase}}</td> 
+            <td *ngIf="nn.user_type == 0">SuperAdmin</td>
+            <td  *ngIf="nn.user_type == 1">Admin</td>
+            <td class="textwrap"> {{nn.address | titlecase }}</td>
+            <td> {{nn.mobile}}</td> 
+          <!-- <td> {{nn.cities| titlecase}}</td> -->
+            <td> {{nn.email}}</td>
+          </tr>
+          <!-- search for search filter -->
+          <tr *ngIf="Customers.length ==0 || (Customers |filter:filter).length == 0" >
+            <td colspan="7" class="text-center">
+                <img src="assets/icons/empty-folder.svg" alt="empty">
+             No Data Found</td> 
+          </tr>
+          <!-- ends -->
+        </tbody>   
+        <!-- search for cities -->
+        <tbody *ngIf="Customers.length ==0">
+          <tr>
+            <td colspan="7" class="text-center">
+                <img src="assets/icons/empty-folder.svg" alt="empty">
+              No Data
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination float-right mt18 f14 cac">
+        <!-- <nav aria-label="..."> -->
+          <!-- <ul class="pagination"> -->
+            <!-- <li class="page-item disabled"> 
+             
+              
+             <!-- <a class="page-link cac" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link cac" href="#">1</a></li>
+            <li class="page-item active">
+              <a class="page-link cac" href="#">2</a>
+            </li>
+            <li class="page-item"><a class="page-link cac" href="#">3</a></li>
+            <li class="page-item"><a class="page-link cac" href="#">4</a></li>
+            <li class="page-item"><a class="page-link cac" href="#">5</a></li>
+            <li class="page-item">
+              <a class="page-link cac" href="#">Next</a>-->
+            <!-- </li> -->
+          <!-- </ul> -->
+        <!-- </nav> -->
+      </div> 
+    </div>  
+    <div class="noData d-image text-center pd130" *ngIf="((Customers | filter:filter).length == 0)  && gridView ">
+        <img src="assets/icons/empty-folder.svg" alt="empty">
+        <p class="c75 f22">No Data Found</p>
+      </div>
+  
+
+  <div class="row d-customers" *ngIf="show==2">
+    <div class="col-lg-3 col-md-3 col-sm-6 mb18" style="outline:0;"  routerLink="aDetails/{{gg.code}}"       *ngFor="let gg of Customers| filter:filter | paginate: { itemsPerPage: 12, currentPage: p1 }">
+        <div class="card bfa">
+          <div class="card-body pd-0">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 pt4 d-image1 text-center" >
+                  <td><img src="{{gg.profile_image_url}}" onError="this.src='assets/icons/user (1).svg';"alt="user" class="adminUserImg"></td>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 pad0 pl0">
+                <span class="f14 bold c32 wrap">{{gg.name |titlecase}}</span>
+                <span class="f14 bold c32" *ngIf="gg.user_type == 0">SuperAdmin</span>
+                <span class="f14 bold c32" *ngIf="gg.user_type == 1">Admin</span><br>
+                <span class="f12 bold c75">{{gg.mobile}}</span>
+                <!-- <span class="f12 c75 wrap">{{gg.Customer}}</span> -->
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+               
+              
+      
+      <div class="row" >
+        <div  class="col-lg-12 col-md-12" *ngIf="Customers.length>10">
+          <div class="pagination float-right mt18 f14 cac">
+            <!-- <nav aria-label="..."> -->
+              <!-- <ul class="pagination"> -->
+                <!-- <li class="page-item disabled"> -->
+                    <pagination-controls class="page-item disabled" (pageChange)="p = $event;changed($event)"></pagination-controls>
+                  
+                 <!-- <a class="page-link cac" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link cac" href="#">1</a></li>
+                <li class="page-item active">
+                  <a class="page-link cac" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link cac" href="#">3</a></li>
+                <li class="page-item"><a class="page-link cac" href="#">4</a></li>
+                <li class="page-item"><a class="page-link cac" href="#">5</a></li>
+                <li class="page-item">
+                  <a class="page-link cac" href="#">Next</a>-->
+                <!-- </li> -->
+              <!-- </ul> -->
+            <!-- </nav> -->
+          </div>
+        </div>
+      <!-- </div> -->
+   </div>
+ </div>
+</div>
+
+<!-- Modal Add Admin -->
+ <div class="modal fade p-detailModal" id="exampleModal1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add Admin</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl15"></div>
+      <div class="modal-body pd1025">
+        <form [formGroup]="registerForm" (ngSubmit)="addAdmin(registerForm.value)">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="row mb12"> 
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                      <div class="form-group">
+                        <label for="name" class="f14 c32">Name <span class="cred">*</span></label>
+                        <input class="form-control mr-sm-2 f12 c32" formControlName="Name"   type="text" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
+                        <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                            <div *ngIf="f.Name.errors.required"><p class="text-center f12 cred"> Name is required</p></div>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin5">
+
+                        </div>
+                      </div>
+                    </div> 
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="form-group">
+                          <label for="Mobile" class="f14 c32">Mobile <span class="cred">*</span></label>
+                          <input class="form-control mr-sm-2 f12 c32" formControlName="Mobile" type="text" placeholder="Mobile Number" [ngClass]="{ 'is-invalid': submitted && f.Mobile.errors }" (keypress)="keyPress($event)" #mobile minlength=10 maxlength=10  />
+                          <div *ngIf="submitted && f.Mobile.errors" class="invalid-feedback">
+                          <div *ngIf="f.Mobile.errors.required"><p class="text-center f12 cred">Mobile no. is required</p></div>
+                          <div *ngIf="f.Mobile.errors.minlength"  class="text-center f12 cred">Mobile number should be of 10 digit</div>
+                          <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin5">
+
+                          </div>  
+                        </div>
+                  </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                              <label for="Email" class="f14 c32">Email<span class="cred"></span></label>
+                              <input class="form-control mr-sm-2 f12 c32" id="email" formControlName="email" type="text" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" >
+                              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                 
+                                  <div *ngIf="f.email.errors.email"><p class="text-center f12 cred">Email must be a valid email address</p></div>
+                              </div>
+                            </div> 
+                      </div>
+                   <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="address" class="f14 c32">Address</label>
+                       <input class="form-control mr-sm-2 f12 c32" formControlName="address"  type="text" placeholder="Address" >
+                           
+                    </div>
+                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="city" class="f14 c32">City (Residence) <span class="cred">*</span></label>
+                        <input ngx-google-places-autocomplete #places="ngx-places" [options]="{
+                          types: ['(cities)'], 
+                          componentRestrictions: { country: 'IN' }
+                          }"formControlName="city" (focusout)="jj($event)" class="form-control f12 32"    type="text"  [ngClass]="{ 'is-invalid': submitted && f.city.errors }" placeholder="City" >
+                          
+                     
+                        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                            <div *ngIf="f.city.errors.required"><p class="text-center f12 cred">City is required</p></div> 
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin5">
+
+                        </div> 
+                    </div> -->
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                          <label for="city" class="f14  c32">User Type <span class="cred">*</span></label>
+                          <select class="form-control f12 c32" placeholder="User Type" formControlName="user" type="text"  [ngClass]="{ 'is-invalid': submitted && f.user.errors }" (change)="chooseUserType($event.target.value)">
+                              <option type="text" class="f12 c32 bold" value="1">Admin</option>
+                            <option type="text" class="f12 c32 bold" value="0">Superadmin</option>
+                            
+                          </select>
+                          <div *ngIf="submitted && f.user.errors" class="invalid-feedback">
+                              <div *ngIf="f.user.errors.required"><p class="text-center f12 cred">User type is required</p></div>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin6">
+
+                             
+                          </div>
+                    </div>
+                  
+                      <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <div class="form-group">
+                      <label for="name" class="f14 c32">Password <span class="cred">*</span></label>
+                        <input type="{{type}}" class="form-control f12 c32" value="{{password}}" ngModel passwordToggle required (input)="abc($event.target.value)" formControlName="password" type="password" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <img src="../../assets/icons/eye.svg" class="admineye" (click)="passwordShow()">
+                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                  <div *ngIf="f.password.errors.required"><p class="text-center f12 cred"> Password is required</p></div>
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin6">
+
+                              </div>
+
+                        </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                      <label for="name" class="f14 c32">Confirm Password <span class="cred">*</span></label>
+                          <input type="{{typee}}" class="form-control f12 c32" value="{{password}}" (input)="aaa($event.target.value)" (focusout)="cad($event.target.value)" formControlName="confirm_password" type="password" placeholder="Confirm Password" [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }" />
+                          <img src="../../assets/icons/eye.svg" class="admineye5" (click)="passwordShoww()">
+                          <div *ngIf="pwdvalue==1"><p class="text-center f12 cred">Mismatch password</p></div>
+                              <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+                            <img src="../assets/icons/warning (1).svg" alt="warning" class="warningadmin7">
+                          </div>
+
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-lg-12 col-md-12" *ngIf="choose_type == 0 ">
+                        <div class="form-group">
+                          <label for="serviceSelect" class="f14 c32">City Accesible <span class="cred">*</span></label>
+                          <div class="col-lg-12 btn-group pd-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <input type="text" class="form-control f12 c32" id="search" #search placeholder="Select Multiple Cities" [(ngModel)]= "searchText" autocomplete="off" [ngModelOptions]="{standalone: true}">
+                              <div class="dropdown-menu servicesmenu" style="width:100%!important;" (click)="$event.stopPropagation();close()">
+                                  <label class="dropdown-item custom-control custom-checkbox f12 c75" for ="selectAllCities" (click)="selectAllCities()">
+                                      <input type="checkbox" class="custom-control-input f12 c75" tabindex="0" [(ngModel)]="allSelected" id="selectAllCities" (click)="selectAllCities()" [ngModelOptions]="{standalone: true}">
+                                      <label class="custom-control-label f12 c75" for="selectAllCities">Select All</label>
+                                  </label>
+                                  <div id="myDiv21">
+                                  <li *ngFor="let item of allCities | searchFilter : searchText">
+                                      <label class="dropdown-item custom-control custom-checkbox" (onmouseup)="Cityselec(item)">
+                                          <input type="checkbox" class="custom-control-input z f12 c75" [(ngModel)]="item.selected" id="{{item.code}}" (click)="Cityselec(item)" [ngModelOptions]="{standalone: true}">
+                                          <label class="custom-control-label f12 c75" for="{{item.code}}" >{{item.city_label}}</label>
+                                      </label>
+                                  </li>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="text-center f12 cred" *ngIf="y ==1">Cities are required</div>
+                          <img *ngIf="y ==1" src="../assets/icons/warning (1).svg" alt="warning" class="cityaccwarning">
+                        
+                          <div class="col-lg-12">
+                            <div class="row">
+                              <span class="ng-value" *ngFor="let item1 of selected_cities">
+                                  <div class="card bdblue1 mrl15">
+                                      <p class="f14 cblue mb0">{{item1.city_label}}<a (click)="City_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                                    </div>
+                              </span>  
+                          </div>     
+                    </div>
+                  </div>
+               </div>
+               </div>
+            </div>
+            <div class="col-lg-6 col-md-6 form-group">
+                <label for="serviceName" class="f14 c32">Profile Image</label>
+                <div class="row">
+                  <div class="col-lg-3 text-center">
+                    <div class="icon d-imageEdit ht72">
+                      <img src="{{croppedImage}}" alt="picture"onError="this.src='assets/icons/user (1).svg';">
+                    
+                    </div> 
+                  </div>
+                  <div class="col-lg-9"> 
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <label class="btn btn-default f12 c75 be5 ml15" >Choose Image                    
+                          <input  accept="image/*" type="file" (input)="fileChangeEvent($event)" hidden>
+                        </label>
+                      </div> 
+                      <div class="col-lg-6 pdl-0">
+                          <button type="button" class="btn btn-default f12 c75 be5" (click)="removeImage()" *ngIf="croppedImage!=''">Remove Image</button>
+                          <label class="mrb-5" *ngIf="cropped == true && croppedImage != ''">
+                              <!-- <button type="button" class="btn f12 bE6 btnCancel mrl187"    (click)="cancelCropView()" >Crop</button> -->
+                          </label> 
+                            <input  accept="image/*" type="file" (input)="fileChangeEvent($event)" hidden>
+                          </div>
+                      <div class="col-lg-6">
+                        <label class="btn btn-default f12 c75 be5 ml15 pd614"(click)="changeCropView()" *ngIf="cropped !== true && value==1"> 
+                      Recrop Image 
+                      </label>
+                      </div>
+                      
+                      <!-- <div class="col-lg-6 pdl-0">
+                          <button type="button" class="btn btn-default f12 c75 be5" (click)="removeImage()" *ngIf="croppedImage!=''">Remove Image</button>
+                      </div> -->
+                      <!-- <div class="col-lg-6">
+                          <label class="btn btn-default f12 c75 be5 ml15"(click)="changeCropView()" *ngIf="cropped !== true"> 
+                              Recrop Image
+                            </label>
+                      </div> -->
+                      <div class="col-lg-6 text-right">
+                          <label class="mrb-5" *ngIf="cropped == true && croppedImage != ''">
+                              <button type="button" class="btn f12 bE6 btnCancel"    (click)="cancelCropView()" >Crop</button>
+                          </label>
+                      </div>  
+                    </div>
+                    
+                    
+                    
+                  </div>
+                  <div class="modal-body" *ngIf="cropped == true">
+                    <image-cropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="8/8"
+                    [resizeToWidth]="128"  
+                    format="jpeg"
+                    (imageCroppedBase64)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (loadImageFailed)="loadImageFailed()"
+                  class="pd-0"></image-cropper> 
+                 
+                </div> 
+              </div>  
+            </div>
+          </div>
+          
+      </form>
+    </div>  
+            
+      <div class="modal-footer pd101015"> 
+        <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal" (click)="terminate(croppedImage); cropCancelled()">Cancel</button>
+      <button type="button"  class="btn f12 b008 bold btnOk pd723 text-right" [attr.data-dismiss]="useradd" (click)="addAdmin(registerForm.value)" >Add</button>
+      </div>
+    </div> 
+  </div>
+</div> 
+<!-- Add Admin Modal End -->

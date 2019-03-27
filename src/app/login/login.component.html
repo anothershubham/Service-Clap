@@ -1,0 +1,186 @@
+<div id="status" *ngIf="!isConnected">
+    <div _ngcontent-c1="" class="nointernet"><div _ngcontent-c1="" class="row"><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div><div _ngcontent-c1="" class="col-lg-4 col-md-4 pd-0 text-center"><div _ngcontent-c1="" class="card"><div _ngcontent-c1="" class="card-text"><p _ngcontent-c1="" class="mb-10 bold f14">No Internet Connection</p></div></div></div><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div></div></div>
+</div>
+<div class="login">
+  <div class="container-fluid">
+    <div class="row db">
+      <div class="col-lg-12 text-center admin">
+        <p class="bold f38 cwhite">Admin CMS</p>
+      </div>
+    </div>
+    <div class="dn service1">
+      <img src="../../assets/logo/white_bg_logo.png">
+      <span class="bold f38 cwhite">Admin CMS</span>
+    </div>
+    <div class="row">
+      <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 db text-center service">
+      <img src="../../assets/logo/white_bg_logo_300x300.png" class="img-responsive">
+      <div class="caption">
+          <p class="bold f38 cwhite">Service Clap</p>
+        </div> 
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 lginfrm" *ngIf="show == 1">
+       <!-- <form [formGroup]="login" id="login">-->
+       <form [formGroup]="registerForm" (keyup.enter)="loginValidation(registerForm.value)">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 mr-20 text-center form">
+              <img src="../../assets/icons/padlock.svg" class="image1">
+              <p class="bold f28 c32 pd10030">Login</p>
+              <div class="form-group warning relative">
+                <input type="text" class="form-control f12 c32" formControlName="Mobile"  placeholder="Mobile" (keypress)="keyPress($event)" [ngClass]="{ 'is-invalid': submitted && f.Mobile.errors} "    #mobile minlength=10 maxlength=10 />
+                <!--<img src="../../assets/icons/warning (1).svg">-->
+                <!--<div class="texterror">Mobile number should be of 10 digits.</div>-->
+                <div *ngIf="submitted && f.Mobile.errors" class="invalid-feedback f12 cred">
+                <div *ngIf="f.Mobile.errors.required">Mobile number is required</div>
+                <div *ngIf="f.Mobile.errors.minlength">Mobile number should be of 10 digit</div>
+                   <img src="../../assets/icons/warning (1).svg">
+                </div>
+            </div>
+              <div class="form-group warning1 relative">
+                <input type="password"   formControlName="password" ngModel passwordToggle required class="form-control f12 c32"  placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+               
+               <!-- <img src="../../assets/icons/eye.svg">-->
+               <!-- <div class="texterror">Password should be minimum 6 characters.</div>-->
+               <div *ngIf="submitted && f.password.errors" class="invalid-feedback f12 cred">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password should be minimum 6 characters</div>
+                  <img src="../../assets/icons/warning (1).svg">   <!--  <div *ngIf="f.password.errors.minlength"><h6 style="color: rgb(240, 77, 77)">Password should be minimum 6 characters</h6></div>-->
+                  </div>
+              </div>
+              <button type="button"  class="btn cwhite f12 bold" (click)="loginValidation(registerForm.value)">Login <img src="../../assets/icons/right-arrow (2).svg" class="arrow"></button>              
+              <div class="text-center forgot">
+                  <div class="text-center" *ngIf="showAlert == 3">
+                               
+                        <p style="color: firebrick">login failed</p>
+                                 
+                    </div>  
+                <a (click)="move()" class="bold f12">Forgot Password ?</a>
+              </div>
+            </div>
+            <div class="col-lg-2"></div> 
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 lginfrm" *ngIf="show==2">
+          <form [formGroup]="register" (keyup.enter)="frgtPassword(register.value)">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 mr-20 text-center form1">
+              <img src="../../assets/icons/padlock.svg" class="image1">
+              <p class="bold f28 c32 pd10030">Forgot Password</p>   
+              <div class="form-group relative warning">
+               <!-- <input type="text" class="form-control" id="exampleInputNumber"  placeholder="Username (Mobile / Email)">
+                <img src="../../assets/icons/warning (1).svg">
+                <div class="texterror">Mobile number should be of 10 digits.</div>-->
+              
+            <input type="text" class="form-control f12 c32" formControlName="Mobile" placeholder="Mobile" [ngClass]="{ 'is-invalid': subbmitted && f1.Mobile.errors} " (keypress)="keyPress($event)" #mobile minlength=10 maxlength=10   />
+                <div *ngIf="subbmitted && f1.Mobile.errors" class="invalid-feedback f12 cred">
+                 <div *ngIf="f1.Mobile.errors.required">Enter Mobile number</div>
+                <div *ngIf="f1.Mobile.errors.minlength">Mobile number should be of 10 digit</div>
+                <!-- <img src="../../assets/icons/warning (1).svg"> -->
+              </div>
+            </div>
+
+        <button type="button" class="btn cwhite f12 bold" (click)="frgtPassword(register.value)">Send OTP</button>    
+        <div class="text-center" *ngIf="showAlert == 3">
+                               
+            <p style="color: firebrick">Invalid Mobile No</p>
+                     
+        </div>  
+                  
+          <div class="text-center forgot">
+            <a href="#" class="bold f12" (click)="movee()"><img src="../../assets/icons/left-arrow.svg" class="leftarrow"> Back to Login</a> 
+            </div>
+          </div>
+          <div class="col-lg-2"></div>
+          </div>
+        </form>  
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 lginfrm" *ngIf="show==3">
+        <form [formGroup]="registers" (keyup.enter)="verifyOtp(registers.value)">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 mr-20 text-center form"> 
+              <img src="../../assets/icons/padlock.svg" class="image1">
+               <p class="h2 bold f28 c32 pd10030">Verify OTP</p>
+              <p class="c75 f13">Please Enter the 6 digit OTP you received on your Mobile / Email.</p>
+              <div class="form-group warning">
+              <input type="text" class="form-control"  formControlName="Mobile" placeholder="OTP" [ngClass]="{'is-invalid': subbbmitted && f3.Mobile.errors}" (keypress)="keyPress($event)" #mobilee>
+             <div *ngIf="subbbmitted && f3.Mobile.errors" class="invalid-feedback">
+               <!-- <p>hi</p> -->
+                  <div *ngIf="f3.Mobile.errors.required"><p class="f12 cred">OTP Required</p></div>
+                  <!-- <div *ngIf="f3.Mobile.errors.maxlength"><p class="f12 cred">Invalid OTP</p></div> -->
+              </div>
+            </div>  
+            <div class="text-center" *ngIf="showAlert == 3">
+                               
+                <p style="color: firebrick">Invalid OTP</p>
+                         
+            </div>  
+              <button type="button" class="btn bold f12 cwhite verify" (click)="verifyOtp(registers.value)">Verify</button>              
+              <button type="button" class="btn bold f12 cwhite" (click)="resendOtp(registers.value)">Resend OTP</button>               
+                     
+              <div class="text-center forgot">
+                <a href="#" class="bold f12" (click)="movee()"><img src="../../assets/icons/left-arrow.svg" class="leftarrow"> Back to Login</a>
+              </div>
+            </div> 
+            <div class="col-lg-2"></div>
+          </div> 
+        </form> 
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 lginfrm" *ngIf="show==4">
+        <form [formGroup]="validate" (ngSubmit)="resetPwd()">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 mr-20 text-center form">
+              <img src="../../assets/icons/padlock.svg" class="image1">
+              <p class="bold f28 c32 pd10030">Reset Password</p>
+              <div class="form-group">                     
+                <input class="form-control mr-sm-2 f12 c32" ngModel passwordToggle required (input)="abc($event.target.value)" formControlName="password" type="password" placeholder="Enter Password" [ngClass]="{ 'is-invalid': submittedd && f4.password.errors }" />
+                    <div *ngIf="submittedd && f4.password.errors" class="invalid-feedback">
+                       <div *ngIf="f4.password.errors.required"><p style="color: firebrick"> Password is required</p></div>
+                  </div>
+              </div>
+              <div class="form-group">
+                <input class="form-control mr-sm-2 f12 c32" ngModel passwordToggle required (input)="aaa($event.target.value)" (focusout)="cad($event.target.value)" formControlName="confirm_password" type="password" placeholder="Confirm Password" [ngClass]="{ 'is-invalid': submittedd && f4.confirm_password.errors }" />
+                <div *ngIf="pwdvalue==1"><p class="f12 cred">Mismatch Password</p></div>
+                <div *ngIf="submittedd && f4.confirm_password.errors" class="invalid-feedback">
+                    <div *ngIf="f4.password.errors.required"><p style="color: firebrick"> Password is required</p></div>
+                </div>
+              </div>                
+              <button type="button" class="btn cwhite f12 bold" (click)="resetPwd(validate.value)">Reset Password</button>              
+              <div class="text-center forgot">
+                <a href="#" class="bold f12" (click)="movee()"><img src="../../assets/icons/left-arrow.svg" class="leftarrow"> Back to Login</a>
+              </div>
+            </div>
+            <div class="col-lg-2"></div>
+          </div>
+        </form>   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="success" *ngIf="showAlert == 1" style="z-index:auto!important;margin-top:-50%;">
+    <div class="row">            
+      <div class="col-lg-4 col-md-4"></div>
+      <div class="col-lg-4 col-md-4"></div>
+      <div class="col-lg-4 col-md-4 pd-0">
+        <div class="card">
+          <div class="card-text">
+            <p class="mb-10 bold f14"> Reset passwd Success <img (click)="close()" src="assets/icons/checked - Copy.svg" alt="Success"></p>
+          </div>
+          <div class="card-text">
+            <p class="mb-10 f12">{{messageAlert}}</p>  
+          </div>
+        </div>              
+      </div>
+    </div>            
+  </div>
+
+
+
+

@@ -1,0 +1,340 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="datacentre" *ngIf="dataLoaded == 1">
+  <div class="homeslider container-fluid">
+    <div class="row addnew">
+        <div class="col-lg-6 col-md-6 mb18">
+          <!-- <input type="file" id="file" #fileInput class="form-control inputfile" (change)='uploadFile($event)'> -->
+          <a class="btn btnFilter f12 b008" (click)="openPopup()" href="#myModal" data-toggle="modal"><img src="../../../../assets/icons/plus.svg" alt="Add New"> Add New</a>
+          <a class="btn btnFilter f12 b008" style="display:none;" id="swap" (click)="swap()" href="#swapModal" data-toggle="modal"><img src="../../../../assets/icons/plus.svg" alt="Add New">Add New</a>
+        </div>
+        <div class="col-lg-6 col-md-6 mb18" *ngIf="homeSlider.length !=0">
+          <form class="form-inline float-right">
+            <input class="form-control mr-sm-2 f14 cac" type="search" placeholder="Search by Title" aria-label="Search" [(ngModel)]="filterText" id="search1" [ngModelOptions]="{standalone: true}"  [value]="filterText">
+            <img src="../../../../assets/icons/magnify - Copy.svg" alt="Search">
+          </form>
+        </div>
+    </div>
+    <div class="row pd-0">
+      <div title="Move to change priority" class="col-lg-4 col-md-6 col-sm-6  slider1 mb18" style="cursor: grab;" *ngFor="let home of homeSlider | category: {title: filterText}; let i=index">
+        <!-- <div class="container-fluid pd-0"> -->
+          <div id="div1" (drop)="drop($event,i)" (dragover)="allowDrop($event,i)" class="container-fluid pd-0">
+              <img id="drag{{i}}" *ngIf="home.slider_type =='0'" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/images/no_image.png';" src="{{home.image_url}}" class="homeimage" draggable="true" (dragstart)="drag($event,i)" />
+              <div id="drag{{i}}" *ngIf="home.slider_type =='1'" src="" [style.background-color]="home.background_color_code"  class="homeimage" draggable="true" (dragstart)="drag($event)"></div>
+          </div>
+        <!-- <img src="{{home.imageUrl}}" alt="image" class="homeimage"> -->
+        <div class="centered" [style.color]="home.text_color_code" style="align: left; text-align:center;"><p class="f14 bold text-center">{{home.title | titlecase}}</p></div>
+        <button class="btn button editbtn bE6" (click)="EditData(home)" href="#editModal" data-toggle="modal"><img src="assets/icons/pencil-edit-button (2).svg" alt="Edit" class="edit"></button>
+        <button (click)="delete_pop_Up(home.code)" href="#deleteModal" data-toggle="modal" class="btn button deletebtn bE6"><img src="assets/icons/rubbish-bin.svg" alt="Delete" class="delete"></button>
+        <div class="text-center cwhite f14"><span class="b008 num">{{home.priority_number}}</span></div>
+      </div>
+      
+      <div class="col-lg-12 text-center pdt170" *ngIf="homeSlider.length ==0 || (homeSlider | category: {title: filterText}).length == 0">
+          <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty"><p class="c75 f18">No data</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Home Slider Modal -->
+<div class="modal fade d-c-modal" id="myModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add Advertisement</p>
+        <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl70"></div>
+      <div class="modal-body">
+        <p class="f14 c32 mb8">Slider Type *</p>
+        <div class="form-check">
+          <div class="row">
+            <div class="col-lg-3 pd-0">
+              <label class="container2 f12 c32 mb0" routerLinkActive="active current">Image
+                <input type="radio" name="radio" id="optionsRadios1" checked (click)="this.showId=1;this.showAlert =0;this.noText=0">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="col-lg-3 pd-0">
+              <label class="container2 f12 c32 mb0">Custom
+                <input type="radio" name="radio" id="optionsRadios2" (click)="this.showId=2;this.noText=0">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+            
+              
+          <!-- <label class="form-check-label c32 f12" routerLinkActive="active current">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked (click)="toggleId()">Image</label>
+          <label class="form-check-label c32 f12 ml38">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" (click)="toggleId1()">Custom</label> -->
+        </div>
+        
+          <form>             
+            <div class="form-group">
+              <label for="title" class="f14 c32">Title Text<span *ngIf="showId ==1"> (Optional)</span></label>
+              <label for="color" class="f12 c32 be5 float-right color">Text Color 
+                <input readonly id="color" [(cpOutputFormat)]="hex"
+                [style.background]="color1" [(colorPicker)]="color1" 
+                (colorPickerOpen)="onEventCall('colorPickerOpen', $event)" 
+                (cpInputChange)="onEventLog('cpInputChange', $event)" 
+                (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 
+                (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)" style="cursor:pointer"/>
+              </label>              
+              <textarea class="form-control f14 c32" rows="5" id="title" placeholder="Title" maxlength="100" (input)="inputText($event.target.value)" value="{{text}}"></textarea>
+              <span class="pull-right">{{len}}/100</span>
+              <div *ngIf="noText == 1">
+                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescriptionHS">
+                <div class="f12 cred text-center">Text is required</div>
+              </div>
+            </div> 
+          </form>
+          <div *ngIf="showId ==1">
+            <div class="row">
+              <div class="col-lg-5 col-md-6 col-sm-6">
+                <p class="c32 f14" >Slider Image *</p>
+              </div>
+              <div class="col-lg-3">
+                  <!-- <button type="button" *ngIf="cropimage == 0" class="btn btn-default f12 c32 be5 pd621 mb8" (click)="cancelImage()">Remove Image</button> -->
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 text-right">
+                <label class="btn btn-default f12 c32 be5 ml41 pd622">Choose Image<input accept="image/*" type="file" #myInput (change)="fileChangeEvent($event)" hidden></label><br>               
+                
+                <button type="button" class="btn btn-default f12 c32 be5 pd624 mb8" *ngIf="cropimage == 0" (click)="RecropImage()">Recrop Image</button>
+                <button type="button" class="btn f12 bE6 btnCancel mb8" *ngIf="crop == 1" (click)="cropImage()">Crop</button>
+              </div>
+            </div>
+            <div class="drag form-group">
+              <!-- <p class="c32 f14 mb5">Preview</p> -->
+              <div class="col-lg-12 text-center text-danger" *ngIf="showAlert == 1">{{alertMessage}}</div>
+              <div class="">
+                <div class="col-lg-12 relative text-center pd-0">
+                  <div *ngIf="croppedImage.length !=0" style="text-align:center;">
+                    <img [src]="croppedImage" *ngIf="cropimage == 0"/>
+                      <!-- <p class="f14 cblue mb0"><a (click)="cancelImage()"><img style="margin-top: -93%!important;margin-right: -90%!important;" src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p> -->
+                    <div class="text-block absolute textpreview ">
+                        <p [style.color]="textcolor" class="f14 bold">{{text}}</p>
+                    </div>
+                  </div>
+                  <div [style.display] = "result == 0 ? 'block' : 'none'">
+                    <img src="../../../../assets/icons/picture (1).svg" alt="picture">
+                    <p class="c75 f14">Drag Here</p>
+                </div>
+                </div>
+              </div>                
+            </div> 
+            <div class="f12 cred text-center" *ngIf="showAlert == 1">Choose only image</div>
+            <div class="col-lg-12 pd-0" *ngIf="cropimage == 1">
+                <image-cropper
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="2 / 1"
+                [roundCropper]="false"
+                format="jpeg"
+                (imageCroppedBase64)="imageCroppedBase64($event)"
+                (imageLoaded)="imageLoaded()"
+                (loadImageFailed)="loadImageFailed()"
+                [style.display]="cropperReady ? null : 'none'"
+                class="pd-0"></image-cropper>
+            </div>
+        </div>  
+          <div *ngIf="showId ==2">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <!-- <p class="c32 f14">Slider Image *</p> -->
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 pd-0 text-right">
+              <label for="colorz" class="f12 c32 be5 text-right color1">Background Color 
+                <input readonly id="colorz" [style.background]="color"
+                [colorPicker]="color" [cpOKButton]
+                [(cpOutputFormat)]="hex"
+                (colorPickerChange)="color=$event"
+                (colorPickerSelect)="onEventLog1('Select', $event)"
+                (cpSliderDragStart)="onEventLog1('cpSliderDragStart', $event)" 
+                (cpSliderDragEnd)="onEventLog1('cpSliderDragEnd', $event)"/></label>
+            </div>
+          </div>
+          <!-- <div class="f12 cred text-center">Background color is required</div> -->
+          <div class="drag form-group">
+            <p class="c32 f14">Preview</p>
+            <div class="pd20">
+              <div class="col-lg-12 text-center pd60" [style.backgroundColor]="backgroundcolor">
+                <p [style.color]="textcolor" class="f14 bold">{{text}}</p>
+              </div>
+            </div>                
+          </div> 
+        </div>     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 btnCancel text-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn f12 b008 btnOk text-right" [attr.data-dismiss]="addSlider" *ngIf="showId ==1" (click)="addHomeSlider('0')">Save</button>
+        <button type="button" class="btn f12 b008 btnOk text-right" [attr.data-dismiss]="addSlider" *ngIf="showId ==2" (click)="addHomeSlider('1')">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade d-c-modal" id="editModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 c32 bold">Edit Advertisement</p>
+          <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+            <p class="f14 c32 mb8">Slider Type *</p>
+            <div class="row">
+              <div class="col-lg-3">
+                <label class="container2 f12 c32 mb0" routerLinkActive="active current">Image
+                  <input type="radio" name="radio" id="editoptionsRadios1" checked (click)="EditImg()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="col-lg-3">
+                <label class="container2 f12 c32 mb0">Custom
+                  <input type="radio"name="radio" id="editoptionsRadios2" (click)="EditCustomImg()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <form>             
+              <div class="form-group">
+                <label for="title" class="f14 c32">Title Text <span *ngIf="show==1">(Optional)</span><span *ngIf="show==2">*</span></label>
+                <label for="color" class="f12 c32 be5 text-right color">Text Color 
+                  <input readonly id="color" [(cpOutputFormat)]="hex"
+                  [style.background]="editcolor1" [(colorPicker)]="editcolor1" 
+                  (colorPickerOpen)="onEventCall('colorPickerOpen', $event)" 
+                  (cpInputChange)="onEventLog('cpInputChange', $event)" 
+                  (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)" 
+                  (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"/></label>                
+                <textarea class="form-control f14 c32" rows="5" placeholder="Title" maxlength="100" id="title" value="{{customtext}}" (input)="editinputText($event.target.value)"></textarea>
+                <span class="pull-right">{{editlen}}/100</span>
+                <div *ngIf="noText == 1">
+                  <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningdescriptionHS">
+                  <div class="f12 cred text-center">Text is required</div>
+                </div>
+              </div> 
+            </form>
+            <div *ngIf="show ==1">
+            <div class="row">
+              <div class="col-lg-5 col-md-6 col-sm-6">
+                <p class="c32 f14">Slider Image *</p>
+              </div>
+              <div class="col-lg-3">
+                <!-- <button type="button" class="btn btn-default f12 c32 be5 pd621 mb8" *ngIf="re_image == 1" (click)="editcancelImage()">Remove Image</button> -->
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 text-right">
+                <label class="btn btn-default f12 c32 be5 ml41 pd622">Choose Image<input accept="image/*" type="file" (change)="updatefileChangeEvent($event)" hidden></label>
+                 <button type="button" class="btn btn-default f12 c32 be5 pd624 mb8" *ngIf="cropimage == 0" (click)="RecropImage()">Recrop Image</button><br>
+                 <button type="button" class="btn f12 bE6 btnCancel mb8" *ngIf="crop == 1" (click)="cropImage()">Crop</button>
+              </div>
+            </div>
+            <div class="drag mb5">
+              <!-- <div class="col-lg-12 text-center text-danger" *ngIf="showAlert == 1">{{alertMessage}}</div> -->
+              <div class="">
+                <div class="col-lg-12 text-center relative pd-0" >
+                  
+                  <div *ngIf="imgCropped.length !=0" >
+                          <img [src]="imgCropped" onError="this.src='assets/images/no_image.png';"/>
+                          <!-- <p class="f14 cblue mb0"><a (click)="editcancelImage()"><img style="margin-top: -93%!important;margin-right: -90%!important;" src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p> -->
+                          <div class="text-block absolute textpreview">
+                              <p [style.color]="editcolor1" class="f14 bold">{{customtext}}</p>
+                          </div>
+                  </div>
+                  <div [style.display] = "result == 0 ? 'block' : 'none'">
+                      <img src="../../../../assets/icons/picture (1).svg" alt="picture">
+                      <p class="c75 f14">Drag Here</p>
+                  </div>
+                </div>
+              </div>                
+            </div>
+            <div class="f12 cred text-center" *ngIf="showAlert ==1" >Choose only image</div>
+            <div class="col-lg-12 pd-0" *ngIf="cropimage == 1">
+                <image-cropper
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="2 / 1"
+                [roundCropper]="false"
+                format="jpeg"
+                (imageCroppedBase64)="updateimageCroppedBase64($event)"
+                (imageLoaded)="imageLoaded()"
+                (loadImageFailed)="loadImageFailed()"
+                [style.display]="cropperReady ? null : 'none'"
+                class="pd-0"></image-cropper>
+            </div>   
+          </div>  
+          <div *ngIf="show ==2">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <!-- <p class="c32 f14">Slider Image *</p> -->
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 text-right pd-0">
+                <label for="colorz" class="f12 c32 be5 color1">Background Color 
+                  <input readonly id="colorz" [style.background]="bgcolor"
+                  [colorPicker]="bgcolor"
+                  [(cpOutputFormat)]="hex"
+                  (colorPickerChange)="color=$event"
+                  (cpSliderDragStart)="onEditEventLog1('cpSliderDragStart', $event)" 
+                  (cpSliderDragEnd)="onEditEventLog1('cpSliderDragEnd', $event)"/></label>
+              </div>
+            </div>
+            <!-- <div class="f12 cred text-center">Background color is required</div> -->
+            <div class="drag">
+              <p class="c32 f14">Preview</p>
+              <div class="pd20">
+                <div class="col-lg-12 text-center pd60" [style.background-color]="bgcolor">
+                  <p [style.color]="editcolor1" class="f14 bold">{{customtext}}</p>
+                </div>
+              </div>                
+            </div> 
+          </div>     
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 btnCancel text-right" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn f12 b008 btnOk text-right" style="cursor:pointer" [attr.data-dismiss]="editModal" *ngIf="show==1" [disabled]="changes==0 && anotherChange ==0" (click)="updateHomeSlider('0')">Update</button>
+          <button type="button" class="btn f12 b008 btnOk text-right" style="cursor:pointer" [attr.data-dismiss]="editModal" *ngIf="show==2" [disabled]="changes==0 && anotherChange ==0" (click)="updateHomeSlider('1')">Update</button>
+          <!-- <button type="button" class="btn f12 b008 btnOk text-right" *ngIf="showId1" (click)="addCustomSlider()">Save</button> -->
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade cityModal" id="deleteModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Delete This City?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteIt()">Sure, Delete It</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade cityModal" id="swapModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Change the Priority?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="Swap()">Sure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

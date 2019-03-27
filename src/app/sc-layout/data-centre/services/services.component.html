@@ -1,0 +1,504 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="datacentre" *ngIf="dataLoaded == 1" >
+    
+    <div class="homeslider container-fluid">
+      <div class="row ">
+        <div class="col-lg-6 col-md-6 mb18 addnew">
+          <a class="btn btnFilter f12 bold b008" href="#myModal" data-toggle="modal" (click)="addServiceForm()" ><img src="assets/icons/plus.svg" alt="Add New"> Add New</a>
+          </div>
+          <div class="col-lg-6 col-md-6 text-right">
+          <button type="button" *ngIf="parent.length > 1" class="btn btnFilterclose f12 bold b008" (click)="RefreshServices()" >CLose All <img src="../../../../assets/icons/icon (3).svg" alt="close" class="iconclose"></button>
+          <!-- <button type="button"  class="btn btnFilter f12 bold b008" (click)="RefreshServices()" >Refresh</button> -->
+        </div>
+      </div>
+      <div class="servicemenu">
+        <div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 border1" *ngFor="let demo of parent;let i=index" >
+                <form class="form-inline" *ngIf="nodata == 0">
+                  <input class="form-control mr-sm-2 f14 cac" [(ngModel)]="demo.search" id="search1{{i}}" [ngModelOptions]="{standalone: true}" (input)="searchFilter($event.target.value,i)"  [value]="demo.search" type="search" placeholder="Search Services" aria-label="Search">
+                  <img src="assets/icons/magnify - Copy.svg" alt="Search" class="servicesearchimg">
+                </form>
+                <div id="myDiv2">
+                  <div *ngIf="nodata == 1" class="pdt170 f14 c32 text-center"><img class="p-userimg" src="assets/icons/empty-folder.svg" alt="empty"> <br>No Any Services</div>
+                  <div *ngIf="nodata == 0">
+                  <div class="row pd016 notificationhover" id="{{list.code}}" [ngClass]="{'bcc': list.status===0,'be2': selectedItem == list}" *ngFor="let list of demo.services | category: {service_label: demo.search,price:demo.search};let c=index;" (click)="moveToChildren(list.child_service,demo.level,list.code);setIndex(list)"  >
+                    <div class="col-lg-3 col-md-3 col-sm-3 text-center pd116">
+                      <img src="{{list.icon}}" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/images/no_image.png';" alt="air condition" class="airconditionimg backgroundWhite">
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 pd116" >
+                      <span class="f14 c32">{{list.service_label | titlecase}}</span><br>
+                      <span class="f12 c32" *ngIf="list.price !=0">&#x20b9;{{list.price}}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 text-right pd116">
+                        <!-- <div class="dropdown">                      -->
+                      <img src="assets/icons/menu (2).svg"  alt="menu" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-menu services-dropdown pd-0"  aria-labelledby="dropdownMenuButton">
+                            <div class="dropdwn">
+                            <a class="dropdown-item" href="#blockUser" (click)="toggle(list.code,list.status)" data-toggle="modal" class="f12 c75" *ngIf="list.status == 0"><span *ngIf="list.status == 0">Enable</span>
+                            <label class="switch3" style="cursor:pointer" >
+                              <input type="checkbox" id="block{{list.code}}" [checked]="false"  >
+                              <span class="slider10 round10"></span>
+                            </label>
+                            </a>
+                            <a class="dropdown-item" href="#blockUser" (click)="toggle(list.code,list.status)" data-toggle="modal" class="f12 c75" *ngIf="list.status == 1">
+                            <span *ngIf="list.status == 1">Disable</span>
+                            <label class="switch3" style="cursor:pointer" >
+                              <input type="checkbox" id="block{{list.code}}" [checked]="true"  >
+                              <span class="slider10 round10"></span>
+                            </label>
+                          </a></div>
+                            <div class="dropdwn" href="#editModal" data-toggle="modal" (click)="EditServiceModal(list,i)">
+                                <a class="dropdown-item" class="f12 c75 edit">Edit<img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="switch"></a>
+                            </div>
+                          <div class="dropdwn1" href="#deleteModal" data-toggle="modal" (click)="deletePopUp(list.code)">
+                            <a class="dropdown-item"  class="f12 c75" >Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete"></a>
+                          </div>
+                          <div class="dropdwn" href="#viewModal" data-toggle="modal" (click)="ViewModal(list,i)">
+                            <a class="dropdown-item"   class="f12 c75 edit5">View<img src="assets/icons/vieweye.svg" alt="switch"></a>
+                        </div>
+                        </div>
+                      <!-- </div> -->
+                    </div>
+                    <div class="vl5"></div>
+                  </div>
+                  <!-- <div class="vl5"></div> -->
+
+                  <div class="col-lg-12 text-center pd140" *ngIf="demo.services.length ==0 || (demo.services | category: {service_label: demo.search,price:demo.search}).length == 0">
+                      <img class="nodataimg5" src="assets/icons/empty-folder.svg" alt="empty"><p class="c75 f18">No data</p>
+                  </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 border1 text-center " *ngIf="blank == 1">
+              <div class="pd150 c75 f14">No Any Services</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade service" id="myModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd816">
+          <p class="modal-title f14 bold c32">Add Service</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">           
+        </div>
+        <div class="vl4"></div>
+        <div class="modal-body pd1516">
+          <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-7">
+              <form>
+                <div class="form-group">
+                  <label for="serviceSelect" class="f14 c32">Parent Service</label>
+                  <input id="filter12" data-toggle="dropdown" class="form-control f12 c32" #filter1 (keyup)="tree.treeModel.filterNodes(filter1.value)" (focusout)="offEvent($event.target.value)" [value]="filterText | titlecase" placeholder="Select Parent Services"/>
+                  <div class="dropdown-menu servicesmenu" style="width:100%!important;" (click)="closedropdown($event)">
+                    <div id="myDiv21">
+                    <tree-root #tree [focused]="true" (focus)="onEvent($event)" [nodes]="newnode" class="f12 c75 dropdown-content" ></tree-root>
+                    
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 addnew text-right mt33">
+              <a class="btn serviceBtnFilter f12 b008 bold" (click)="addMultipleField()" ><img src="assets/icons/plus.svg" alt="Add New" > Add New</a>
+            </div>
+          </div>
+          <div id="myDiv1">
+            <div *ngFor="let service1 of Services1;let i=index;" class="outlinebdr">
+              <div class="mt10">
+                <form>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label for="serviceName" class="f14 c32">Service Name</label>
+                        <input class="form-control mr-sm-2 f12 c75" id="serviceName{{i}}" (input)="insertName($event.target.value,'serviceName',i)" type="text" placeholder="Service Name" value="{{service1.name}}" (focusout)="check($event.target.value,i)">
+                        <div id="hide{{i}}" style="display:none;">
+                          <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning21">
+                          <div class="text-center f12 cred">Service name is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label for="commission" class="f14 c32">SC Commission %</label>
+                          <input class="form-control mr-sm-2 f12 c75" value={{service1.commission}} id="commission{{i}}" (keypress)="Validatekeypress($event)" (input)="insertName($event.target.value,'commission',i)" type="number" min="0" placeholder="Enter Commission">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group price">
+                        <label for="price" class="f14 c32">Price</label>
+                        <input class="form-control mr-sm-2 f12 c75"  id="price{{i}}" type="text" (keypress)="Validatekeypress($event)" (input)="insertName($event.target.value,'price',i)" placeholder="Price" value="{{service1.price}}">
+                      </div>
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <img src="assets/icons/rubbish-bin - Copy.svg" (click)="popList(i)" alt="delete" class="servicedelete">
+                    </div>
+                  </div>                 
+                 
+                </form>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 mt10">
+                  <form>                  
+                    <div class="form-group price">
+                      <label for="description" class="f14 c32">Description</label>
+                      <div class="row">
+                        <div class="col-lg-8" *ngFor="let lis of service1.description;let j=index;">
+                          <div class="row">
+                            <div class="col-lg-9 pdr-0">
+                                <input class="form-control mr-sm-2 f12 c75 mb10" id="description{{service1.id}}{{lis.i}}" type="text" (input)="descriptionData($event.target.value,lis.i,service1.id)" (focusout)="focusoutContent($event.target.value,lis.i,service1.id)" placeholder="Description">
+                            </div>
+                            <div class="col-lg-3">
+                                <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="servicedelete1" *ngIf="service1.description.length >1" (click)="removeDiv(lis.i,service1.id)">
+                            </div>
+                          </div>
+
+                          <div id="desc{{service1.id}}{{lis.i}}" style="display:none;">
+                            <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning2">
+                            <div class="text-center f12 cred">Description is required</div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 addnew5">
+                          <button type="button" class=" btn descriptionBtnFilter f12 b008 bold" (click)="addRow(service1.id)"><img src="assets/icons/plus.svg" alt="Add New" >Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- <div class="col-lg-2 col-md-2 col-sm-2 mt10"></div>
+                <div class="col-lg-1 col-md-1 col-sm-1 mt10">
+                  <img src="assets/icons/rubbish-bin - Copy.svg" (click)="popList(i)" alt="delete" class="servicedelete">
+                </div> -->
+                <div class="col-lg-8 col-md-8 col-sm-12 mt10">
+                  <div class="col-lg-12 col-md-12 col-sm-12">                  
+                    <label for="pic{{i}}" class="f14 c32">Service Icon</label>
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="outlinebdr1">
+                          <img [src]="croppedImage"  alt="picture" id="pic{{i}}" class="iconimage">
+                          </div>
+                        </div>
+                        <div class="col-lg-3"><label  class="btn btn-default f12 c32 be5 pd625">Choose Icon<input type="file" id="pic{{i}}" #myInput (change)="fileChangeEvent($event,i)" accept="image/*" hidden></label>
+                        <button type="button" class="btn btn-default f12 c32 be5 pd622" *ngIf="cropimage[i] == 0" (click)="RecropImage(i)">Recrop Image</button>
+                        <button type="button" class="btn btn-default f12 c32 be5 pd621 mt10" *ngIf="cropimage[i] == 0" (click)="cancelImage(i)">Remove Image</button>
+                        <button type="button" class="btn f12 bE6 btnCancel" *ngIf="crop[i] == 1" (click)="cropImage(i)">Crop</button>
+                        </div>
+                        <div class="col-lg-6" >
+                          <div class="f12 cred text-center" *ngIf="showAlert == 1">Choose only image</div>
+                          <div  *ngIf="cropimage[i] == 1">
+                              <image-cropper 
+                              [imageChangedEvent]="imageChangedEvent[i]"
+                              [maintainAspectRatio]="true"
+                              [aspectRatio]="4 / 4"
+                              [roundCropper]="false"
+                              (imageCroppedBase64)="imageCroppedBase64($event,i)"
+                              (imageLoaded)="imageLoaded()"
+                              [style.display]="cropperReady ? null : 'none'"
+                              class="pd-0"></image-cropper>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>    
+        </div>
+        <div class="modal-footer pd1016">
+          <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk pd723 text-right" [attr.data-dismiss]="add_service" (click)="addServices()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal End -->
+
+
+    <!-- Service Edit Modal -->
+    <div class="modal fade service" id="editModal" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd816">
+            <p class="modal-title f14 bold c32">Update Service</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">           
+          </div>
+          <div class="vl4"></div>
+          <div class="modal-body pd1516">
+            <div class="row">
+              <div class="col-lg-7 col-md-7 col-sm-7">
+                <form>
+                  <div class="form-group" *ngIf="editService == 1">
+                    <label for="serviceSelect" class="f14 c32">Parent Service</label>
+                    <input id="filter123" data-toggle="dropdown" class="form-control f14 c32" #filter (keyup)="edittree.treeModel.filterNodes(filter.value)" (focusout)="editoffEvent($event.target.value)" [value]="filterText | titlecase" placeholder="Select Parent Services"/>
+                    <div class="dropdown-menu servicesmenu" style="width:100%!important;" (click)="$event.stopPropagation()">
+                    <div id="myDiv21">
+                      <tree-root #edittree [focused]="true" (activate)="onEvent($event)" (focus)="onEvent1($event)" [nodes]="newnode" class=" f12 c75 dropdown-content"></tree-root>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="myDiv1">
+              <div class="outlinebdr">
+                <!-- <div class="col-lg-12 col-md-12 mt10"> -->
+                  <form>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="serviceName" class="f14 c32">Service Name</label>
+                          <input class="form-control mr-sm-2 f12 c75" id="serviceName" type="text" placeholder="Service Name" #editService_name value="{{editlabel | titlecase}}" (input)="ChangeInData($event.target.value)" >
+                          <div *ngIf="service_name == 1">
+                              <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning2">
+                              <div class="text-center f12 cred">Service name is required.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="commission" class="f14 c32">SC Commission %</label>
+                            <input class="form-control mr-sm-2 f12 c75" id="commission{{i}}" (keypress)="Validatekeypress($event)" (input)="ChangeInData($event.target.value)" #editcommsiion value="{{editservice_commission}}" (input)="insertName($event.target.value,'commission',i)" type="number" min="0"
+                            placeholder="Enter Commission">
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="price form-group">
+                          <label for="price" class="f14 c32">Price</label>
+                          <input class="form-control mr-sm-2 f12 c75" id="price" type="text" (keypress)="Validatekeypress($event)" #editprice placeholder="Price"   value="{{editpriceno}}" (input)="ChangeInData($event.target.value)" >
+                      </div>
+                      </div>
+                    </div>                                    
+                  </form>
+                <!-- </div> -->
+                <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 mt10">
+                  <form>                    
+                    <div class="form-group price">
+                      <label for="description" class="f14 c32">Description</label>
+                      <div class="row">
+                        <div class="col-lg-8" *ngFor="let lis of descriptionarray;let j=index;">
+                            <!-- <button *ngIf="descriptionarray.length > 1" type="button" (click)="editremoveDiv(lis.i)" class="close" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button> -->
+                            <div class="row">
+                              <div class="col-lg-9 pdr-0">
+                                <input class="form-control mr-sm-2 f12 c75 mb10" id="description{{lis.i}}" type="text" (input)="ChangeInData($event.target.value)" value="{{lis.description | titlecase}}" (focusout)="editfocusoutContent($event.target.value,lis.i)" placeholder="Description">
+                              </div>
+                              <div class="col-lg-3">
+                                <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="servicedelete1" *ngIf="descriptionarray.length > 1" (click)="editremoveDiv(lis.i)">
+                              </div>
+                            </div>
+                          <div id="desc{{lis.i}}" style="display:none;">
+                            <img src="assets/icons/warning (1).svg" alt="warning" class="b-warning2">
+                            <div class="text-center f12 cred">Description is required</div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <button type="button" class=" btn btn-primary" (click)="addeditRow()">+</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8"> 
+                  <label for="pic" class="f14 c32">Service Icon</label>
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <div class="outlinebdr1">
+                          <img src="{{updatecroppedImage}}" alt="picture" class="iconimage"  onError="this.src='assets/images/no_image.png';">
+                        </div>                      
+                      </div>
+                      <div class="col-lg-3">
+                          <label  class="btn btn-default f12 c32 be5 pd625">Choose Icon<input type="file" (change)="updatefileChangeEvent($event)" accept="image/*" hidden></label>
+                          <button type="button" class="btn btn-default f12 c32 be5 pd622" *ngIf="editcropimage == 0" (click)="editRecropImage()">Recrop Image</button>
+                          <button type="button" *ngIf="updatecroppedImage != '' && updatecroppedImage  != 'assets/images/no_image.png'" class="btn btn-default f12 c32 be5 pd618 mt10" (click)="EditcancelImage()">Remove Image</button>
+                          <button type="button" class="btn f12 bE6 btnCancel mt10" *ngIf="editcrop == 1" (click)="editcropImage()">Crop</button>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="f12 cred text-center" *ngIf="showAlert == 1">Choose only image</div>
+                          <div  *ngIf="editcropimage == 1">
+                              <image-cropper 
+                              [imageChangedEvent]="updateimageChangedEvent"
+                              [maintainAspectRatio]="true"
+                              [aspectRatio]="4 / 4"
+                              [roundCropper]="false"
+                              (imageCroppedBase64)="updateimageCroppedBase64($event)"
+                              (imageLoaded)="imageLoaded()"
+                              (loadImageFailed)="loadImageFailed()"
+                              [style.display]="cropperReady ? null : 'none'"
+                              class="pd-0" ></image-cropper>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+                <!-- <div class="col-lg-8">
+                  <div class="row">
+                    <div class="col-lg-12">
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>    
+          </div>
+          <div class="modal-footer pd1016">
+            <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn f12 b008 bold btnOk pd723 text-right" [disabled]="changes==0 && anotherChange ==0" [attr.data-dismiss]="update_ser" (click)="UpdateServices(editService_name.value,editprice.value,editcommsiion.value)">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Edit Modal -->
+
+<!-- Add Service Modal -->
+<div class="modal fade cityModal addservice2" id="exampleModal333" data-backdrop="static"         data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <p class="modal-title f14 c32 bold">Add Service</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+    </div>
+    <div class="vl6"></div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="servicename1" class="f14 c32">Service Name</label>
+          <input type="text" class="form-control f12 c75" id="servicename1" placeholder="Service Name">
+          <img src="assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+          <div><p class="f12 cred text-center">Field is compulsory.</p></div>
+        </div>
+        <div class="form-group">
+          <label for="serviceName" class="f14 c32">Profile Image</label>
+          <div class="row">
+            <div class="col-lg-5 text-center">
+              <div class="icon d-imageEdit5">
+                <img src="assets/icons/picture (1).svg" alt="picture">
+                <p class="f14 c75 mb0">Drag Here</p>
+              </div>
+            </div>
+            <div class="col-lg-7 pd-0">
+              <label class="btn btn-default f12 c75 be5 ml10">Choose Icon<input type="file" hidden></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="price" class="f14 c32">Price</label>
+          <input type="text" class="form-control f12 c75" id="price" placeholder="&#8377; 200">
+        </div>
+      </form>   
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+      <button type="button" class="btn f12 b008 bold btnOk text-right">Add</button>
+    </div>
+  </div>
+  </div>
+</div>
+<!-- Add Service Modal End -->
+
+
+  <div class="modal fade cityModal" id="blockUser" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure You Want To {{text}} The Service?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+            <button type="button" *ngIf="service_status == 1" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser('0')">Sure, Block It</button>
+            <button type="button" *ngIf="service_status == 0" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser('1')">Sure, UnBlock It</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade cityModal" id="deleteModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure You Want To Delete This Service?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" >Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteIt()">Sure, Delete It</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade cityModal" id="viewModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Service Detail</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl7"></div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-3">
+              <p class="f14 c75">Service Name : </p>
+            </div>
+            <div class="col-lg-6 pd-0">
+              <p class="f14 c32 bold">{{viewlist.service_label}}</p>
+            </div>
+            <div class="col-lg-3">
+              <img src="{{viewlist.icon}}" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/images/no_image.png';" class="airconditionimg">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <p class="f14 c75">Price:&nbsp;&nbsp;<span class="f14 c32 bold">{{viewlist.price}}</span></p>
+            </div>
+            <div class="col-lg-6">
+              <p class="f14 c75">SC Commission:&nbsp;&nbsp;<span class="f14 c32 bold">{{viewlist.service_commission}}</span></p>
+            </div>
+          </div>
+          <p class="f14 c75 mb5">Description</p>
+          <ul *ngIf="nodescription == 0">
+            <li *ngFor="let li of viewlist.description;let c=index" class="f14 c32 bold">{{li.description}}</li>
+          </ul>
+          <div *ngIf="nodescription == 1">
+            No Description
+          </div>
+          <!-- <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-8">
+                Service Name:&nbsp;&nbsp;{{viewlist.service_label}}
+              </div>
+              <div class="col-lg-4">
+                <img src="{{viewlist.icon}}" (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/images/no_image.png';" class="airconditionimg">
+              </div>
+              <div class="col-lg-6">
+                Price:&nbsp;&nbsp;{{viewlist.price}}
+              </div>
+              <div class="col-lg-6">
+                Commission Price:&nbsp;&nbsp;{{viewlist.service_commission}}
+              </div>
+              <div class="col-lg-12">
+                Description:
+              </div>
+              <ul>
+                <li *ngFor="let li of viewlist.description;let c=index">{{li.description}}</li>
+              </ul> 
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>

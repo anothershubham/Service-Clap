@@ -1,0 +1,238 @@
+<div id="status" *ngIf="!isConnected">
+    <div _ngcontent-c1="" class="nointernet"><div _ngcontent-c1="" class="row"><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div><div _ngcontent-c1="" class="col-lg-4 col-md-4 pd-0 text-center"><div _ngcontent-c1="" class="card"><div _ngcontent-c1="" class="card-text"><p _ngcontent-c1="" class="mb-10 bold f14">No Internet Connection</p></div></div></div><div _ngcontent-c1="" class="col-lg-4 col-md-4"></div></div></div>
+</div>
+
+<div class="admincard card myaccount minheight" *ngIf="dataLoaded == 1">
+  <div class="card-body pd-0">
+    <div class="adminbackimg">
+      <div class="row"> 
+        <div class="col-lg-11 col-md-11 col-sm-11 text-center pdl70 pd30">
+            <img  src="{{Gallery.profile_image_url}}"  (load)="dosomething()" [ngClass]="{'smallLoader': loading==='0'}" onError="this.src='assets/icons/user (1).svg';" class="adminUserImg1">
+          <p class="f28 c32 bold mt15">{{Gallery.name| titlecase}}</p>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 text-center editaccountimg pd30">
+          <img src="../../../../assets/icons/pencil-edit-button (2) - Copy.svg" alt="switch" class="editimg" href="#exampleModal1" (click)="editdata()" data-toggle="modal">
+        </div>
+      </div>          
+    </div>
+    <div class="row adminimg mt45">
+      <div class="col-lg-2 col-md-2 col-sm-2"></div>
+      <div class="col-lg-2 col-md-2 col-sm-2 text-center">
+        <img src="../../../../assets/icons/cell-phone.svg" alt="phone">
+        <p class="f12 c32">{{Gallery.mobile}}</p>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 text-center">
+        <img src="../../../../assets/icons/close-envelope.svg" alt="envelope">
+        <p class="f12 c32">{{Gallery.email}}</p> 
+      </div> 
+      <div class="col-lg-2 col-md-2 col-sm-2 text-center" *ngIf="Gallery.address">
+        <img src="../../../../assets/icons/three-buildings.svg" alt="address">
+        <p class="f12 c32">{{Gallery.address | titlecase}}</p>
+      </div>
+       <div class="col-lg-2 col-md-2 col-sm-2 text-center" *ngIf="user_type != '0'">
+        <img src="../../../../assets/icons/placeholder (1).svg" alt="location">
+        <p class="f12 c32">{{cityLabelItem| titlecase}}</p>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2"></div>
+    </div>  
+    <div class="row mt45 mb61">
+      <div class="col-lg-12 col-md-12 col-sm-12 addnew text-center">
+        <a class="btn btnFilter f12 b008 bold" id="openModal"  data-toggle="modal" data-target="#exampleModal" ><img src="../../../assets/icons/key (4).svg" alt="Key"> Change Password</a>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<!-- Edit Account Modal -->
+<div class="modal fade p-detailModal account-modal" id="exampleModal1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Edit Profile</p>
+        <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl51"></div>
+      <div class="modal-body pd1025">
+        <form [formGroup]="editForm" (keyup.enter)="editValidation(editForm)">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="row mb12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                      <label for="name" class="f14 c32">Name <span class="cred">*</span></label>
+                      <input class="form-control mr-sm-2 f12 c32"  (keyup)="changeValue($event.target.value)" formControlName="Name"type="text"placeholder="" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" minlength="2" />
+                      <div *ngIf="submitted && f.Name.errors" class="invalid-feedback f12 cred text-center">
+                          <div *ngIf="f.Name.errors.required"> Name is required</div>
+                        <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+                    </div> 
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                        <label for="number" class="f14 c32">Mobile <span class="cred">*</span></label>
+                        <input type="text" required class="form-control f12 c32"   formControlName="Mobile"  placeholder="" [ngClass]="{ 'is-invalid': submitted && f.Mobile.errors} " (keyup)="changeValue($event.target.value)" (keypress)="validatemobile($event)" #mobile minlength=10 maxlength=10 />
+                        <!--<img src="../../assets/icons/warning (1).svg">-->
+                        <!--<div class="texterror">Mobile number should be of 10 digits.</div>-->
+                        <div *ngIf="submitted && f.Mobile.errors" class="invalid-feedback f12 cred text-center">
+                        <div *ngIf="f.Mobile.errors.required">Mobile number should be of 10 digit</div>
+                        <div *ngIf="f.Mobile.errors.minlength">Mobile number should be of 10 digit</div>
+                        <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningtitle">
+                        </div>
+                    </div>             
+                    <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                      <label for="email" class="f14 c32">Email</label>
+                      <input class="form-control mr-sm-2 f12 c32 lowercase" formControlName="email" (keyup)="changeValue($event.target.value)" type="text" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  >
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback f12 cred text-center">
+                          <!--<div *ngIf="f.email.errors.required"><h5 style="color: firebrick">Email is required</h5></div>-->
+                          <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                      </div> 
+                    </div> 
+                   <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                      <label for="address" class="f14 c32"> Address</label>
+                      <input class="form-control mr-sm-2  f12 c32"formControlName="address" (keyup)="changeValue($event.target.value)"  type="text" placeholder="">
+                    </div> 
+                     
+                     <div class="col-lg-12 col-md-12" *ngIf="user_type != '0'">
+                      <div class="form-group">
+                        <label for="serviceSelect" class="f14 c32">City Accesible <span class="cred">*</span></label>
+                        <div class="col-lg-12 btn-group pd-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <input type="text" (keyup)="changeValue($event.target.value)" class="form-control f12 c32" id="search" #search placeholder="Select Multiple Cities" [(ngModel)]= "searchText" autocomplete="off" [ngModelOptions]="{standalone: true}">
+                            <div class="dropdown-menu servicesmenu" style="width:100%!important;" (click)="$event.stopPropagation();close()">
+                                <label class="dropdown-item custom-control custom-checkbox f12 c75" for ="selectAllCities" (click)="selectAllCities()">
+                                    <input type="checkbox" class="custom-control-input f12 c75" tabindex="0" [(ngModel)]="allSelected" id="selectAllCities" (click)="selectAllCities()" [ngModelOptions]="{standalone: true}">
+                                    <label class="custom-control-label f12 c75" for="selectAllCities">Select All</label>
+                                </label>
+                                <div id="myDiv21">
+                                <li *ngFor="let item of allCities | searchFilter : searchText">
+                                    <label class="dropdown-item custom-control custom-checkbox" (onmouseup)="Cityselec(item)">
+                                        <input type="checkbox" class="custom-control-input z f12 c75" [(ngModel)]="item.selected" id="{{item.code}}" (click)="Cityselec(item)" [ngModelOptions]="{standalone: true}">
+                                        <label class="custom-control-label f12 c75" for="{{item.code}}" >{{item.city_label}}</label>
+                                    </label>
+                                </li>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="text-center f12 cred" *ngIf="y ==1">Cities are required</div>
+                        <img *ngIf="y ==1" src="../assets/icons/warning (1).svg" alt="warning" class="cityaccwarning">
+                      
+                        <div class="col-lg-12">
+                          <div class="row">
+                            <span class="ng-value" *ngFor="let item1 of selected_cities">
+                                <div class="card bdblue1 mrl15">
+                                    <p class="f14 cblue mb0">{{item1.city_label}}<a (click)="City_remove(item1)"><img src="../../../assets/icons/letter-x - Copy.svg" alt="letter" class="letterx mrbt46"></a></p>
+                                  </div>
+                            </span>  
+                        </div>     
+                  </div>
+                </div>
+             </div>                  
+               </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 form-group">
+                <label for="serviceName" class="f14 c32">Profile Image</label>
+                    <div class="row">
+                      <div class="col-lg-3 text-center">
+                        <div class="icon d-imageEdit">
+                          <img src="{{croppedImage}}" alt="picture"onError="this.src='assets/icons/user (1).svg';">
+                        
+                        </div>
+                      </div>  
+                      <div class="col-lg-9">
+                        <div class="row">
+                        <div class="col-lg-6">
+                            <label class="btn btn-default f12 c75 be5 mrl15" >Choose Image                   
+                                <input  accept="image/*" type="file" (input)="fileChangeEvent($event)" hidden>                                
+                              </label>
+                        </div>
+                        <div class="col-lg-6 pdl-0">
+                        <button type="button" class="btn btn-default f12 c75 be5" (click)="removeImage()" *ngIf="croppedImage!=''">Remove Image</button>
+
+                        </div> 
+                        <div class="col-lg-6">
+                            <label class="btn btn-default f12 c75 be5 mrl15"(click)="changeCropView()" *ngIf="value==1  && cropped!=true"> 
+                                Recrop Image
+                              </label>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <label class="mrb-5" *ngIf="cropped == true && croppedImage != ''">
+                                <button type="button" class="btn f12 bE6 btnCancel"    (click)="cancelCropView()" >Crop</button>
+                            </label>
+                        </div> 
+                        </div>                                          
+                      </div>
+                    
+                      <div class="modal-body" *ngIf="cropped == true">
+                        <image-cropper
+                        [imageChangedEvent]="imageChangedEvent"
+                        [maintainAspectRatio]="true"
+                        [aspectRatio]="16 / 9"
+                        [resizeToWidth]="128" teste
+                        format="jpeg"
+                        (imageCroppedBase64)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded()"
+                        (loadImageFailed)="loadImageFailed()"
+                      class="pd-0"></image-cropper>
+                      <!-- <button type="button" class="btn f12 bE6 btnCancel text-right" (click)="cancelCropView()">Crop</button> -->
+                   </div>
+                </div>         
+              </div>
+          </div>
+          
+        </form>        
+      </div>
+      <div class="modal-footer pd102015">
+        <button type="submit" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal"  (click)="terminate(Gallery.profile_image_url)">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk pd723 text-right" (click)= "editValidation(editForm.value)" [disabled]="changes==0 && anotherChange ==0" [attr.data-dismiss]="useradd" >Save</button>
+      </div>       
+    </div> 
+  </div>
+</div>
+<!-- Edit Account Modal End -->
+
+<!-- Change Password Modal -->
+<div class="modal fade changePassword" id="exampleModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Change Password</p>
+          <img src="../../../../assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form [formGroup]="ediittForm" (ngSubmit)="addValidation(ediittForm)">
+          <div class="form-group relative">
+            <label for="oldpassword" class="f14 c32">Old Password <span class="cred">*</span></label>
+            <input type="{{type}}" class="form-control" formControlName="oldpassword" type="password"   placeholder=""  [ngClass]="{ 'is-invalid': submittedd && f2.oldpassword.errors }" />
+            <img src="../../assets/icons/eye.svg" class="passwordeye1" (click)="passwordShow()">
+            <div *ngIf="submittedd && f2.oldpassword.errors" class="invalid-feedback f12 cred text-center">
+              <div *ngIf="f2.oldpassword.errors.required">Enter Password</div>
+            <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningpassword">              
+              </div>
+          </div>
+          <div class="form-group relative">
+            <label for="newpassword" class="f14 c32">New Password <span class="cred">*</span></label>
+            <input type="{{typeee}}" class="form-control" (input)="abc($event.target.value)" formControlName="password" type="password"  placeholder="" [ngClass]="{ 'is-invalid': submittedd && f1.password.errors }" />
+            <img src="../../assets/icons/eye.svg" class="passwordeye2" (click)="passwordShow1()">
+            <div *ngIf="submittedd && f1.password.errors" class="invalid-feedback f12 cred text-center">
+              <div *ngIf="f1.password.errors.required" >Password is required</div>
+              <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningpassword">
+            </div>
+          </div>
+          <div class="form-group relative">
+            <label for="confirmpassword" class="f14 c32"> Confirm Password <span class="cred">*</span></label>
+            <input type="{{typee}}" class="form-control" id="confirmpassword" (input)="aaa($event.target.value)" (focusout)="cad($event.target.value)" formControlName="confirm_password" type="password" placeholder="" [ngClass]="{ 'is-invalid': submittedd && f1.confirm_password.errors }" />
+            <div *ngIf="pwdvalue==1"><p class=" f12 cred text-center">Mismatch Password</p></div>
+            <img src="../../assets/icons/eye.svg" class="passwordeye3" (click)="passwordShow2()">
+            <div *ngIf="submittedd && f1.confirm_password.errors" class="invalid-feedback  f12 cred text-center">
+                <div *ngIf="f1.confirm_password.errors.required" >Confirm Password </div> 
+                <img src="../../../../assets/icons/warning (1).svg" alt="warning" class="warningpassword">
+            </div>
+          </div>
+        </form>   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="terminatee()">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" (click)="addValidation(ediittForm.value)" [attr.data-dismiss]="useradd">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Change Password Modal End -->
+

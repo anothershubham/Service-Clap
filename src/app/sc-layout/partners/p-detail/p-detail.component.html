@@ -1,0 +1,866 @@
+<!-- <div id="status" *ngIf="!isConnected">No Internet Connection</div> -->
+<div class="p-detail card"  *ngIf="loaded && loaded1 && loaded2">
+  <div class="card-body pd-0">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="row">
+              <div class="col-lg-9 col-md-9 col-sm-9 text-center pd2060">
+                <div class="relative">
+                  <img [src]="userData.profile_image_url" (load)="dosomething()" class="p-detailimg circleimage" [ngClass]="{'smallLoader': loading==='0'}" alt="user" onError="this.src='assets/icons/user (1).svg';">
+
+                <!-- <img src="{{userData.profile_image_url}}" alt="user" class="p-detailimg circleimage" onerror="this.onerror=null;this.src='assets/icons/user (1).svg';" *ngIf="loaded" /> -->
+                <div class="offline" title="Offline"  *ngIf="userData.active_status == 1 && userData.verify_status == 1 && userData.block_status == 0"></div>
+                <div class="online" title="Online" *ngIf="userData.active_status == 0 && userData.verify_status == 1 && userData.block_status == 0"></div>
+                <div class="online bE02" title="Blocked" *ngIf="userData.block_status == 1 && userData.verify_status == 1"></div>
+                </div>
+                <!-- <div class="caption">
+                  <p class="f28 c32 bold mt15">{{userData.name | titlecase}}</p>
+                </div> -->
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 text-center pd-0 mt15">
+                <label class="switch" title="Click to Block"  *ngIf="userData.block_status == 0 && userData.verify_status == 1">
+                  <input type="checkbox" [checked]="userData.block_status == 0"  href="#exampleModal12" data-toggle="modal" (click)="changeStatus();$event.preventDefault();">
+                  <span class="slider round"></span>
+                </label>
+                <label class="switch" title="Click to Unblock" *ngIf="userData.block_status == 1 && userData.verify_status == 1">
+                  <input type="checkbox" [checked]="userData.block_status == 0"  href="#exampleModal12" data-toggle="modal" (click)="changeStatus();$event.preventDefault();">
+                  <span class="slider round"></span>
+                </label>
+                <img src="assets/icons/time-left (1).svg" alt="timer" title="Unverified" class="timer" *ngIf="userData.verify_status == 0">
+                <img src="assets/icons/tick.svg" alt="tick" title="Verified"  class="timer" *ngIf="userData.verify_status == 1">
+              </div>
+              <div class="col-lg-12">
+                <div class="caption text-center">
+                  <p class="f28 c32 bold mt15">{{userData.name | titlecase}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-1"><div class="vl14"></div></div>
+          <div class="col-lg-6 col-md-6 col-sm-6 p-img pdl0" *ngIf="loaded">
+            <div class="row mb8" *ngIf="userData.mobile">
+              <div class="col-lg-2 col-md-2">
+                <img src="assets/icons/cell-phone.svg" alt="phone">
+              </div>
+              <div class="col-lg-9 col-md-9 pd-0">
+                <p class="f12 c32" style="margin-top:6px;">{{userData.mobile}}</p>
+              </div>
+            </div>
+            <div class="row mb8" *ngIf="userData.secondary_mobile">
+              <div class="col-lg-2 col-md-2">
+                <img src="assets/icons/cell-phone.svg" alt="phone">
+              </div>
+              <div class="col-lg-9 col-md-9 pd-0">
+                <p class="f12 c32" style="margin-top:6px;">{{userData.secondary_mobile}}</p>
+              </div>
+            </div>
+            <div class="row mb8" *ngIf="userData.email">
+              <div class="col-lg-2 col-md-2">
+                <img src="assets/icons/close-envelope.svg" alt="envelope">
+              </div>
+              <div class="col-lg-9 col-md-9 pd-0">
+                <p class="f12 c32" style="margin-top:6px;">{{userData.email}}</p>                    
+              </div>
+            </div>
+            <div class="row mb8" *ngIf="userData.address">
+              <div class="col-lg-2 col-md-2">
+                <img src="assets/icons/three-buildings.svg" alt="building">
+              </div>
+              <div class="col-lg-9 col-md-9 pd-0">                     
+                <p class="f12 c32" style="margin-top:6px;">{{userData.address | titlecase}}</p>
+              </div>
+            </div>
+            <br><br><br>
+            <div class="row" *ngIf="loaded">
+              <div class="col-lg-12 col-md-12">
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[0]=='1' }">S</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[1]=='1' }">M</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[2]=='1' }">T</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[3]=='1' }">W</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[4]=='1' }">T</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[5]=='1' }">F</span>
+                <span class="bwhite bold f12 cblue weeks" [ngClass]="{ 'weeks1': workingDays[6]=='1' }">S</span>
+              </div>
+            </div>
+            <!-- <p class="f12 c32"><img src="assets/icons/cell-phone.svg" alt="phone" *ngIf="userData.mobile">{{userData.mobile}}</p> -->
+            <!-- <p class="f12 c32"><img src="assets/icons/cell-phone.svg" alt="phone" *ngIf="userData.secondary_mobile">{{userData.secondary_mobile}}</p> -->
+            <!-- <p class="f12 c32"><img src="assets/icons/close-envelope.svg" alt="envelope" *ngIf="userData.email">{{userData.email}}</p> -->
+            <!-- <p class="f12 c32"><img src="assets/icons/three-buildings.svg" alt="building" *ngIf="userData.address">{{userData.address | titlecase}}</p> -->
+            <!-- <p class="f12 c32"><img src="assets/icons/placeholder (1).svg" alt="location" *ngIf="userData.city_label">{{userData.city_label | titlecase}}</p> -->
+          </div>
+        </div>
+        <div class="vl8"></div>      
+        <div class="servinglocation pd1040">
+          <p class="f14 c75 mb5">Services</p>
+          <p class="f14 c32 bold">AC Repairing, AC Servicing</p>
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <p class="f14 c75">Serving Locations</p>
+              <div id="myDiv8" *ngIf="service_cities.length > 0">
+                <div class="mrr2">
+                  <div class="mb18" *ngFor="let locations of service_cities">
+                    <div class="card bfa cursor">
+                      <div class="card-body pd-0">
+                        <div class="row">
+                          <a class="col-lg-3 col-md-3 col-sm-3 googlemap text-center" href="https://maps.google.com/?q={{locations.latitude}},{{locations.longitude}}" target="_blank" style="text-decoration: none">
+                            <img src="assets/icons/google.svg" alt="google map">
+                          </a>
+                          <a class="col-lg-6 col-md-6 col-sm-6 text-left pd-0 ml10" href="https://maps.google.com/?q={{locations.latitude}},{{locations.longitude}}" target="_blank" style="text-decoration: none">
+                            <p class="f12 bold c32 mb2">{{locations.name | titlecase}}</p>
+                            <p class="f10 c75 mb2">{{locations.address | titlecase}}</p>
+                            <p class="f10 c75 mb2">{{locations.mobile}}</p>
+                          </a>
+                          <div class="col-lg-2 col-md-2 col-sm-2 text-right pd-0" *ngIf="service_cities.length > 1">
+                            <img src="assets/icons/rubbish-bin - Copy.svg" id={{locations.code}} alt="delete" (click)="saveLocation(locations.code)" class="locationdelete" href="#delete" data-toggle="modal">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <p class="f14 c75">Restaurant Locations</p>
+              <div id="myDiv8" *ngIf="service_cities.length > 0">
+                <div class="mrr2">
+                  <div class="mb18" *ngFor="let locations of service_cities">
+                    <div class="card bfa cursor">
+                      <div class="card-body pd-0">
+                        <div class="row">
+                          <a class="col-lg-3 col-md-3 col-sm-3 googlemap text-center" href="https://maps.google.com/?q={{locations.latitude}},{{locations.longitude}}" target="_blank" style="text-decoration: none">
+                            <img src="assets/icons/google.svg" alt="google map">
+                          </a>
+                          <a class="col-lg-6 col-md-6 col-sm-6 text-left pd-0 ml10" href="https://maps.google.com/?q={{locations.latitude}},{{locations.longitude}}" target="_blank" style="text-decoration: none">
+                            <p class="f12 bold c32 mb2">{{locations.name | titlecase}}</p>
+                            <p class="f10 c75 mb2">{{locations.address | titlecase}}</p>
+                            <p class="f10 c75 mb2">{{locations.mobile}}</p>
+                          </a>
+                          <div class="col-lg-2 col-md-2 col-sm-2 text-right pd-0" *ngIf="service_cities.length > 1">
+                            <img src="assets/icons/rubbish-bin - Copy.svg" id={{locations.code}} alt="delete" (click)="saveLocation(locations.code)" class="locationdelete" href="#delete" data-toggle="modal">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="myDiv8" *ngIf="service_cities.length == 0" class="text-center pd070">
+              <a class="col-lg-3 col-md-3 col-sm-3 googlemap f14 c32" style="text-decoration: none">
+                <img src="assets/icons/google.svg" alt="google map">
+              </a>
+            No Locations
+          </div>
+        </div>
+      </div>
+      <div class="vl13"></div>
+      <div class="col-lg-4 col-md-4 col-sm-4 pd1520">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 col-sm-10">
+            <p class="f14 c75 mb5">Joined On</p>
+            <p class="f14 c32 bold">{{userData.created | date: 'd MMM yyyy hh:mm a'}}</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 text-right">
+              <img src="assets/icons/menu (2).svg" alt="menu" class="imagemenu" id="dropdownMenuButton" data-toggle="dropdown" data-disabled="true" aria-haspopup="true" aria-expanded="false">
+              <div class="dropdown-menu p-dropdown pd-0">
+                <div *ngIf="userData.verify_status == 0" class="dropdwn" href="#exampleModal1" data-toggle="modal" (click)="showModal()">
+                    <a class="dropdown-item" class="f12 c75" >Verify<img src="assets/icons/tick.svg" alt="check" class="detailimg11"></a><br>
+                </div>
+                <div class="dropdwn" href="#exampleModal2" data-toggle="modal"(click)="setEddit();loadImage()">
+                  <a class="dropdown-item" class="f12 c75 edit" >Edit<img src="assets/icons/pencil-edit-button (2) - Copy - Copy.svg" alt="switch" class="detailimg21"></a><br>
+                </div> 
+                <div class="dropdwn1" href="#exampleModal" data-toggle="modal">
+                  <a class="dropdown-item" class="f12 c75" >Delete <img src="assets/icons/rubbish-bin - Copy.svg" alt="delete" class="detailimg31"></a>
+                </div>              
+              </div>
+          </div>
+          </div>
+          <p class="f14 c75 mb5">Services</p>
+        <p *ngIf="loaded">
+          <span class="f14 c32 bold" *ngIf="servicesALL.length >0">{{servicesALL | titlecase}}</span>
+          <span class="f14 c32 bold" *ngIf="servicesALL.length==0">No services available</span>
+        </p>
+
+        <p class="f14 c75 mb5">Wallet Balance</p>
+        <p class="f14 c32 bold">Rs {{remaining_balance | number: '1.2-2'}}</p>
+        <div class="row">          
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <a class="btn btnAddMoney f12 bold b008" href="#myModal1" data-toggle="modal" (click)="showAddModal(); this.addForm.reset()"><img src="assets/icons/plus.svg" alt="Add Money" class="addMoneyimg"> Add Money</a>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <a class="btn btnAddMoney f12 bold bE02 float-right mr0 mb18" href="#myModal2" data-toggle="modal" (click)="showDeductModal();this.deductForm.reset()"><img src="assets/icons/line.svg" alt="Add Money" class="addMoneyimg"> Deduct Money</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <a class="btn btnWallet f12 bold b008 float-right mr0 " href="#myModal3" style="width: 100%;" data-toggle="modal"> Wallet Transaction History</a>
+          </div>
+        </div>        
+        </div>
+      </div>
+    </div>    
+  </div>    
+
+<div class="card mt18 minheight" *ngIf="loaded && isConnected && loaded1">
+  <div class="card-body pd-0">
+    <p class="f14 bold c32 mb5">Total Orders</p>
+    <div class="vl"></div>
+    <!-- <div class="pd-0 mt18 btnmenu">
+      <button type="button" class="btn bwhite w-13 bold f12 cblue bdblue" (click)="display_total()" [ngClass]="{'active1' : totalStatus}">Total: {{total}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 c14 bd14" (click)="display_completed()" [ngClass]="{'active1' : completedStatus}">Completed: {{completed}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 cblue bdblue" (click)="display_declined()" [ngClass]="{'active1' : declinedStatus}">Declined: {{declined}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 cE6 bdE6" (click)="display_cancelled()" [ngClass]="{'active1' : cancelledStatus}">Cancelled: {{cancelled}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 corange bdff" (click)="display_going_on()" [ngClass]="{'active1' : goingOnStatus}">Going On: {{going_on}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 corange bdff" (click)="display_assigned()" [ngClass]="{'active1' : assignedStatus}">Assigned: {{assigned}}</button>
+      <button type="button" class="btn bwhite w-13 bold f12 corange bdff" (click)="display_requested()" [ngClass]="{'active1' : requestedStatus}">Requested: {{requested}}</button>
+    </div>
+    <div class="mt18">
+      <button class="btn excelBtnFilter f12 b008 bold mr18" href="#myModal" data-toggle="modal" (click)="exportExcel()" *ngIf="total_orders.length != 0">Export to Excel</button>
+      <span class="f14 c75" *ngIf="filteredOrders.length != 0">
+          Showing {{ initial }} - {{ max }} of {{ filteredOrders.length }}
+      </span>
+      <form class="form-inline float-right" *ngIf="total_orders.length != 0">
+        <input class="form-control mr-sm-2 f14 c32" type="search" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search">
+        <img src="assets/icons/magnify - Copy.svg" alt="Search" class="totalsearch">
+      </form>
+    </div>
+    <div id="table">
+      <table class="table text-center table-md mt18">
+          <thead>
+            <tr class="bold c32">
+              <th scope="col">Order ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Partner</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Service</th>
+              <th scope="col">City</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="td f14 c32" *ngFor="let orders of (filteredOrders | category: {order_id: searchText,created: searchText,customer_name: searchText,mobile: searchText,service_label: searchText, city_label: searchText}) | paginate: { itemsPerPage: 10, currentPage: p }; let i = index" routerLink="/order/orderDetail/{{orders.code}}">
+              <td scope="row" class="bold cblue">#{{orders.code}}</td>
+              <td>{{orders.created | date: 'd MMM yyyy hh:mm a'}}</td>
+              <td>{{orders.customer_name | titlecase}}</td>
+              <td>{{orders.mobile}}</td>
+              <td>{{orders.service_label | titlecase}}</td>
+              <td>{{orders.city_label | titlecase}}</td>
+              <td>
+                <button class="btn btnFilter bwhite pd7 w-60 borderE02 f12" *ngIf="orders.status == 0">Requested</button>
+                <button class="btn btnFilter pd7 w-60 bE02 f12" *ngIf="orders.status == 1">Assigned</button>
+                <button class="btn btnFilter pd7 w-60 b14 f12" *ngIf="orders.status == 3">Completed</button>
+                <button class="btn btnFilter pd7 w-60 b98 f12" *ngIf="orders.status == 4">Cancelled
+                    <span *ngIf="orders.cancelled_by == 0"> by Customer</span>
+                    <span *ngIf="orders.cancelled_by == 1"> by Partner</span>
+                    <span *ngIf="orders.cancelled_by == 2"> by Admin</span>
+                </button>
+                <button class="btn btnFilter pd7 w-60 bE07 f12" *ngIf="orders.status == 5">Declined</button>
+                <button class="btn btnFilter pd7 w-60 bE07 f12" *ngIf="orders.status == 2">Going On</button>
+              </td>
+            </tr>
+            <tr class="r" *ngIf="filteredOrders.length ==0 || (filteredOrders | category: {order_id: searchText,created: searchText,customer_name: searchText,mobile: searchText,service_label: searchText, city_label: searchText}).length == 0" >
+              <td colspan="7" class="text-center">
+              <img src="assets/icons/empty-folder.svg" class="p-userimg" alt="empty">
+                No Data</td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+    <pagination-controls #page class="float-right mt18 f14 cac pagination" (pageChange)="p = $event;changed($event)" responsive="true" screenReaderPaginationLabel="Pagination" autoHide="true" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls> -->
+    
+    <!-- Total Order -->
+  <ul class="nav nav-pills f16 bold vl mb18" id="pills-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active c75" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Service Order</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link c75" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Food Order</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <button class="btn s-partnerbtnFilter f12 b008 bold" data-toggle="modal" data-target="#filtermodal">Filter</button>
+          <span class="f14 c75" *ngIf="listView && filteredCustomerData.length != 0">
+            Showing {{ ((currentPage-1) * itemsPerPage)+1 }} - {{ max }} of {{ filteredCustomerData.length }}
+          </span>
+          <span class="f14 c75" *ngIf="gridView && filteredCustomerData.length != 0">
+            Showing {{ ((currentPage1-1) * itemsPerPage1)+1 }} - {{ max1 }} of {{ filteredCustomerData.length }}
+          </span>
+        </div>
+        <div class="col-lg-6 col-md-6 text-right">
+          <button class="btn excelBtnFilter f12 b008 bold" href="#myModal" data-toggle="modal" (click)="exportAsXLSX(searchText)" *ngIf="customerData.length != 0">Export to Excel</button>   
+          <form class="form-inline float-right" *ngIf="customerData.length != 0">
+            <input class="form-control f14 cac mr-sm-2 pd1916" type="search" placeholder="Search" aria-label="Search" [(ngModel)]= "searchText" [ngModelOptions]="{standalone: true}">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search" class="searchimg">
+          </form>
+        </div>
+      </div>
+      <div id="table">
+        <table class="table text-center table-md mt18">
+          <thead>
+            <tr class="bold c32">
+              <th scope="col">Order ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Partner</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Service</th>
+              <th scope="col">City</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="td f14 c32">
+              <td scope="row" class="cblue bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b98 f12">Cancelled
+                  <!-- <span *ngIf="data.cancelled_by == 0"> by Customer</span> -->
+                  <!-- <span *ngIf="data.cancelled_by == 1"> by Partner</span> -->
+                  <!-- <span *ngIf="data.cancelled_by == 2"> by Admin</span> -->
+                </button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter bwhite w-67 pd7 borderE02 f12">Requested</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 bE02 f12">Assigned</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b14 f12">Completed</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+                <td scope="row" class="bold">#212</td>
+                <td>23rd Aug 2018 2:00 PM</td>
+                <td>Adam Gill</td>
+                <td>1234567899</td>
+                <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                <td>Bangalore</td>
+                <td>
+                  <button class="btn btnFilter pd7 w-67 bE07 f12">Stopped Working</button>
+                </td>
+              </tr>
+              <tr class="td f14 c32">
+                  <td scope="row" class="bold">#212</td>
+                  <td>23rd Aug 2018 2:00 PM</td>
+                  <td>Adam Gill</td>
+                  <td>1234567899</td>
+                  <td>AC Repair <a href="#" class="c32 f14">+2 More</a></td>
+                  <td>Bangalore</td>
+                  <td>
+                    <button class="btn btnFilter pd7 w-67 b008 f12">Started Working</button>
+                  </td>
+                </tr>
+            <!-- <tr class="r">
+              <td colspan="7" class="text-center">
+              <img src="assets/icons/empty-folder.svg" alt="empty" class="p-userimg">
+                No Data</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <button class="btn s-partnerbtnFilter f12 b008 bold" data-toggle="modal" data-target="#filtermodal">Filter</button>
+          <span class="f14 c75" *ngIf="listView && filteredCustomerData.length != 0">
+            Showing {{ ((currentPage-1) * itemsPerPage)+1 }} - {{ max }} of {{ filteredCustomerData.length }}
+          </span>
+          <span class="f14 c75" *ngIf="gridView && filteredCustomerData.length != 0">
+            Showing {{ ((currentPage1-1) * itemsPerPage1)+1 }} - {{ max1 }} of {{ filteredCustomerData.length }}
+          </span>
+        </div>
+        <div class="col-lg-6 col-md-6 text-right">
+          <button class="btn excelBtnFilter f12 b008 bold" href="#myModal" data-toggle="modal" (click)="exportAsXLSX(searchText)" *ngIf="customerData.length != 0">Export to Excel</button>   
+          <form class="form-inline float-right" *ngIf="customerData.length != 0">
+            <input class="form-control f14 cac mr-sm-2 pd1916" type="search" placeholder="Search" aria-label="Search" [(ngModel)]= "searchText" [ngModelOptions]="{standalone: true}">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search" class="searchimg">
+          </form>
+        </div>
+      </div>
+      <div id="table">
+        <table class="table text-center table-md mt18">
+          <thead>
+            <tr class="bold c32">
+              <th scope="col">Order ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Partner</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Restaurant</th>
+              <th scope="col">City</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b98 f12">Cancelled
+                  <!-- <span *ngIf="data.cancelled_by == 0"> by Customer</span> -->
+                  <!-- <span *ngIf="data.cancelled_by == 1"> by Partner</span> -->
+                  <!-- <span *ngIf="data.cancelled_by == 2"> by Admin</span> -->
+                </button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter bwhite w-67 pd7 borderE02 f12">Requested</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 bE02 f12">Pending</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b14 f12">Picked Up</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 bE07 f12">In The Kitchen</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 bEOA f12">Accepted</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b985 f12">Out For Delivery</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b2EA f12">Delivered</button>
+              </td>
+            </tr>
+            <tr class="td f14 c32">
+              <td scope="row" class="bold">#212</td>
+              <td>23rd Aug 2018 2:00 PM</td>
+              <td>Adam Gill</td>
+              <td>1234567899</td>
+              <td>1947</td>
+              <td>Bangalore</td>
+              <td>
+                <button class="btn btnFilter pd7 w-67 b008 f12">Ready To Be Delivered</button>
+              </td>
+            </tr>
+            <!-- <tr class="r">
+              <td colspan="7" class="text-center">
+              <img src="assets/icons/empty-folder.svg" alt="empty" class="p-userimg">
+                No Data</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <pagination-controls #page class="float-right mt18 f14 cac pagination" (pageChange)="p = $event;changed($event)" responsive="true" screenReaderPaginationLabel="Pagination" autoHide="true" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page" *ngIf="(filteredOrders | category: {order_id: searchText,order_date: searchText,partner: searchText,mobile: searchText,service: searchText, city:searchText}).length > 10"></pagination-controls>
+    <!-- Total Order End --> 
+  </div>
+</div>
+  <!-- Modal Verify -->
+<div class="modal fade" id="exampleModal1" data-backdrop="static" data-keyboard="false" *ngIf="showVerify == true">
+  <div class="modal-dialog w-321 modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 bold">Confirm</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)="hideModal()">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <p class="text-center bold f14 c32 mb5">Are You Sure Want To Verify This Partner?</p>
+        <p class="text-center f12 c75">If you verify this partner, he/she will be visible to customers and open to provide any services assign by Super Admin.</p>   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="hideModal()">Cancel</button>
+        <button type="button" class="btn f12 b008 bold btnOk text-right" (click)="verifyPartner();">Verify</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Verify Modal End -->
+
+<!-- Modal Edit -->
+<div class="modal fade p-detailModal " id="exampleModal2" data-backdrop="static" data-keyboard="false" *ngIf="editt">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document" *ngIf="loaded && userData">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Edit Partner</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)= "updateLoaded()">
+      </div>
+      <div class="vl15"></div>
+      <div class="modal-body pd1022">
+        <form ngNativeValidate [formGroup]= "editForm">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 mb12 form-group">
+                    <label for="name" class="f14 c32">Name <span class="cred">*</span></label>
+                    <input class="form-control mr-sm-2 f12 c32" placeholder="Name" value="{{userData.name}}" #editName id="name" type="text" formControlName="name" required>
+                    <img src="assets/icons/warning (1).svg" alt="warning" class="warning-p-detail" *ngIf="editForm.get('name').invalid">
+                    <div class="text-center f12 cred" *ngIf="editForm.get('name').dirty && editForm.get('name').invalid">Name is required</div>                    
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 mb12 form-group">
+                    <label for="number" class="f14 c32">Mobile <span class="cred">*</span></label>
+                    <input class="form-control mr-sm-2 f12 c32" placeholder="Mobile Number" (keypress)="validatemobile($event)" value="{{userData.mobile}}" #editNumber formControlName="mobile" id="number" maxlength="10" type="text" disabled>
+                    <img src="assets/icons/warning (1).svg" alt="warning" class="warning-p-detail" *ngIf="!editNumber.value ||( editNumber.value.length < 10 && editNumber.value.length >0 )">
+                    <div class="text-center f12 cred" *ngIf="editForm.get('mobile').dirty && !editNumber.value">Mobile Number is required</div>
+                    <div class="text-center f12 cred" *ngIf="editForm.get('mobile').dirty && editNumber.value.length < 10 && editNumber.value.length >0">Invalid Mobile Number</div>                  
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 mb12">
+                      <label for="number" class="f14 c32">Secondary Mobile</label>
+                      <input class="form-control mr-sm-2 f12 c32" (keypress)="validatemobile($event)" maxlength="10" placeholder="Alternate Mobile Number" value="{{userData.secondary_mobile}}" #editSecondaryNumber formControlName="secondaryMobile" id="number" minlength="10" type="text">
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 mb12">
+                      <label for="email" class="f14 c32">Email</label>
+                      <input class="form-control mr-sm-2 f12 c32" formControlName="email" placeholder="Email Address" value="{{userData.email| lowercase}}" #editEmail id="email" type="text" autocomplete="false">
+                      <div class="text-center f12 cred" *ngIf="editForm.get('email').dirty && editForm.get('email').invalid">Invalid Email</div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 mb12">
+                      <label for="address" class="f14 c32">Address</label>
+                      <input class="form-control mr-sm-2 f12 c32" #editAddress formControlName="address" placeholder="Address" value="{{userData.address}}" id="address" type="text">
+                  </div>             
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">                  
+                    <label for="serviceName" class="f14 c32">Profile Image</label>
+                    <div class="row">
+                      <div class="col-lg-3 text-center">
+                        <div class="icon d-imageEdit">
+                          <img src="{{userData.profile_image_url}}" (load)="dosomething1()" [ngClass]="{'smallLoader': loading1==='0'}" alt="picture" onError="this.onerror=null;this.src='assets/icons/user (1).svg';" *ngIf="finalCroppedImage === '' && removeImageConfirm == false && loaded1">
+                          <img src="assets/icons/user (1).svg" *ngIf="removeImageConfirm == true">
+                          <img [src]="finalCroppedImage" (load)="dosomething2()" class="p-detailimg circleimage" [ngClass]="{'smallLoader': loading2==='0'}" alt="user" onError="this.onerror=null;this.src='assets/icons/user (1).svg';" *ngIf="finalCroppedImage !== '' && removeImageConfirm == false">
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <label class="btn btn-default f12 c75 be5 ml15">Choose Image
+                          <input  accept="image/*" type="file" (input)="fileChangeEvent($event);" (change)="changeCropView()" hidden>
+                        </label>
+                        <!-- <button type="button" class="btn btn-default f12 c75 be5 ml15" (click)="removeImage()" *ngIf="userData.profile_image_url!='' && removeImageConfirm==false">Remove Image</button> -->
+                        <label class="btn btn-default f12 c75 be5 ml15 pd613" (click)="changeCropView()" *ngIf="fileChange == true && removeImageConfirm == false"> 
+                          Recrop Image
+                        </label>
+                        <label *ngIf="cropped == true && croppedImage != ''" class="mrb-5">
+                            <button type="button" class="btn f12 bE6 btnCancel mrl187 text-right" (click)="cancelCropView()" >Crop</button>
+                        </label>
+                      </div>
+                      <div class="col-lg-4">
+                          <button type="button" class="btn btn-default f12 c75 be5 mrl30" (click)="removeImage()" *ngIf="userData.profile_image_url!='' && removeImageConfirm==false">Remove Image</button>
+                      </div>
+                    </div>                 
+                </div>
+                <div class="modal-body" *ngIf="cropped == true">
+                    <image-cropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="8 / 8"
+                    [resizeToWidth]="128"
+                    format="jpeg"
+                    (imageCroppedBase64)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (loadImageFailed)="loadImageFailed()"
+                  ></image-cropper>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer pd53">
+            <button type="button" class="btn f12 bE6 bold btnCancel pd723 text-right" data-dismiss="modal" (click)="updateLoaded();cropCancelled()">Cancel</button>
+            <button type="submit" class="btn f12 b008 bold btnOk pd723 text-right" data-dismiss= "modal" (click)= "update_partner_details(editForm);updateLoaded()" [disabled]="!editForm.valid">Submit</button>
+          </div>  
+        </form>
+      </div> 
+    </div>
+  </div>
+</div>
+<!-- Edit Modal End -->
+
+
+<!-- Modal Delete  Partner-->
+<div class="modal fade cityModal" id="exampleModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are you sure you want to delete this partner?</p>
+          <p class="text-center f12 c75">If you delete any service, then it will also delete existing user data, existing customers, orders, partners, etc. corresponding to that city.</p>   
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" (click)="deletePartner()">Sure, Delete It</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Delete Modal End -->
+
+<!-- Serving Locations Delete -->
+<div class="modal fade cityModal" id="delete" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body">
+          <p class="text-center bold f14 c32 mb5">Are You Sure Want To Delete This Serving Location?</p> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="emptyLocation()">Cancel</button>
+          <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="deleteCity()">Sure, Delete It</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Serving Locations Delete Modal End -->
+
+<!-- Modal Add Money -->
+<div class="modal fade cityModal" id="myModal1" data-backdrop="static" data-keyboard="false" *ngIf="addModal == true">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Add Money</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)="cancelEventChange()">
+          
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form ngFormValidate [formGroup]="addForm" >          
+          <div class="form-group">
+            <label for="amount" class="f14 c32">Amount <span class="cred">*</span></label>
+            <input type="text" (keypress)="validatePrice($event)" formControlName="amount" placeholder="Enter amount (in Rs)" id="amount" class="form-control f12 c75" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1" class="f14 c32">Purpose <span class="cred">*</span></label>
+            <select class="form-control f12 c75" (input)="addEventChange()" (change)="addPurposeChange($event)" id="exampleFormControlSelect1" required>
+              <option value="" disabled>Select your option</option>
+              <option class="f12 c32 bold" value="Cash Refund">Cash Refund</option>
+              <option class="f12 c32 bold" value="Order Refund">Order Refund</option>
+              <option class="f12 c32 bold" value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="remark" class="f14 c32">Remarks</label>
+            <textarea class="form-control f12 c75" formControlName="remarks" placeholder="Remarks" id="remark" rows="3"></textarea>
+          </div> 
+        </form>   
+      </div>
+      <div class="modal-footer pdb12">
+        <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal"(click)="cancelEventChange()">Cancel</button>
+        <button type="submit" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" [disabled]="!addForm.valid" (click)="addMoney(addForm)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Money Modal End -->
+
+<!-- Modal Deduct Money -->
+<div class="modal fade deductmoney" id="myModal2" data-backdrop="static" data-keyboard="false" *ngIf="deductModal == true">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Deduct Money</p>
+          <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter" (click)="cancelDeductModal()">
+      </div>
+      <div class="vl6"></div>
+      <div class="modal-body">
+        <form ngFormValidate [formGroup]="deductForm" >           
+          <div class="form-group">
+            <label for="amount" class="f14 c32">Amount <span class="cred">*</span></label>
+            <input type="text" (keypress)="validatePrice1($event)" formControlName="amount" placeholder="Enter amount to deduct (in Rs)" id="amount" class="form-control f12 c32" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1" class="f14 c32">Purpose <span class="cred">*</span></label>
+            <select class="form-control f12 c32" (change)="deductPurposeChange($event)" id="exampleFormControlSelect1">
+              <option value="" disabled selected>Select your option</option>
+              <option class="f12 c32 bold">Order Commission</option>
+              <option class="f12 c32 bold">Order Cancellation</option>
+              <option class="f12 c32 bold">Other</option>
+            </select>
+          </div>              
+          <div class="form-group">
+            <label for="remark" class="f14 c32">Remarks</label>
+            <textarea class="form-control f12 c75" formControlName="remarks" id="remark" placeholder="Remarks" rows="3"></textarea>
+          </div> 
+          <div class="modal-footer">
+            <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal" (click)="cancelDeductModal()">Cancel</button>
+            <button type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" [disabled]="!deductForm.valid" (click)="deductMoney(deductForm)">Deduct</button>
+          </div>
+        </form>   
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Deduct Money Modal End -->
+
+<!-- Modal Wallet History -->
+<div class="modal fade p-detailModal" id="myModal3" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title f14 c32 bold">Wallet Transaction History</p>
+        <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+      </div>
+      <div class="vl10"></div>
+      <div class="modal-body text-center">
+        <div class="nodata1 modalimg" *ngIf="wallet_history.length <= 0">
+          <img src="assets/icons/progress-report.svg" alt="progress">
+          <p class="f18 c75">No Transactions</p>
+        </div> 
+        <div class="row" *ngIf="wallet_history.length > 0">
+        <div class="col-lg-12 col-md-12 mb18 pdl10">
+          <form class="form-inline walleltsearch">
+            <input class="form-control mr-sm-2 w-100" type="search" [(ngModel)]="searchText1" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search">
+            <img src="assets/icons/magnify - Copy.svg" alt="Search">
+          </form>
+        </div>
+        </div>
+        <div id="myDiv5" *ngIf="wallet_history.length > 0">
+          <div class="row" *ngFor="let history of (wallet_history | category: {remark: searchText1,created: searchText1,amount: searchText1})">
+            <div class="col-lg-2 col-md-2 col-sm-2 transaction text-center">
+              <img src="assets/icons/wallet (1).svg" alt="user" *ngIf="history.transaction_type == 1">
+              <img src="assets/icons/wallet (1) - Copy.svg" alt="user" *ngIf="history.transaction_type == 0">
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 text-left pd-0">
+              <p class="f10 bold c32 mb0" *ngIf="history.transaction_type == 1">Added to Wallet <span *ngIf="history.remark != ''">for {{history.remark}}</span></p>
+              <p class="f10 bold c32 mb0" *ngIf="history.transaction_type == 0">Debited from wallet <span *ngIf="history.remark != ''"> for {{history.remark}}</span></p>
+              <p class="f8 c75 mb0" *ngIf="history.created == date-1">{{history.created | date: 'h:mm a'}}</p>
+              <p class="f8 c75 mb0" *ngIf="history.created != date"> 
+                {{history.created | date: 'MMM d, y, h:mm a'}}</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 text-left pd-0">
+              <p class="f18 c32 mb10">Rs {{history.amount}}</p>
+            </div>
+            <div class="vl11"></div>
+          </div> 
+        </div>
+      </div>       
+    </div>
+  </div>
+</div>
+<!-- Wallet History Modal End -->
+
+<!-- Modal Block User -->
+<div class="modal hide fade in" id="exampleModal12" data-backdrop="static" data-keyboard="false" *ngIf="status == false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title f14 bold">Confirm</p>
+            <img src="assets/icons/letter-x.svg" alt="close" data-dismiss="modal" aria-label="Close" class="letter">
+        </div>
+        <div class="vl6"></div>
+        <div class="modal-body" *ngIf="userData.block_status == 0">
+          <p class="text-center bold f14 c32 mb5">Are you sure you want to block this partner?</p>
+        </div>
+        <div class="modal-body" *ngIf="userData.block_status == 1">
+          <p class="text-center bold f14 c32 mb5">Are you sure you want to unblock this partner?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn f12 bE6 bold btnCancel text-right" data-dismiss="modal">Cancel</button>
+          <span *ngIf="userData.block_status == 0">
+            <button id='block' type="button" class="btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser($event)">Sure, Block It
+            </button>
+          </span>
+          <span *ngIf="userData.block_status == 1">
+            <button id='block' type="button" class=" wrapper btn f12 b008 bold btnOk text-right" data-dismiss="modal" (click)="blockUser($event)">Sure, Unblock It
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Block Modal End -->
